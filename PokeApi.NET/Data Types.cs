@@ -945,9 +945,10 @@ namespace PokeAPI.NET
             abilities = new List<NameUriPair>(),
             eggGroups = new List<NameUriPair>(),
             //evolutions = new List<NameUriPair>(),
-            moves = new List<NameUriPair>(),
+            //moves = new List<NameUriPair>(),
             types = new List<NameUriPair>();
         List<PokeEvolution> evolutions = new List<PokeEvolution>();
+        List<Tuple<string, NameUriPair>> moves = new List<Tuple<string, NameUriPair>>(); // learn type - name & resource uri
         string species, growthRate;
         int hp, attack, defense, catchRate, spAttack, spDefense, speed,
             eggCycles, evYield, xpYield, height, weight, happiness;
@@ -986,7 +987,7 @@ namespace PokeAPI.NET
         /// <summary>
         /// The moves this Pokemon instance can learn
         /// </summary>
-        public List<NameUriPair> Moves
+        public List<Tuple<string, NameUriPair>> Moves
         {
             get
             {
@@ -1029,7 +1030,7 @@ namespace PokeAPI.NET
         /// <returns>The entry of the Abilities list as a PokeAbility</returns>
         public PokeMove RefMove(int index)
         {
-            return PokeMove.GetInstance(Moves[index].Name);
+            return PokeMove.GetInstance(Moves[index].Item2.Name);
         }
         /// <summary>
         /// Gets an entry of the Abilities list as a PokeAbility
@@ -1198,7 +1199,7 @@ namespace PokeAPI.NET
             }
 
             foreach (JsonData data in source["moves"])
-                moves.Add(ParseNameUriPair(data));
+                moves.Add(new Tuple<string, NameUriPair>(data["learn_type"].ToString(), ParseNameUriPair(data)));
             foreach (JsonData data in source["types"])
                 types.Add(ParseNameUriPair(data));
 
@@ -2100,6 +2101,7 @@ namespace PokeAPI.NET
             accuracy = Convert.ToDouble(source["accuracy"].ToString(), CultureInfo.InvariantCulture) / 100d;
             MoveCategory cat = 0;
             Enum.TryParse<MoveCategory>(source["category"].ToString(), true, out cat);
+            category = cat;
 
             if (ShouldCacheData && !CachedMoves.ContainsKey(id))
                 CachedMoves.Add(id, this);
