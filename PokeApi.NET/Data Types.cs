@@ -3604,6 +3604,7 @@ namespace PokeAPI.NET
     /// Represents an evolution of a Pokemon
     /// Not an API class
     /// </summary>
+    [Obsolete] // database still WIP
     public class PokeEvolution : PokeApiType
     {
         object methodPrecision;
