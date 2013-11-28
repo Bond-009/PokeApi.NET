@@ -76,12 +76,23 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// Creates a PokeApiType from a JSON source
+        /// </summary>
+        /// <param name="source">The JSON source</param>
+        /// <param name="ret">An object that inherits from PokeApiType</param>
+        /// <returns>ret with the data from the JSON source</returns>
         public static PokeApiType Create(JsonData source, PokeApiType ret)
         {
             Create(source, ref ret);
 
             return ret;
         }
+        /// <summary>
+        /// Creates a PokeApiType from a JSON source
+        /// </summary>
+        /// <param name="source">The JSON source</param>
+        /// <param name="ret">An object that inherits from PokeApiType</param>
         public static void Create(JsonData source, ref PokeApiType ret)
         {
             if (source.Keys.Contains("error_message"))
@@ -100,9 +111,14 @@ namespace PokeAPI.NET
             ret.Create(source);
         }
 
-        protected static DateTime ParseDateString(string s)
+        /// <summary>
+        /// Parses a date string from a JSON source to a DateTime
+        /// </summary>
+        /// <param name="source">The JSON source to parse</param>
+        /// <returns>The parsed JSON source as a DateTime</returns>
+        protected static DateTime ParseDateString(string source)
         {
-            string[] dateAndTime = s.Split('T');
+            string[] dateAndTime = source.Split('T');
 
             // source is eg. 2013-11-02T12:08:58.787000
             return new DateTime
@@ -115,6 +131,11 @@ namespace PokeAPI.NET
                 Convert.ToInt32(dateAndTime[1].Split(':')[2].Split('.')[0]), // second
                 Convert.ToInt32(dateAndTime[1].Split(':')[2].Split('.')[1]) / 1000); // millisecond * 1000
         }
+        /// <summary>
+        /// Parses a JsonData object to a NameUriPair
+        /// </summary>
+        /// <param name="data">The JsonData object to parse</param>
+        /// <returns>The parsed JsonData object as a NameUriPair</returns>
         protected static NameUriPair ParseNameUriPair(JsonData data)
         {
             return new NameUriPair(data["name"].ToString().Replace('-', ' '), new Uri("http://pokeapi.co" + data["resource_uri"].ToString()));
@@ -1042,6 +1063,9 @@ namespace PokeAPI.NET
             return PokeType.GetInstance(Types[index].Name);
         }
 
+        /// <summary>
+        /// The species of this Pokemon instance
+        /// </summary>
         public string Species
         {
             get
@@ -1049,6 +1073,9 @@ namespace PokeAPI.NET
                 return species;
             }
         }
+        /// <summary>
+        /// The growth rate of this Pokemon instance
+        /// </summary>
         public string GrowthRate
         {
             get
@@ -1057,6 +1084,9 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// The hit points of this Pokemon instance
+        /// </summary>
         public int HP
         {
             get
@@ -1064,6 +1094,9 @@ namespace PokeAPI.NET
                 return hp;
             }
         }
+        /// <summary>
+        /// The base attack of this Pokemon instance
+        /// </summary>
         public int Attack
         {
             get
@@ -1071,6 +1104,9 @@ namespace PokeAPI.NET
                 return attack;
             }
         }
+        /// <summary>
+        /// The base defense of this Pokemon instance
+        /// </summary>
         public int Defense
         {
             get
@@ -1078,6 +1114,9 @@ namespace PokeAPI.NET
                 return defense;
             }
         }
+        /// <summary>
+        /// This Pokemon instance's catch rate
+        /// </summary>
         public int CatchRate
         {
             get
@@ -1085,6 +1124,9 @@ namespace PokeAPI.NET
                 return catchRate;
             }
         }
+        /// <summary>
+        /// The base special attack of this Pokemon instance
+        /// </summary>
         public int SpecialAttack
         {
             get
@@ -1092,6 +1134,9 @@ namespace PokeAPI.NET
                 return spAttack;
             }
         }
+        /// <summary>
+        /// The base special defense of this Pokemon instance
+        /// </summary>
         public int SpecialDefense
         {
             get
@@ -1099,6 +1144,9 @@ namespace PokeAPI.NET
                 return spDefense;
             }
         }
+        /// <summary>
+        /// The base speed of this Pokemon instance
+        /// </summary>
         public int Speed
         {
             get
@@ -1107,6 +1155,9 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// The number of egg cycles needed
+        /// </summary>
         public int EggCycles
         {
             get
@@ -1114,6 +1165,9 @@ namespace PokeAPI.NET
                 return eggCycles;
             }
         }
+        /// <summary>
+        /// The base effort value yield for this Pokemon instance
+        /// </summary>
         public int EvYield
         {
             get
@@ -1121,6 +1175,9 @@ namespace PokeAPI.NET
                 return evYield;
             }
         }
+        /// <summary>
+        /// The base experience yield for this Pokemon instance
+        /// </summary>
         public int ExpYield
         {
             get
@@ -1128,6 +1185,9 @@ namespace PokeAPI.NET
                 return xpYield;
             }
         }
+        /// <summary>
+        /// The height of this Pokemon instance
+        /// </summary>
         public int Height
         {
             get
@@ -1135,6 +1195,9 @@ namespace PokeAPI.NET
                 return height;
             }
         }
+        /// <summary>
+        /// The weight of this Pokemon instance
+        /// </summary>
         public int Weight
         {
             get
@@ -1142,6 +1205,9 @@ namespace PokeAPI.NET
                 return weight;
             }
         }
+        /// <summary>
+        /// The base happiness of this Pokemon instance
+        /// </summary>
         public int BaseHappiness
         {
             get
@@ -1150,6 +1216,9 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// The types this Pokemon instance is as a flags field
+        /// </summary>
         public PokemonType Type
         {
             get
@@ -1184,7 +1253,7 @@ namespace PokeAPI.NET
                 PokeEvolution p = new PokeEvolution();
                 if (source.Count == 1)
                 {
-                    p.parent = source;
+                    //p.parent = source;
                     p = (PokeEvolution)PokeApiType.Create(source["evolutions"], p);
                     evolutions.Add(p);
                 }
@@ -1192,7 +1261,7 @@ namespace PokeAPI.NET
                     foreach (JsonData data in source["evolutions"])
                     {
                         p = new PokeEvolution();
-                        p.parent = source;
+                        //p.parent = source;
                         p = (PokeEvolution)PokeApiType.Create(data, p);
                         evolutions.Add(p);
                     }
@@ -1293,6 +1362,9 @@ namespace PokeAPI.NET
             superEffective = new List<NameUriPair>(),
             weakness = new List<NameUriPair>();
 
+        /// <summary>
+        /// The types this PokeType instance is ineffective against
+        /// </summary>
         public List<NameUriPair> Ineffective
         {
             get
@@ -1300,6 +1372,9 @@ namespace PokeAPI.NET
                 return ineffective;
             }
         }
+        /// <summary>
+        /// The types this PokeType instance has no effect against
+        /// </summary>
         public List<NameUriPair> NoEffect
         {
             get
@@ -1307,6 +1382,9 @@ namespace PokeAPI.NET
                 return noEffect;
             }
         }
+        /// <summary>
+        /// The types this PokeType instance is resistant to
+        /// </summary>
         public List<NameUriPair> Resistance
         {
             get
@@ -1314,6 +1392,9 @@ namespace PokeAPI.NET
                 return resistance;
             }
         }
+        /// <summary>
+        /// The types this PokeType instance is super effective against
+        /// </summary>
         public List<NameUriPair> SuperEffective
         {
             get
@@ -1321,6 +1402,9 @@ namespace PokeAPI.NET
                 return superEffective;
             }
         }
+        /// <summary>
+        /// The types this PokeType instance is weak to
+        /// </summary>
         public List<NameUriPair> Weakness
         {
             get
@@ -1329,22 +1413,47 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// Gets an entry of the Ineffective list as a PokeType
+        /// </summary>
+        /// <param name="index">The index of the entry</param>
+        /// <returns>The entry of the Ineffective list as a PokeType</returns>
         public PokeType RefIneffective(int index)
         {
             return GetInstance(Ineffective[index].Name);
         }
+        /// <summary>
+        /// Gets an entry of the NoEffect list as a PokeType
+        /// </summary>
+        /// <param name="index">The index of the entry</param>
+        /// <returns>The entry of the NoEffect list as a PokeType</returns>
         public PokeType RefNoEffect(int index)
         {
             return GetInstance(NoEffect[index].Name);
         }
+        /// <summary>
+        /// Gets an entry of the Resistance list as a PokeType
+        /// </summary>
+        /// <param name="index">The index of the entry</param>
+        /// <returns>The entry of the Resistance list as a PokeType</returns>
         public PokeType RefResistance(int index)
         {
             return GetInstance(Resistance[index].Name);
         }
+        /// <summary>
+        /// Gets an entry of the SuperEffective list as a PokeType
+        /// </summary>
+        /// <param name="index">The index of the entry</param>
+        /// <returns>The entry of the SuperEffective list as a PokeType</returns>
         public PokeType RefSuperEffective(int index)
         {
             return GetInstance(SuperEffective[index].Name);
         }
+        /// <summary>
+        /// Gets an entry of the Weakness list as a PokeType
+        /// </summary>
+        /// <param name="index">The index of the entry</param>
+        /// <returns>The entry of the Weakness list as a PokeType</returns>
         public PokeType RefWeakness(int index)
         {
             return GetInstance(Weakness[index].Name);
@@ -2057,6 +2166,9 @@ namespace PokeAPI.NET
         double accuracy;
         MoveCategory category;
 
+        /// <summary>
+        /// A description of the PokeMove instance
+        /// </summary>
         public string Description
         {
             get
@@ -2064,6 +2176,9 @@ namespace PokeAPI.NET
                 return description;
             }
         }
+        /// <summary>
+        /// The base power of the PokeMove instance
+        /// </summary>
         public int Power
         {
             get
@@ -2071,6 +2186,9 @@ namespace PokeAPI.NET
                 return power;
             }
         }
+        /// <summary>
+        /// The base power points of the PokeMove instance
+        /// </summary>
         public int PP
         {
             get
@@ -2078,6 +2196,9 @@ namespace PokeAPI.NET
                 return pp;
             }
         }
+        /// <summary>
+        /// The base accuracy of the PokeMove instance
+        /// </summary>
         public double Accurracy
         {
             get
@@ -2085,6 +2206,9 @@ namespace PokeAPI.NET
                 return accuracy;
             }
         }
+        /// <summary>
+        /// The category of the PokeMove instance
+        /// </summary>
         public MoveCategory Category
         {
             get
@@ -2398,6 +2522,10 @@ namespace PokeAPI.NET
         #endregion
 
         string description;
+
+        /// <summary>
+        /// The description of this PokeAbility instance
+        /// </summary>
         public string Description
         {
             get
@@ -2489,6 +2617,9 @@ namespace PokeAPI.NET
         #endregion
 
         List<NameUriPair> pokemon = new List<NameUriPair>();
+        /// <summary>
+        /// A list of all the Pokemon in this PokeEggGroup
+        /// </summary>
         public List<NameUriPair> Pokemon
         {
             get
@@ -2497,6 +2628,11 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// Gets an entry of the Pokemon list as a Pokemon
+        /// </summary>
+        /// <param name="index">The index of the entry</param>
+        /// <returns>The entry of the Pokemon list as a Pokemon</returns>
         public Pokemon RefPokemon(int index)
         {
             return NET.Pokemon.GetInstance(Pokemon[index].Name);
@@ -2593,6 +2729,9 @@ namespace PokeAPI.NET
         #endregion
 
         int year, gen;
+        /// <summary>
+        /// The year the PokeGame instance was released
+        /// </summary>
         public int ReleaseYear
         {
             get
@@ -2600,6 +2739,9 @@ namespace PokeAPI.NET
                 return year;
             }
         }
+        /// <summary>
+        /// The generation this PokeGame instance belongs to
+        /// </summary>
         public int Generation
         {
             get
@@ -2669,7 +2811,11 @@ namespace PokeAPI.NET
         public static bool ShouldCacheData = true;
         public static Dictionary<int, PokeDescription> CachedDescriptions = new Dictionary<int, PokeDescription>();
 
-        List<NameUriPair> games = new List<NameUriPair>(), pokemon = new List<NameUriPair>();
+        List<NameUriPair> games = new List<NameUriPair>();
+        NameUriPair pokemon = new NameUriPair();
+        /// <summary>
+        /// A list of games this PokeDescription instance is in
+        /// </summary>
         public List<NameUriPair> Games
         {
             get
@@ -2677,7 +2823,10 @@ namespace PokeAPI.NET
                 return games;
             }
         }
-        public List<NameUriPair> Pokemon
+        /// <summary>
+        /// The pokemon this PokeDescription instance is for
+        /// </summary>
+        NameUriPair Pokemon
         {
             get
             {
@@ -2685,21 +2834,22 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// Gets an entry of the Games list as a PokeGame
+        /// </summary>
+        /// <param name="index">The index of the entry</param>
+        /// <returns>The entry of the Games list as a PokeGame</returns>
         public PokeGame RefGame(int index)
         {
             return PokeGame.GetInstance(Games[index].Name);
-        }
-        public Pokemon RefPokemon(int index)
-        {
-            return NET.Pokemon.GetInstance(Pokemon[index].Name);
         }
 
         protected override void Create(JsonData source)
         {
             foreach (JsonData data in source["games"])
                 games.Add(ParseNameUriPair(data));
-            foreach (JsonData data in source["pokemon"])
-                pokemon.Add(ParseNameUriPair(data));
+
+            pokemon = ParseNameUriPair(source["pokemon"]);
 
             if (ShouldCacheData && !CachedDescriptions.ContainsKey(id))
                 CachedDescriptions.Add(id, this);
@@ -3468,6 +3618,10 @@ namespace PokeAPI.NET
         NameUriPair pokemon;
         Uri imageUri;
 
+        /// <summary>
+        /// Wether the ImageData array should be loaded after the object is created or not.
+        /// Can only be set before the PokeApiType is created.
+        /// </summary>
         public bool LoadImageAfterCreation
         {
             get
@@ -3483,6 +3637,9 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// The Pokemon this PokeSprite instance is for
+        /// </summary>
         public NameUriPair Pokemon
         {
             get
@@ -3490,6 +3647,9 @@ namespace PokeAPI.NET
                 return pokemon;
             }
         }
+        /// <summary>
+        /// The Pokemon property as a Pokemon
+        /// </summary>
         public Pokemon RefPokemon
         {
             get
@@ -3497,6 +3657,9 @@ namespace PokeAPI.NET
                 return NET.Pokemon.GetInstance(Pokemon.Name);
             }
         }
+        /// <summary>
+        /// The Uri of the image file
+        /// </summary>
         public Uri ImageUri
         {
             get
@@ -3505,6 +3668,10 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// The image as a byte array.
+        /// Only exists if LoadImageData is called.
+        /// </summary>
         public byte[] ImageData
         {
             get
@@ -3515,6 +3682,10 @@ namespace PokeAPI.NET
                 return imgData;
             }
         }
+        /// <summary>
+        /// The image as a System.Drawing.Bitmap. (Windows Forms/GDI+)
+        /// Only exists if LoadImageData is called.
+        /// </summary>
         public Bitmap ImageAsBitmap
         {
             get
@@ -3531,6 +3702,10 @@ namespace PokeAPI.NET
                 return b;
             }
         }
+        /// <summary>
+        /// The image as a System.Windows.Media.Imaging.BitmapImage. (WPF/DirectX)
+        /// Only exists if LoadImageData is called.
+        /// </summary>
         public BitmapImage ImageAsBitmapImage
         {
             get
@@ -3552,6 +3727,10 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// Loads the image data.
+        /// Automatically called when LoadImageAfterCreation is true before Create was called.
+        /// </summary>
         public void LoadImageData()
         {
             if (imgData == null)
@@ -3603,6 +3782,7 @@ namespace PokeAPI.NET
         }
     }
     /// <summary>
+    /// [API DATABASE NOT FINISHED]
     /// Represents an evolution of a Pokemon
     /// Not an API class
     /// </summary>
@@ -3612,8 +3792,11 @@ namespace PokeAPI.NET
         object methodPrecision;
         string method, to;
 
-        internal JsonData parent;
+        //internal JsonData parent;
 
+        /// <summary>
+        /// When or how the Pokemon evolves with the Method, eg. the level needed.
+        /// </summary>
         public object MethodPrecision
         {
             get
@@ -3621,6 +3804,9 @@ namespace PokeAPI.NET
                 return methodPrecision;
             }
         }
+        /// <summary>
+        /// How the Pokemon evolves
+        /// </summary>
         public string Method
         {
             get
@@ -3628,6 +3814,9 @@ namespace PokeAPI.NET
                 return method;
             }
         }
+        /// <summary>
+        /// The name of the Pokemon it will evolve to
+        /// </summary>
         public string EvolveTo
         {
             get
@@ -3636,6 +3825,9 @@ namespace PokeAPI.NET
             }
         }
 
+        /// <summary>
+        /// The Pokemon it evolves to, as a Pokemon
+        /// </summary>
         public Pokemon ToPokemon
         {
             get
