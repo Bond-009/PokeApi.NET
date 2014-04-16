@@ -104,6 +104,9 @@ namespace PokeAPI.NET
         /// </summary>
         Water = 131072
     }
+
+#pragma warning disable 1591
+
     /// <summary>
     /// Represents the ability of a Pokémon
     /// </summary>
@@ -366,4 +369,7 @@ namespace PokeAPI.NET
         X,
         Y
     }
+
+#pragma warning restore 1591
+
 }

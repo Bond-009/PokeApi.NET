@@ -1,11 +1,14 @@
+
+#pragma warning disable 1591
+
 #region Header
-/**
+/*
  * JsonReader.cs
  *   Stream-like access to JSON text.
  *
  * The authors disclaim copyright to this source code. For more details, see
  * the COPYING file included with this distribution.
- **/
+ */
 #endregion
 
 

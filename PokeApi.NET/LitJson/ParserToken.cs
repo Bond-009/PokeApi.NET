@@ -1,11 +1,14 @@
+
+#pragma warning disable 1591
+
 #region Header
-/**
+/*
  * ParserToken.cs
  *   Internal representation of the tokens used by the lexer and the parser.
  *
  * The authors disclaim copyright to this source code. For more details, see
  * the COPYING file included with this distribution.
- **/
+ */
 #endregion
 
 

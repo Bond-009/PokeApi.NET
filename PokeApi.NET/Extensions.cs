@@ -2,6 +2,9 @@
 
 namespace PokeAPI.NET
 {
+    /// <summary>
+    /// Extension methods used in the PokeAPI.NET library
+    /// </summary>
     public static class PokeExtensions
     {
         static bool IsPowerOfTwo(int x)

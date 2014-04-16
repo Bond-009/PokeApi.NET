@@ -1,5 +1,8 @@
+
+#pragma warning disable 1591
+
 #region Header
-/**
+/*
  * IJsonWrapper.cs
  *   Interface that represents a type capable of handling all kinds of JSON
  *   data. This is mainly used when mapping objects through JsonMapper, and
@@ -7,7 +10,7 @@
  *
  * The authors disclaim copyright to this source code. For more details, see
  * the COPYING file included with this distribution.
- **/
+ */
 #endregion
 
 

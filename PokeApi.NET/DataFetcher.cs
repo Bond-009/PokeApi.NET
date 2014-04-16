@@ -8,10 +8,13 @@ using LitJson;
 
 namespace PokeAPI.NET
 {
+    /// <summary>
+    /// Gets JSON data from the PokeApi.co site
+    /// </summary>
     public static class DataFetcher
     {
         #region Fields
-        static WebClient client = new WebClient();
+        internal static WebClient client = new WebClient();
 
         /// <summary>
         /// The Pokédex is cached in this variable if ShouldCacheData equals true.
@@ -40,7 +43,7 @@ namespace PokeAPI.NET
         /// <summary>
         /// All Description data is cached in this variable if ShouldCacheData equals true.
         /// </summary>
-        [Obsolete] // database still WIP
+        [Obsolete("This part of the database is still WIP.")]
         public static Dictionary<int, JsonData> DescriptionData = new Dictionary<int, JsonData>();
         /// <summary>
         /// All Sprite data is cached in this variable if ShouldCacheData equals true.
@@ -57,7 +60,6 @@ namespace PokeAPI.NET
         public static bool ShouldCacheData = true;
         #endregion
 
-        #region Methods
         /// <summary>
         /// Gets the Pokédex data
         /// </summary>
@@ -247,7 +249,7 @@ namespace PokeAPI.NET
         /// </summary>
         /// <param name="id">The ID of the Description to get</param>
         /// <returns>The raw data of the Description</returns>
-        [Obsolete] // database still WIP
+        [Obsolete("This part of the database is still WIP.")]
         public static JsonData GetDescription(int id)
         {
             if (DescriptionData.ContainsKey(id))
@@ -263,7 +265,7 @@ namespace PokeAPI.NET
         /// <summary>
         /// Puts all Description data into the Description cache. Does not require ShouldCacheData to be true.
         /// </summary>
-        [Obsolete] // database still WIP
+        [Obsolete("This part of the database is still WIP.")]
         public static void CacheAllDescriptions()
         {
             for (int i = 1; i <= 1; i++)
@@ -342,6 +344,5 @@ namespace PokeAPI.NET
                 GameData.Add(i, JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/game/" + i + "/")));
             }
         }
-        #endregion
     }
 }
