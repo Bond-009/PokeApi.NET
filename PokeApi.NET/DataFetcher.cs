@@ -43,7 +43,6 @@ namespace PokeAPI.NET
         /// <summary>
         /// All Description data is cached in this variable if ShouldCacheData equals true.
         /// </summary>
-        [Obsolete("This part of the database is still WIP.")]
         public static Dictionary<int, JsonData> DescriptionData = new Dictionary<int, JsonData>();
         /// <summary>
         /// All Sprite data is cached in this variable if ShouldCacheData equals true.
@@ -91,8 +90,6 @@ namespace PokeAPI.NET
 
             if (ShouldCacheData)
                 PokemonData.Add(id, data);
-
-            //IDs.Add(data["name"].ToString(), id);
 
             return data;
         }
@@ -249,7 +246,6 @@ namespace PokeAPI.NET
         /// </summary>
         /// <param name="id">The ID of the Description to get</param>
         /// <returns>The raw data of the Description</returns>
-        [Obsolete("This part of the database is still WIP.")]
         public static JsonData GetDescription(int id)
         {
             if (DescriptionData.ContainsKey(id))
@@ -265,7 +261,6 @@ namespace PokeAPI.NET
         /// <summary>
         /// Puts all Description data into the Description cache. Does not require ShouldCacheData to be true.
         /// </summary>
-        [Obsolete("This part of the database is still WIP.")]
         public static void CacheAllDescriptions()
         {
             for (int i = 1; i <= 1; i++)

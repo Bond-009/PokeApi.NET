@@ -19,18 +19,14 @@ namespace PokeAPI.NET
         /// </summary>
         public static Pokedex CachedPokedex = null;
 
-        Dictionary<int, NameUriPair> pokemon = new Dictionary<int, NameUriPair>();
-
         /// <summary>
         /// A big list of Pokemon as NameUriPairs within this Pokedex instance
         /// </summary>
         public Dictionary<int, NameUriPair> PokemonList
         {
-            get
-            {
-                return pokemon;
-            }
-        }
+            get;
+            private set;
+        } = new Dictionary<int, NameUriPair>();
 
         /// <summary>
         /// Gets an entry of the PokemonList as a Pokemon
@@ -51,7 +47,7 @@ namespace PokeAPI.NET
             foreach (JsonData data in source["pokemon"])
             {
                 string[] num = data["resource_uri"].ToString().Split(new char[1] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                pokemon.Add(Convert.ToInt32(num[num.Length - 1]), ParseNameUriPair(data));
+                PokemonList.Add(Convert.ToInt32(num[num.Length - 1]), ParseNameUriPair(data));
             }
         }
 

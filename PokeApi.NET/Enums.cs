@@ -24,93 +24,92 @@ namespace PokeAPI.NET
     /// Represents the types a Pokémon can be, as flags.
     /// </summary>
     [Flags]
-    public enum PokemonType : int
+    public enum PokemonTypeID : int
     {
         /// <summary>
         /// The ??? type
         /// </summary>
-        None = 0,
+        Unknown  = 0x0,
         /// <summary>
         /// The bug type
         /// </summary>
-        Bug = 1,
+        Bug      = 0x1,
         /// <summary>
         /// The dark type
         /// </summary>
-        Dark = 2,
+        Dark     = 0x2,
         /// <summary>
         /// The dragon type
         /// </summary>
-        Dragon = 4,
+        Dragon   = 0x4,
         /// <summary>
         /// The electric type
         /// </summary>
-        Electric = 8,
+        Electric = 0x8,
         /// <summary>
         /// The fairy type
         /// </summary>
-        Fairy = 16,
+        Fairy    = 0x10,
         /// <summary>
         /// The fighting type
         /// </summary>
-        Fight = 32,
+        Fighting = 0x20,
         /// <summary>
         /// The fire type
         /// </summary>
-        Fire = 64,
+        Fire     = 0x40,
         /// <summary>
         /// The flying type
         /// </summary>
-        Flying = 128,
+        Flying   = 0x80,
         /// <summary>
         /// The ghost type
         /// </summary>
-        Ghost = 256,
+        Ghost    = 0x100,
 
         /// <summary>
         /// The grass type
         /// </summary>
-        Grass = 512,
+        Grass    = 0x200,
         /// <summary>
         /// The ground type
         /// </summary>
-        Ground = 1024,
+        Ground   = 0x400,
         /// <summary>
         /// The ice type
         /// </summary>
-        Ice = 2048,
+        Ice      = 0x800,
         /// <summary>
         /// The normal type
         /// </summary>
-        Normal = 4096,
+        Normal   = 0x1000,
         /// <summary>
         /// The poison type
         /// </summary>
-        Poison = 8192,
+        Poison   = 0x2000,
         /// <summary>
         /// The psychic type
         /// </summary>
-        Psychic = 16384,
+        Psychic  = 0x4000,
         /// <summary>
         /// The rock type
         /// </summary>
-        Rock = 32768,
+        Rock     = 0x8000,
         /// <summary>
         /// The steel type
         /// </summary>
-        Steel = 65536,
+        Steel    = 0x10000,
         /// <summary>
         /// The water type
         /// </summary>
-        Water = 131072
+        Water    = 0x20000
     }
 
 #pragma warning disable 1591
-
     /// <summary>
     /// Represents the ability of a Pokémon
     /// </summary>
-    public enum Ability
+    public enum AbilityID
     {
         #region A-L
         Adaptability,
@@ -308,7 +307,7 @@ namespace PokeAPI.NET
     /// <summary>
     /// Represents the egg group of a Pokémon
     /// </summary>
-    public enum EggGroup
+    public enum EggGroupID
     {
         Monster,
         Water1,
@@ -332,7 +331,7 @@ namespace PokeAPI.NET
     /// <summary>
     /// Represents a Pokémon game
     /// </summary>
-    public enum PokemonGame
+    public enum GameID
     {
         /// <summary>
         /// Red (Japan)
@@ -369,7 +368,5 @@ namespace PokeAPI.NET
         X,
         Y
     }
-
 #pragma warning restore 1591
-
 }

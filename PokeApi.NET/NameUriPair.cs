@@ -64,6 +64,54 @@ namespace PokeAPI.NET
         }
 
         /// <summary>
+        /// Gets the resource where ResourceUri points to, as a PokeApiType.
+        /// </summary>
+        /// <returns>The resource where ResourceUri points to.</returns>
+        public PokeApiType GetResource()
+        {
+            string[] split = ResourceUri.ToString().Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            string type = split[split.Length - 2].ToLower();
+            string requested = split[split.Length - 1].ToLower();
+            int? reqInt = Int32.TryParse(requested, out int i) ? (int?)i : null;
+
+            switch (type)
+            {
+                case "pokemon":
+                    return reqInt.HasValue
+                        ? Pokemon.GetInstance(reqInt.Value)
+                        : Pokemon.GetInstance(requested);
+                case "type":
+                    return reqInt.HasValue
+                        ? PokemonType.GetInstance(reqInt.Value)
+                        : PokemonType.GetInstance(requested);
+                case "move":
+                    return reqInt.HasValue
+                        ? Move.GetInstance(reqInt.Value)
+                        : Move.GetInstance(requested);
+                case "ability":
+                    return reqInt.HasValue
+                        ? Ability.GetInstance(reqInt.Value)
+                        : Ability.GetInstance(requested);
+                case "egg":
+                    return reqInt.HasValue
+                        ? EggGroup.GetInstance(reqInt.Value)
+                        : EggGroup.GetInstance(requested);
+                case "description":
+                    return Description.GetInstance(reqInt.Value);
+                case "sprite":
+                    return reqInt.HasValue
+                        ? Sprite.GetInstance(reqInt.Value)
+                        : Sprite.GetInstance(requested);
+                case "game":
+                    return reqInt.HasValue
+                        ? Game.GetInstance(reqInt.Value)
+                        : Game.GetInstance(requested);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Checks wether two name/uri pairs are considered equal or not
         /// </summary>
         /// <param name="a">The first name/uri pair</param>
@@ -82,6 +130,15 @@ namespace PokeAPI.NET
         public static bool operator !=(NameUriPair a, NameUriPair b)
         {
             return a.Name != b.Name || a.ResourceUri != b.ResourceUri;
+        }
+
+        /// <summary>
+        /// Casts an instance of the NameUriPair class to a PokeApiType.
+        /// </summary>
+        /// <param name="nup">The NameUriPair to cast.</param>
+        public static implicit operator PokeApiType(NameUriPair nup)
+        {
+            return nup.GetResource();
         }
     }
 }

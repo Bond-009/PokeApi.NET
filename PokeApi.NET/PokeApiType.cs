@@ -7,10 +7,10 @@ using LitJson;
 namespace PokeAPI.NET
 {
     /// <summary>
-    /// The base of all PokeApi types.
+    /// The base of all PokeApi.NET API types.
     /// </summary>
     // how it's displayed in the debugger
-    [DebuggerDisplay("{ID:{ID}, Name:{Name}, ResourceUri:{ResourceUri}, Created:{Created}, Modified:{Modified}")]
+    [DebuggerDisplay("ID:{ID}, Name:{Name}, ResourceUri:{ResourceUri}, Created:{Created}, Modified:{LastModified}")]
     public abstract class PokeApiType
     {
         /// <summary>
@@ -52,6 +52,17 @@ namespace PokeAPI.NET
         {
             get;
             protected set;
+        }
+
+        /// <summary>
+        /// Gets the name/uri pair of this PokeApiType instance.
+        /// </summary>
+        public NameUriPair NameUriPair
+        {
+            get
+            {
+                return new NameUriPair(Name, ResourceUri);
+            }
         }
 
         /// <summary>
@@ -168,6 +179,15 @@ namespace PokeAPI.NET
         public override string ToString()
         {
             return "{" + ID + ": " + Name + "}";
+        }
+
+        /// <summary>
+        /// Implicitely casts a PokeApiType to a NameUriPair.
+        /// </summary>
+        /// <param name="pat">The PokeApiType to cast.</param>
+        public static implicit operator NameUriPair(PokeApiType pat)
+        {
+            return pat.NameUriPair;
         }
     }
 }

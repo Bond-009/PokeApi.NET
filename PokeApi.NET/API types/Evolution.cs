@@ -6,43 +6,33 @@ using LitJson;
 namespace PokeAPI.NET
 {
     /// <summary>
-    /// Represents an evolution of a Pokemon
-    /// Not an API class
+    /// Represents an evolution of a Pokemon.
     /// </summary>
-    public class PokeEvolution : PokeApiType
+    public class Evolution : PokeApiType
     {
-        object methodPrecision;
-        string method, to;
-
         /// <summary>
         /// When or how the Pokemon evolves with the Method, eg. the level needed.
         /// </summary>
         public object MethodPrecision
         {
-            get
-            {
-                return methodPrecision;
-            }
+            get;
+            private set;
         }
         /// <summary>
         /// How the Pokemon evolves
         /// </summary>
         public string Method
         {
-            get
-            {
-                return method;
-            }
+            get;
+            private set;
         }
         /// <summary>
         /// The name of the Pokemon it will evolve to
         /// </summary>
         public string EvolveTo
         {
-            get
-            {
-                return to;
-            }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -52,7 +42,7 @@ namespace PokeAPI.NET
         {
             get
             {
-                return Pokemon.GetInstance(to);
+                return Pokemon.GetInstance(EvolveTo);
             }
         }
 
@@ -63,17 +53,16 @@ namespace PokeAPI.NET
         protected override void Create(JsonData source)
         {
             if (source.Keys.Contains("level"))
-                methodPrecision = (int)source["level"];
+                MethodPrecision = (int)source["level"];
 
-            method = source["method"].ToString();
+            Method = source["method"].ToString();
             ResourceUri = new Uri("http://www.pokeapi.co/" + source["resource_uri"]);
-            to = source["to"].ToString();
+            EvolveTo = source["to"].ToString();
 
             //Name = source["name"].ToString();
             //Created = ParseDateString(source["created"].ToString());
             //LastModified = ParseDateString(source["modified"].ToString());
         }
-
 
         /// <summary>
         /// Wether to override default parsing (creation, name, id, ...) or not
