@@ -5,27 +5,25 @@ namespace PokeAPI.NET
     /// <summary>
     /// A name/uri pair
     /// </summary>
-    public struct NameUriPair
+    public struct NameUriPair(string name, Uri resourceUri)
     {
         /// <summary>
         /// The name of the name/uri pair
         /// </summary>
-        public string Name;
+        public string Name
+        {
+            get;
+            set;
+        } = name;
         /// <summary>
         /// The uri of the name/uri pair
         /// </summary>
-        public Uri ResourceUri;
-
-        /// <summary>
-        /// Creates a new instance of the NameUriPair class
-        /// </summary>
-        /// <param name="name">The name of the name/uri pair</param>
-        /// <param name="resourceUri">The uri of the name/uri pair</param>
-        public NameUriPair(string name, Uri resourceUri)
+        public Uri ResourceUri
         {
-            Name = name;
-            ResourceUri = resourceUri;
-        }
+            get;
+            set;
+        } = resourceUri;
+
         /// <summary>
         /// Creates a new instance of the NameUriPair class
         /// </summary>
