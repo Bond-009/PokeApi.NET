@@ -15,15 +15,14 @@ To get data from [something]:
 -----------------------------
 
 ``` cs
-    using System;
-    using PokeApi.NET;
-  ```
+using System;
+using PokeApi.NET;
+```
 [...]
 ``` cs
-    Pokemon p = Pokemon.GetInstance(395);
-    p = Pokemon.GetInstance("Lucario");
+Pokemon p = Pokemon.GetInstance(395); -OR- p = Pokemon.GetInstance("Lucario");
 
-    int baseHp = p.HP;
-  ```
+int baseHp = p.HP;
+```
 
 It works for all types (Pokedex, Pokemon, PokemonType, Move, Ability, Description, Sprite and Game)
