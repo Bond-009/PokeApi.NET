@@ -26,6 +26,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
     <DocumentationFile>bin\Debug\PokéAPI.NET.xml</DocumentationFile>
+    <LangVersion>experimental</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\PokéAPI.NET.xml</DocumentationFile>
+    <LangVersion>experimental</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
