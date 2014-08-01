@@ -956,7 +956,7 @@ namespace PokeAPI.NET
         /// <summary>
         /// The base effort value yield for this Pokemon instance
         /// </summary>
-        public int? EvYield
+        public EvYield EvYield
         {
             get;
             private set;
@@ -1037,7 +1037,7 @@ namespace PokeAPI.NET
             SpecialDefense = (int)source["sp_def"];
             Speed = (int)source["speed"];
             EggCycles = (int)source["egg_cycles"];
-            EvYield = source.AsNullInt("ev_yield");
+            EvYield = EvYield.Parse(source);
             ExpYield = source.AsNullInt("exp");
             GrowthRate = source["growth_rate"].ToString();
             Height = source.AsInt("height");

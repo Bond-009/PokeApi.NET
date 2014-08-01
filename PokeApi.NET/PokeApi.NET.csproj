@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="API types\Ability.cs" />
     <Compile Include="API types\Description.cs" />
+    <Compile Include="API types\EvYield.cs" />
     <Compile Include="API types\Pokedex.cs" />
     <Compile Include="DataFetcher.cs" />
     <Compile Include="Enums.cs" />

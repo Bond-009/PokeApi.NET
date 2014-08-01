@@ -76,7 +76,7 @@ namespace PokeAPI.NET
         public static int? AsNullInt(this JsonData j, string key)
         {
             if (j[key].GetJsonType() == JsonType.String)
-                return String.IsNullOrEmpty((string)j[key]) ? null :  (int?)Int32.Parse((string)j[key]);
+                return String.IsNullOrEmpty((string)j[key]) ? null : (int?)Int32.Parse((string)j[key]);
 
             return (int)j[key];
         }

@@ -108,6 +108,15 @@ namespace PokeAPI.NET
 
             return null;
         }
+        /// <summary>
+        /// Gets the resource where ResourceUri points to, as a <typeparam name="TPokeApiType" />.
+        /// </summary>
+        /// <returns>The resource where ResourceUri points to.</returns>
+        public TPokeApiType GetResource<TPokeApiType>()
+            where TPokeApiType : PokeApiType
+        {
+            return (TPokeApiType)GetResource();
+        }
 
         /// <summary>
         /// Checks wether two name/uri pairs are considered equal or not
