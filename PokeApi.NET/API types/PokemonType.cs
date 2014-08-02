@@ -539,17 +539,6 @@ namespace PokeAPI.NET
         }
 
         /// <summary>
-        /// Gets the type IDs of the PokemonType.
-        /// </summary>
-        public List<PokemonTypeID> TypeIDs
-        {
-            get
-            {
-                return ((PokemonTypeFlags)this).AnalyzeIDs();
-            }
-        }
-
-        /// <summary>
         /// Creates a new instance from a JSON object
         /// </summary>
         /// <param name="source">The JSON object where to create the new instance from</param>
@@ -591,6 +580,15 @@ namespace PokeAPI.NET
         public static PokemonType GetInstance(PokemonTypeID type)
         {
             return GetInstance((int)type);
+        }
+        /// <summary>
+        /// Creates an instance of a PokemonType with the given PokemonTypeFlags
+        /// </summary>
+        /// <param name="flags">The type of the PokemonType to instantiate</param>
+        /// <returns>The created instance of the PokemonType</returns>
+        public static PokemonType GetInstance(PokemonTypeFlags flags)
+        {
+            return GetInstance(flags.ID());
         }
         /// <summary>
         /// Creates an instance of a PokemonType with the given ID
@@ -675,8 +673,7 @@ namespace PokeAPI.NET
         /// <param name="type">The PokemonType to convert from</param>
         public static implicit operator PokemonTypeFlags(PokemonType type)
         {
-            Enum.TryParse(type.Name, true, out PokemonTypeFlags ret);
-            return ret;
+            return (PokemonTypeFlags)Math.Pow(2, type.ID - 1);
         }
         /// <summary>
         /// Converts a PokemonType into a PokemonType
@@ -684,7 +681,7 @@ namespace PokeAPI.NET
         /// <param name="type">The PokemonType to convert from</param>
         public static explicit operator PokemonType(PokemonTypeFlags type)
         {
-            return GetInstance(type.ID());
+            return GetInstance(type);
         }
         /// <summary>
         /// Converts a PokemonType into a PokemonType
@@ -692,11 +689,7 @@ namespace PokeAPI.NET
         /// <param name="type">The PokemonType to convert from</param>
         public static implicit operator PokemonTypeID(PokemonType type)
         {
-            if (type.TypeIDs.Count != 1)
-                return PokemonTypeID.Unknown;
-
-            Enum.TryParse(type.Name, true, out PokemonTypeID ret);
-            return ret;
+            return (PokemonTypeID)type.ID;
         }
         /// <summary>
         /// Converts a PokemonType into a PokemonType
