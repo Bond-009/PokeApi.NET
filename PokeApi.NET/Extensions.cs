@@ -40,7 +40,7 @@ namespace PokeAPI.NET
         {
             List<PokemonTypeID> ret = new List<PokemonTypeID>();
 
-            for (PokemonTypeFlags i = PokemonTypeFlags.Bug; i <= PokemonTypeFlags.Water; i = (PokemonTypeFlags)((int)i * 2))
+            for (PokemonTypeFlags i = PokemonTypeFlags.Normal; i <= PokemonTypeFlags.Fairy; i = (PokemonTypeFlags)((int)i * 2))
                 if ((type & i) != 0)
                     ret.Add((type & i).ID());
 
