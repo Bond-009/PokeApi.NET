@@ -17,8 +17,7 @@ namespace PokeAPI.NET
         {
             get;
             private set;
-        }
-        = amt;
+        } = amt;
         /// <summary>
         /// The category.
         /// </summary>
@@ -26,8 +25,7 @@ namespace PokeAPI.NET
         {
             get;
             private set;
-        }
-        = cat;
+        } = cat;
 
         /// <summary>
         ///  Returns the current instance represented through a string.
@@ -65,7 +63,7 @@ namespace PokeAPI.NET
                     else
                         return new EvYield(0, cat);
                 }
-                else if (Int32.TryParse(split[0], out int amt))
+                else if (split.Length > 0 && Int32.TryParse(split[0], out int amt))
                     return new EvYield(amt, String.Empty);
                 else
                     return new EvYield(0, String.Empty);
