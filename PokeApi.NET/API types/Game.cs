@@ -88,7 +88,7 @@ namespace PokeAPI.NET
         /// <returns>The created instance of the Game</returns>
         public static Game GetInstance(GameID game)
         {
-            return GetInstance((int)game + 1);
+            return GetInstance((int)game);
         }
         /// <summary>
         /// Creates an instance of a Game with the given name

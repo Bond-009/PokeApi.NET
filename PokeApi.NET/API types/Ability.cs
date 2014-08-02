@@ -302,7 +302,7 @@ namespace PokeAPI.NET
         /// <returns>The created instance of the Ability</returns>
         public static Ability GetInstance(AbilityID ability)
         {
-            return GetInstance((int)ability + 1);
+            return GetInstance((int)ability);
         }
         /// <summary>
         /// Creates an instance of a Ability with the given name

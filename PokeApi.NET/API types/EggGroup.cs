@@ -32,6 +32,8 @@ namespace PokeAPI.NET
             {"ground", 5},
             {"fairy", 6},
             {"plant", 7},
+            {"humanlike", 8},
+            {"human like", 8},
             {"human-like", 8},
             {"water3", 9},
             {"mineral", 10},
@@ -79,7 +81,7 @@ namespace PokeAPI.NET
         /// <returns>The created instance of the EggGroup</returns>
         public static EggGroup GetInstance(EggGroupID eggGroup)
         {
-            return GetInstance((int)eggGroup + 1);
+            return GetInstance((int)eggGroup);
         }
         /// <summary>
         /// Creates an instance of a EggGroup with the given name

@@ -193,7 +193,7 @@ namespace PokeAPI.NET
     public enum AbilityID
     {
         #region A-L
-        Adaptability,
+        Adaptability = 1,
         Aerilate,
         Aftermath,
         Air_Lock,
@@ -390,17 +390,17 @@ namespace PokeAPI.NET
     /// </summary>
     public enum EggGroupID
     {
-        Monster,
+        Monster = 1,
         Water1,
         Bug,
         Flying,
         Ground,
         Fairy,
         Plant,
-        Human_Like,
+        Humanlike,
         Water3,
         Mineral,
-        Intermidate,
+        Indeterminate,
         Water2,
         Ditto,
         Dragon,
@@ -417,7 +417,7 @@ namespace PokeAPI.NET
         /// <summary>
         /// Red (Japan)
         /// </summary>
-        Red_Jpn,
+        Red_Jpn = 1,
         /// <summary>
         /// Green (Japan)
         /// </summary>
