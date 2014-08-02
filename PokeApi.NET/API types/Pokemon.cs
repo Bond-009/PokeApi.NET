@@ -22,11 +22,11 @@ namespace PokeAPI.NET
 
         PokemonTypeFlags t = (PokemonTypeFlags)(-1);
 
-        #region public readonly static Dictionary<string, int> IDs = new Dictionary<string, int> { [...] };
+        #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int> { [...] };
         /// <summary>
         /// All pokémon string->ID maps.
         /// </summary>
-        public readonly static Dictionary<string, int> IDs = new Dictionary<string, int>
+        public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>
         {
             { "bulbasaur", 1 },
             { "ivysaur", 2 },
@@ -56,9 +56,11 @@ namespace PokeAPI.NET
             { "raichu", 26 },
             { "sandshrew", 27 },
             { "sandslash", 28 },
+            { "nidoran f", 29 },
             { "nidoran-f", 29 },
             { "nidorina", 30 },
             { "nidoqueen", 31 },
+            { "nidoran m", 32 },
             { "nidoran-m", 32 },
             { "nidorino", 33 },
             { "nidoking", 34 },
@@ -149,6 +151,7 @@ namespace PokeAPI.NET
             { "seaking", 119 },
             { "staryu", 120 },
             { "starmie", 121 },
+            { "mr mime", 122 },
             { "mr-mime", 122 },
             { "scyther", 123 },
             { "jynx", 124 },
@@ -278,6 +281,7 @@ namespace PokeAPI.NET
             { "tyranitar", 248 },
             { "lugia", 249 },
             { "ho-oh", 250 },
+            { "ho oh", 250 },
             { "celebi", 251 },
             { "treecko", 252 },
             { "grovyle", 253 },
@@ -466,6 +470,7 @@ namespace PokeAPI.NET
             { "bronzor", 436 },
             { "bronzong", 437 },
             { "bonsly", 438 },
+            { "mime jr", 439 },
             { "mime-jr", 439 },
             { "happiny", 440 },
             { "chatot", 441 },
@@ -501,6 +506,7 @@ namespace PokeAPI.NET
             { "glaceon", 471 },
             { "gliscor", 472 },
             { "mamoswine", 473 },
+            { "porygon z", 474 },
             { "porygon-z", 474 },
             { "gallade", 475 },
             { "probopass", 476 },

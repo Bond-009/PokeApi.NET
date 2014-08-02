@@ -20,11 +20,11 @@ namespace PokeAPI.NET
         /// </summary>
         public static Dictionary<int, Move> CachedMoves = new Dictionary<int, Move>();
 
-        #region public readonly static Dictionary<string, int> IDs = new Dictionary<string, int> { [...] };
+        #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int> { [...] };
         /// <summary>
         /// All move string->ID maps
         /// </summary>
-        public readonly static Dictionary<string, int> IDs = new Dictionary<string, int>
+        public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>
         {
             {"pound", 1},
             {"karate chop", 2},

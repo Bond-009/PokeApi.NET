@@ -19,11 +19,11 @@ namespace PokeAPI.NET
         /// </summary>
         public static Dictionary<int, Ability> CachedAbilities = new Dictionary<int, Ability>();
 
-        #region public readonly static Dictionary<string, int> IDs = new Dictionary<string, int>() { [...] };
+        #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>() { [...] };
         /// <summary>
         /// All ability string->ID maps
         /// </summary>
-        public readonly static Dictionary<string, int> IDs = new Dictionary<string, int>()
+        public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>()
         {
             {"stench", 1},
             {"drizzle", 2},

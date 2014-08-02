@@ -19,11 +19,11 @@ namespace PokeAPI.NET
         /// </summary>
         public static Dictionary<int, EggGroup> CachedEggGroups = new Dictionary<int, EggGroup>();
 
-        #region public readonly static Dictionary<string, int> IDs = new Dictionary<string, int>() { [...] };
+        #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>() { [...] };
         /// <summary>
         /// The egg group string->ID maps
         /// </summary>
-        public readonly static Dictionary<string, int> IDs = new Dictionary<string, int>()
+        public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>()
         {
             {"monster", 1},
             {"water1", 2},
