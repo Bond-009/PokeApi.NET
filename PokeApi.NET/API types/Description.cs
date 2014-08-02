@@ -85,5 +85,14 @@ namespace PokeAPI.NET
 
             return p;
         }
+
+        /// <summary>
+        /// Casts a Description to a string implicitely.
+        /// </summary>
+        /// <param name="descr">The Description to cast.</param>
+        public static implicit operator string(Description descr)
+        {
+            return descr.Text;
+        }
     }
 }
