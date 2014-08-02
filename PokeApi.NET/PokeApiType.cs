@@ -79,7 +79,7 @@ namespace PokeAPI.NET
             if (!ret.OverrideDefaultParsing())
             {
                 ret.Name = source["name"].ToString().Replace('-', ' ');
-                ret.ResourceUri = new Uri("http://www.pokeapi.co/" + source["resource_uri"].ToString());
+                ret.ResourceUri = new Uri("http://www.pokeapi.co" + source["resource_uri"].ToString());
                 if (source.Keys.Contains("id")) // pokemon uses national_id, and the dex can't have an ID
                     ret.ID = (int)source["id"];
                 ret.Created = DateTime.Parse((string)source["created"]);

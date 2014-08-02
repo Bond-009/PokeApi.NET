@@ -23,86 +23,167 @@ namespace PokeAPI.NET
     /// <summary>
     /// Represents the types a Pokémon can be, as flags.
     /// </summary>
-    [Flags]
-    public enum PokemonTypeID : int
+    /// <remarks>Marked with the <see cref="System.FlagsAttribute" /> attribute.</remarks>
+    [Flags] public enum PokemonTypeFlags : int
     {
         /// <summary>
         /// The ??? type
         /// </summary>
-        Unknown  = 0x0,
-        /// <summary>
-        /// The bug type
-        /// </summary>
-        Bug      = 0x1,
-        /// <summary>
-        /// The dark type
-        /// </summary>
-        Dark     = 0x2,
-        /// <summary>
-        /// The dragon type
-        /// </summary>
-        Dragon   = 0x4,
-        /// <summary>
-        /// The electric type
-        /// </summary>
-        Electric = 0x8,
-        /// <summary>
-        /// The fairy type
-        /// </summary>
-        Fairy    = 0x10,
-        /// <summary>
-        /// The fighting type
-        /// </summary>
-        Fighting = 0x20,
-        /// <summary>
-        /// The fire type
-        /// </summary>
-        Fire     = 0x40,
-        /// <summary>
-        /// The flying type
-        /// </summary>
-        Flying   = 0x80,
-        /// <summary>
-        /// The ghost type
-        /// </summary>
-        Ghost    = 0x100,
-
-        /// <summary>
-        /// The grass type
-        /// </summary>
-        Grass    = 0x200,
-        /// <summary>
-        /// The ground type
-        /// </summary>
-        Ground   = 0x400,
-        /// <summary>
-        /// The ice type
-        /// </summary>
-        Ice      = 0x800,
+        Unknown  = 0x0    ,
         /// <summary>
         /// The normal type
         /// </summary>
-        Normal   = 0x1000,
+        Normal   = 0x1    ,
+        /// <summary>
+        /// The fighting type
+        /// </summary>
+        Fighting = 0x2    ,
+        /// <summary>
+        /// The flying type
+        /// </summary>
+        Flying   = 0x4    ,
         /// <summary>
         /// The poison type
         /// </summary>
-        Poison   = 0x2000,
+        Poison   = 0x8    ,
         /// <summary>
-        /// The psychic type
+        /// The ground type
         /// </summary>
-        Psychic  = 0x4000,
+        Ground   = 0x10   ,
         /// <summary>
         /// The rock type
         /// </summary>
-        Rock     = 0x8000,
+        Rock     = 0x20   ,
+        /// <summary>
+        /// The bug type
+        /// </summary>
+        Bug      = 0x40   ,
+        /// <summary>
+        /// The ghost type
+        /// </summary>
+        Ghost    = 0x80   ,
         /// <summary>
         /// The steel type
         /// </summary>
-        Steel    = 0x10000,
+        Steel    = 0x100  ,
+        /// <summary>
+        /// The fire type
+        /// </summary>
+        Fire     = 0x200  ,
         /// <summary>
         /// The water type
         /// </summary>
-        Water    = 0x20000
+        Water    = 0x400  ,
+        /// <summary>
+        /// The grass type
+        /// </summary>
+        Grass    = 0x800  ,
+        /// <summary>
+        /// The electric type
+        /// </summary>
+        Electric = 0x1000 ,
+        /// <summary>
+        /// The psychic type
+        /// </summary>
+        Psychic  = 0x2000 ,
+        /// <summary>
+        /// The ice type
+        /// </summary>
+        Ice      = 0x4000 ,
+        /// <summary>
+        /// The dragon type
+        /// </summary>
+        Dragon   = 0x8000 ,
+        /// <summary>
+        /// The dark type
+        /// </summary>
+        Dark     = 0x10000,
+        /// <summary>
+        /// The fairy type
+        /// </summary>
+        Fairy    = 0x20000
+    }
+    /// <summary>
+    /// Represents the types a Pokémon can be.
+    /// </summary>
+    public enum PokemonTypeID : byte
+    {
+        /// <summary>
+        /// The ??? type
+        /// </summary>
+        Unknown ,
+        /// <summary>
+        /// The normal type
+        /// </summary>
+        Normal  ,
+        /// <summary>
+        /// The fighting type
+        /// </summary>
+        Fighting,
+        /// <summary>
+        /// The flying type
+        /// </summary>
+        Flying  ,
+        /// <summary>
+        /// The poison type
+        /// </summary>
+        Poison  ,
+        /// <summary>
+        /// The ground type
+        /// </summary>
+        Ground  ,
+        /// <summary>
+        /// The rock type
+        /// </summary>
+        Rock    ,
+        /// <summary>
+        /// The bug type
+        /// </summary>
+        Bug     ,
+        /// <summary>
+        /// The ghost type
+        /// </summary>
+        Ghost   ,
+        /// <summary>
+        /// The steel type
+        /// </summary>
+        Steel   ,
+        /// <summary>
+        /// The fire type
+        /// </summary>
+        Fire    ,
+        /// <summary>
+        /// The water type
+        /// </summary>
+        Water   ,
+        /// <summary>
+        /// The grass type
+        /// </summary>
+        Grass   ,
+        /// <summary>
+        /// The electric type
+        /// </summary>
+        Electric,
+        /// <summary>
+        /// The psychic type
+        /// </summary>
+        Psychic ,
+        /// <summary>
+        /// The ice type
+        /// </summary>
+        Ice     ,
+        /// <summary>
+        /// The dragon type
+        /// </summary>
+        Dragon  ,
+        /// <summary>
+        /// The dark type
+        /// </summary>
+        Dark    ,
+        /// <summary>
+        /// The fairy type
+        /// </summary>
+        Fairy
     }
 
 #pragma warning disable 1591

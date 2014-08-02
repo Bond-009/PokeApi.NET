@@ -22,32 +22,6 @@ namespace PokeAPI.NET
         /// </summary>
         public static Dictionary<int, PokemonType> CachedTypes = new Dictionary<int, PokemonType>();
 
-        #region public readonly static Dictionary<string, int> IDs = new Dictionary<string, int>() { [...] };
-        /// <summary>
-        /// All pokemon type string->ID maps
-        /// </summary>
-        public readonly static Dictionary<string, int> IDs = new Dictionary<string, int>()
-        {
-            {"normal", 1},
-            {"fighting", 2},
-            {"flying", 3},
-            {"poison", 4},
-            {"ground", 5},
-            {"rock", 6},
-            {"bug", 7},
-            {"ghost", 8},
-            {"steel", 9},
-            {"fire", 10},
-            {"water", 11},
-            {"grass", 12},
-            {"electric", 13},
-            {"pyschic", 14},
-            {"ice", 15},
-            {"dragon", 16},
-            {"dark", 17},
-            {"fairy", 18},
-        };
-        #endregion
         #region public readonly static Dictionary<PTIDT, double> DamageMultipliers = new Dictionary<PTIDT, double>() { [...] };
         /// <summary>
         /// The damage multipliers map. The items in the tuple represent the move's type and the defending Pokémon's type, respectively.
@@ -571,7 +545,7 @@ namespace PokeAPI.NET
         {
             get
             {
-                return ((PokemonTypeID)this).AnalyzeIDs();
+                return ((PokemonTypeFlags)this).AnalyzeIDs();
             }
         }
 
@@ -594,23 +568,29 @@ namespace PokeAPI.NET
         }
 
         /// <summary>
-        /// Creates an instance of a PokemonType with the given name
+        /// Creates an instance of a PokemonType with the given name.
         /// </summary>
         /// <param name="name">The name of the PokemonType to instantiate</param>
         /// <returns>The created instance of the PokemonType</returns>
+        /// <remarks>Only works on a single-type PokemonType.</remarks>
         public static PokemonType GetInstance(string name)
         {
-            return GetInstance(IDs[name.ToLower()]);
+            if (name.Trim() == "???")
+                name = "Unknown";
+
+            if (Enum.TryParse(name.Trim(), true, out PokemonTypeID id))
+                return GetInstance((int)id);
+
+            return null;
         }
         /// <summary>
-        /// Creates an instance of a PokemonType with the given PokemonType
+        /// Creates an instance of a PokemonType with the given PokemonTypeID
         /// </summary>
         /// <param name="type">The type of the PokemonType to instantiate</param>
         /// <returns>The created instance of the PokemonType</returns>
-        /// <remarks>Only works on a single-type PokemonType.</remarks>
         public static PokemonType GetInstance(PokemonTypeID type)
         {
-            return GetInstance(type.ID());
+            return GetInstance((int)type);
         }
         /// <summary>
         /// Creates an instance of a PokemonType with the given ID
@@ -623,7 +603,23 @@ namespace PokeAPI.NET
                 return CachedTypes[id];
 
             PokemonType p = new PokemonType();
-            Create(DataFetcher.GetType(id), p);
+            if (id == 0)
+            {
+                p.Created = p.LastModified = DateTime.Now;
+
+                p.ID = 0;
+                p.Name = "???";
+
+                p.Ineffective    = new List<NameUriPair>();
+                p.NoEffect       = new List<NameUriPair>();
+                p.Resistance     = new List<NameUriPair>();
+                p.SuperEffective = new List<NameUriPair>();
+                p.Weakness       = new List<NameUriPair>();
+
+                p.ResourceUri = new Uri("http://www.pokeapi.co/");
+            }
+            else
+                Create(DataFetcher.GetType(id), p);
 
             if (ShouldCacheData)
                 CachedTypes.Add(id, p);
@@ -637,17 +633,14 @@ namespace PokeAPI.NET
         /// <param name="attacking">The attacking type.</param>
         /// <param name="defending">The defending type. Can be multiple types.</param>
         /// <returns>The damage multiplier of the given attacking and defending types.</returns>
-        public static double GetDamageMultiplier(PokemonTypeID attacking, PokemonTypeID defending)
+        public static double GetDamageMultiplier(PokemonTypeID attacking, PokemonTypeFlags defending)
         {
-            if (!PokeExtensions.IsPowerOfTwo((int)attacking))
-                throw new ArgumentException("The type cannot be a combined type!", "attacking");
-
             List<PokemonTypeID> analyzed = defending.AnalyzeIDs();
 
             double ret = 1d;
 
             for (int i = 0; i < analyzed.Count; i++)
-                ret *= DamageMultipliers[new PTIDT(analyzed[i], defending)];
+                ret *= DamageMultipliers[new PTIDT(attacking, analyzed[i])];
 
             return ret;
         }
@@ -657,9 +650,9 @@ namespace PokeAPI.NET
         /// </summary>
         /// <param name="types">The PokemonTypes to combine.</param>
         /// <returns>The combined PokemonTypes as a PokemonTypeID.</returns>
-        public static PokemonTypeID Combine(params PokemonType[] types)
+        public static PokemonTypeFlags Combine(params PokemonType[] types)
         {
-            PokemonTypeID ret = 0;
+            PokemonTypeFlags ret = 0;
 
             for (int i = 0; i < types.Length; i++)
                 ret |= types[i];
@@ -671,7 +664,7 @@ namespace PokeAPI.NET
         /// </summary>
         /// <param name="types">The PokemonTypes to combine.</param>
         /// <returns>The combined PokemonTypes as a PokemonTypeID.</returns>
-        public static PokemonTypeID Combine(IEnumerable<PokemonType> types)
+        public static PokemonTypeFlags Combine(IEnumerable<PokemonType> types)
         {
             return Combine(types.ToArray());
         }
@@ -680,8 +673,28 @@ namespace PokeAPI.NET
         /// Converts a PokemonType into a PokemonType
         /// </summary>
         /// <param name="type">The PokemonType to convert from</param>
+        public static implicit operator PokemonTypeFlags(PokemonType type)
+        {
+            Enum.TryParse(type.Name, true, out PokemonTypeFlags ret);
+            return ret;
+        }
+        /// <summary>
+        /// Converts a PokemonType into a PokemonType
+        /// </summary>
+        /// <param name="type">The PokemonType to convert from</param>
+        public static explicit operator PokemonType(PokemonTypeFlags type)
+        {
+            return GetInstance(type.ID());
+        }
+        /// <summary>
+        /// Converts a PokemonType into a PokemonType
+        /// </summary>
+        /// <param name="type">The PokemonType to convert from</param>
         public static implicit operator PokemonTypeID(PokemonType type)
         {
+            if (type.TypeIDs.Count != 1)
+                return PokemonTypeID.Unknown;
+
             Enum.TryParse(type.Name, true, out PokemonTypeID ret);
             return ret;
         }

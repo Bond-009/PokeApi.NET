@@ -19,34 +19,30 @@ namespace PokeAPI.NET
         /// </summary>
         /// <param name="type">The PokemonType to convert</param>
         /// <returns>The converted PokemonType</returns>
-        public static int ID(this PokemonTypeID type)
+        public static PokemonTypeID ID(this PokemonTypeFlags type)
         {
             if (!IsPowerOfTwo((int)type)) // multiple types
                 return 0;
 
-            int id = 1;
-            for (int i = 1; i <= 131072; i *= 2) // lazy again
-            {
+            PokemonTypeID id = PokemonTypeID.Normal;
+            for (int i = 1; i <= (int)PokemonTypeFlags.Fairy; i *= 2, id++) // lazy again
                 if (((int)type & i) != 0)
                     return id;
-
-                id++;
-            }
 
             return 0;
         }
         /// <summary>
-        /// Analyzes a Type into the separated flags.
+        /// Analyzes a Type into the separated enum values.
         /// </summary>
-        /// <param name="type">The Type to analyze.</param>
-        /// <returns>A list containing the separate flags.</returns>
-        public static List<PokemonTypeID> AnalyzeIDs(this PokemonTypeID type)
+        /// <param name="type">The Type flags to analyze.</param>
+        /// <returns>A list containing the enum values.</returns>
+        public static List<PokemonTypeID> AnalyzeIDs(this PokemonTypeFlags type)
         {
             List<PokemonTypeID> ret = new List<PokemonTypeID>();
 
-            for (PokemonTypeID i = PokemonTypeID.Bug; i <= PokemonTypeID.Water; i = (PokemonTypeID)((int)i * 2))
+            for (PokemonTypeFlags i = PokemonTypeFlags.Bug; i <= PokemonTypeFlags.Water; i = (PokemonTypeFlags)((int)i * 2))
                 if ((type & i) != 0)
-                    ret.Add(type & i);
+                    ret.Add((type & i).ID());
 
             if (ret.Count == 0)
                 ret.Add(PokemonTypeID.Unknown);

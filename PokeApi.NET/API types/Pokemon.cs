@@ -20,7 +20,7 @@ namespace PokeAPI.NET
         /// </summary>
         public static Dictionary<int, Pokemon> CachedPokemon = new Dictionary<int, Pokemon>();
 
-        PokemonTypeID t = (PokemonTypeID)(-1);
+        PokemonTypeFlags t = (PokemonTypeFlags)(-1);
 
         #region public readonly static Dictionary<string, int> IDs = new Dictionary<string, int> { [...] };
         /// <summary>
@@ -973,7 +973,7 @@ namespace PokeAPI.NET
         /// <summary>
         /// The types this Pokemon instance is as a flags field
         /// </summary>
-        public PokemonTypeID Type
+        public PokemonTypeFlags Type
         {
             get
             {
@@ -982,7 +982,7 @@ namespace PokeAPI.NET
                     t = 0;
 
                     foreach (NameUriPair pair in Types)
-                        if (Enum.TryParse(pair.Name, true, out PokemonTypeID pt))
+                        if (Enum.TryParse(pair.Name, true, out PokemonTypeFlags pt))
                             t |= pt;
 
                     return t;
