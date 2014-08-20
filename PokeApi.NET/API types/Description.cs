@@ -34,7 +34,7 @@ namespace PokeAPI.NET
         {
             get;
             private set;
-        } = new NameUriPair(String.Empty, String.Empty);
+        } = new NameUriPair(String.Empty, "http://www.pokeapi.co");
         /// <summary>
         /// Gets the description text.
         /// </summary>
