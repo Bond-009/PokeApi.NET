@@ -49,6 +49,11 @@ namespace PokeAPI.NET
                 string[] num = data["resource_uri"].ToString().Split(new char[1] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                 PokemonList.Add(Convert.ToInt32(num[num.Length - 1]), ParseNameUriPair(data));
             }
+
+            PokemonList.Clear();
+
+            foreach (var kvp in (from kvp in PokemonList orderby kvp.Key select kvp))
+                PokemonList.Add(kvp.Key, kvp.Value);
         }
 
         /// <summary>

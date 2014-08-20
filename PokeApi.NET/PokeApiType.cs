@@ -11,24 +11,8 @@ namespace PokeAPI.NET
     /// </summary>
     // how it's displayed in the debugger
     [DebuggerDisplay("ID:{ID}, Name:{Name}, ResourceUri:{ResourceUri}, Created:{Created}, Modified:{LastModified}")]
-    public abstract class PokeApiType
+    public abstract class PokeApiType : NameUriPair
     {
-        /// <summary>
-        /// The name of the PokeApiType instance
-        /// </summary>
-        public string Name
-        {
-            get;
-            protected set;
-        }
-        /// <summary>
-        /// The resource URI of the PokeApiType instance
-        /// </summary>
-        public Uri ResourceUri
-        {
-            get;
-            protected set;
-        }
         /// <summary>
         /// The ID of the PokeApiType instance
         /// </summary>
@@ -57,12 +41,22 @@ namespace PokeAPI.NET
         /// <summary>
         /// Gets the name/uri pair of this PokeApiType instance.
         /// </summary>
+        [Obsolete("PokeApiType is now a NameUriPair.")]
         public NameUriPair NameUriPair
         {
             get
             {
-                return new NameUriPair(Name, ResourceUri);
+                return this;
             }
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="PokeApiType" /> class.
+        /// </summary>
+        protected PokeApiType()
+            : base(String.Empty, new Uri("http://www.pokeapi.co"))
+        {
+
         }
 
         /// <summary>
@@ -179,15 +173,6 @@ namespace PokeAPI.NET
         public override string ToString()
         {
             return "{" + ID + ": " + Name + "}";
-        }
-
-        /// <summary>
-        /// Implicitely casts a PokeApiType to a NameUriPair.
-        /// </summary>
-        /// <param name="pat">The PokeApiType to cast.</param>
-        public static implicit operator NameUriPair(PokeApiType pat)
-        {
-            return pat.NameUriPair;
         }
     }
 }

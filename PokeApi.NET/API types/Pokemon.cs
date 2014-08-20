@@ -7,6 +7,62 @@ using LitJson;
 namespace PokeAPI.NET
 {
     /// <summary>
+    /// A learnable move. The resource URI contains data to the actual <see cref="Move" /> instance.
+    /// </summary>
+    public class LearnableMove : NameUriPair
+    {
+        /// <summary>
+        /// Gets the learn type of the move.
+        /// </summary>
+        public string LearnType
+        {
+            get;
+            internal set;
+        } = String.Empty;
+        /// <summary>
+        /// Gets the level where the move is learned at.
+        /// </summary>
+        public int Level
+        {
+            get;
+            internal set;
+        } = -1;
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="LearnableMove" /> class.
+        /// </summary>
+        /// <param name="name">The name of the move.</param>
+        /// <param name="uri">The resource URI pointing to the move instance.</param>
+        public LearnableMove(string name, string uri)
+            : this(name, new Uri(uri))
+        {
+
+        }
+        /// <summary>
+        /// Creates a new instance of the <see cref="LearnableMove" /> class.
+        /// </summary>
+        /// <param name="name">The name of the move.</param>
+        /// <param name="uri">The resource URI pointing to the move instance.</param>
+        public LearnableMove(string name, Uri uri)
+            : base(name, uri)
+        {
+
+        }
+
+        internal static LearnableMove Create(JsonData json)
+        {
+            LearnableMove lm = new LearnableMove(json["name"].ToString(), "http://www.pokeapi.co" + json["resource_uri"].ToString());
+
+            lm.LearnType = json["learn_type"].ToString();
+
+            if (json.Keys.Contains("level") && Int32.TryParse(json["level"].ToString(), out int lv))
+                lm.Level = lv;
+
+            return lm;
+        }
+    }
+
+    /// <summary>
     /// Represents a Pokémon.
     /// </summary>
     public class Pokemon : PokeApiType
@@ -20,7 +76,7 @@ namespace PokeAPI.NET
         /// </summary>
         public static Dictionary<int, Pokemon> CachedPokemon = new Dictionary<int, Pokemon>();
 
-        PokemonTypeFlags t = (PokemonTypeFlags)(-1);
+        //PokemonTypeFlags t = (PokemonTypeFlags)(-1);
 
         #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int> { [...] };
         /// <summary>
@@ -758,51 +814,43 @@ namespace PokeAPI.NET
         /// <summary>
         /// Gets the abilities this Pokémon can have.
         /// </summary>
-        public List<NameUriPair> Abilities
+        public NameUriPair[] Abilities
         {
             get;
             private set;
-        } = new List<NameUriPair>();
+        } = new NameUriPair[0];
         /// <summary>
         /// Gets the egg groups this Pokémon is in.
         /// </summary>
-        public List<NameUriPair> EggGroups
+        public NameUriPair[] EggGroups
         {
             get;
             private set;
-        } = new List<NameUriPair>();
+        } = new NameUriPair[0];
         /// <summary>
         /// Gets the evolutions this Pokémon can evolve into.
         /// </summary>
-        public List<Evolution> Evolutions
+        public Evolution[] Evolutions
         {
             get;
             private set;
-        } = new List<Evolution>();
+        } = new Evolution[0];
         /// <summary>
         /// Gets the moves this Pokémon can learn.
         /// </summary>
-        public List<Tuple<string, NameUriPair>> Moves
+        public LearnableMove[] Moves
         {
             get;
             private set;
-        } = new List<Tuple<string, NameUriPair>>();
-        /// <summary>
-        /// Gets the types this Pokemon is.
-        /// </summary>
-        public List<NameUriPair> Types
-        {
-            get;
-            private set;
-        } = new List<NameUriPair>();
+        } = new LearnableMove[0];
         /// <summary>
         /// Gets the descriptions of the Pokémon.
         /// </summary>
-        public List<NameUriPair> Descriptions
+        public NameUriPair[] Descriptions
         {
             get;
             private set;
-        } = new List<NameUriPair>();
+        } = new NameUriPair[0];
 
         /// <summary>
         /// Gets an entry of the Abilities list as an Ability.
@@ -829,16 +877,7 @@ namespace PokeAPI.NET
         /// <returns>The entry of the Moves list as a Move</returns>
         public Move RefMove(int index)
         {
-            return Move.GetInstance(Moves[index].Item2.Name);
-        }
-        /// <summary>
-        /// Gets an entry of the Types list as a PokemonType.
-        /// </summary>
-        /// <param name="index">The index of the entry</param>
-        /// <returns>The entry of the Types list as a PokemonType</returns>
-        public PokemonType RefType(int index)
-        {
-            return PokemonType.GetInstance(Types[index].Name);
+            return Moves[index].GetResource<Move>();
         }
         /// <summary>
         /// Gets an entry of the Descriptions list as a Description.
@@ -979,24 +1018,25 @@ namespace PokeAPI.NET
         /// <summary>
         /// The types this Pokemon instance is as a flags field
         /// </summary>
-        public PokemonTypeFlags Type
+        public TypeFlags Type
         {
-            get
-            {
-                if ((int)t == -1)
-                {
-                    t = 0;
+            get;
+            //{
+            //    if ((int)t == -1)
+            //    {
+            //        t = 0;
 
-                    foreach (NameUriPair pair in Types)
-                        if (Enum.TryParse(pair.Name, true, out PokemonTypeFlags pt))
-                            t |= pt;
+            //        foreach (NameUriPair pair in Types)
+            //            if (Enum.TryParse(pair.Name, true, out PokemonTypeFlags pt))
+            //                t |= pt;
 
-                    return t;
-                }
+            //        return t;
+            //    }
 
-                return t;
-            }
-        }
+            //    return t;
+            //}
+            private set;
+        } = TypeFlags.Unknown;
 
         /// <summary>
         /// Gets the male/female ratio of the Pokémon.
@@ -1015,24 +1055,37 @@ namespace PokeAPI.NET
         {
             ID = (int)source["national_id"];
 
+            List<NameUriPair> abilities = new List<NameUriPair>();
             foreach (JsonData data in source["abilities"])
-                Abilities.Add(ParseNameUriPair(data));
-            foreach (JsonData data in source["egg_groups"])
-                EggGroups.Add(ParseNameUriPair(data));
+                abilities.Add(ParseNameUriPair(data));
+            Abilities = abilities.ToArray();
 
+            List<NameUriPair> eggGroups = new List<NameUriPair>();
+            foreach (JsonData data in source["egg_groups"])
+                eggGroups.Add(ParseNameUriPair(data));
+            EggGroups = eggGroups.ToArray();
+
+            List<Evolution> evolutions = new List<Evolution>();
             if (source.Keys.Contains("evolutions"))
                 for (int i = 0; i < source["evolutions"].Count; i++)
                 {
                     JsonData evolution = source["evolutions"][i];
                     Evolution p = new Evolution();
                     Create(evolution, p);
-                    Evolutions.Add(p);
+                    evolutions.Add(p);
                 }
+            Evolutions = evolutions.ToArray();
 
+            List<LearnableMove> moves = new List<LearnableMove>();
             foreach (JsonData data in source["moves"])
-                Moves.Add(new Tuple<string, NameUriPair>(data["learn_type"].ToString(), ParseNameUriPair(data)));
+                moves.Add(LearnableMove.Create(data));
+            moves.Clear();
+            foreach (var t in (from t in Moves orderby t.Name select t))
+                moves.Add(t);
+            Moves = moves.ToArray();
+
             foreach (JsonData data in source["types"])
-                Types.Add(ParseNameUriPair(data));
+                Type |= ((TypeID)ParseNameUriPair(data).GetResource().ID).Flags();
 
             CatchRate = (int)source["catch_rate"];
             Species = source["species"].ToString();
@@ -1050,12 +1103,14 @@ namespace PokeAPI.NET
             Weight = source.AsInt("weight");
             BaseHappiness = (int)source["happiness"];
 
+            List<NameUriPair> descr = new List<NameUriPair>();
             foreach (JsonData data in source["descriptions"])
-                Descriptions.Add(ParseNameUriPair(data));
+                descr.Add(ParseNameUriPair(data));
+            Descriptions = descr.ToArray();
 
             MaleFemaleRatio = String.IsNullOrEmpty(source["male_female_ratio"].ToString())
-                ? null
-                : MaleFemaleRatio = new Tuple<double, double>
+                ? new Tuple<double, double>(Double.NaN, Double.NaN)
+                : new Tuple<double, double>
             (
                 Convert.ToDouble(source["male_female_ratio"].ToString().Split('/')[0], CultureInfo.InvariantCulture) / 100d,
                 Convert.ToDouble(source["male_female_ratio"].ToString().Split('/')[1], CultureInfo.InvariantCulture) / 100d

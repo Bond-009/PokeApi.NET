@@ -3,28 +3,28 @@
 namespace PokeAPI.NET
 {
     /// <summary>
-    /// Represents the category of a PokeMove
+    /// Represents the category of a Move.
     /// </summary>
     public enum MoveCategory
     {
         /// <summary>
-        /// A physical move
+        /// A physical move.
         /// </summary>
         Physical,
         /// <summary>
-        /// A special move
+        /// A special move.
         /// </summary>
         Special,
         /// <summary>
-        /// A status-affecting move
+        /// A status-affecting move.
         /// </summary>
         Status
     }
     /// <summary>
-    /// Represents the types a Pokémon can be, as flags.
+    /// Represents the types a Pokémon can be, as a set of flags.
     /// </summary>
-    /// <remarks>Marked with the <see cref="System.FlagsAttribute" /> attribute.</remarks>
-    [Flags] public enum PokemonTypeFlags : int
+    /// <remarks>Marked with the <see cref="FlagsAttribute" /> attribute.</remarks>
+    [Flags] public enum TypeFlags : int
     {
         /// <summary>
         /// The ??? type
@@ -106,7 +106,7 @@ namespace PokeAPI.NET
     /// <summary>
     /// Represents the types a Pokémon can be.
     /// </summary>
-    public enum PokemonTypeID : byte
+    public enum TypeID : byte
     {
         /// <summary>
         /// The ??? type

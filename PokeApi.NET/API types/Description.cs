@@ -22,11 +22,11 @@ namespace PokeAPI.NET
         /// <summary>
         /// Gets the list of games this Description instance is in.
         /// </summary>
-        public List<NameUriPair> Games
+        public NameUriPair[] Games
         {
             get;
             private set;
-        } = new List<NameUriPair>();
+        } = new NameUriPair[0];
         /// <summary>
         /// Gets the Pokémon this Description instance is for.
         /// </summary>
@@ -34,7 +34,7 @@ namespace PokeAPI.NET
         {
             get;
             private set;
-        } = new NameUriPair();
+        } = new NameUriPair(String.Empty, String.Empty);
         /// <summary>
         /// Gets the description text.
         /// </summary>
@@ -60,8 +60,10 @@ namespace PokeAPI.NET
         /// <param name="source">The JSON object where to create the new instance from</param>
         protected override void Create(JsonData source)
         {
+            List<NameUriPair> games = new List<NameUriPair>();
             foreach (JsonData data in source["games"])
-                Games.Add(ParseNameUriPair(data));
+                games.Add(ParseNameUriPair(data));
+            Games = games.ToArray();
 
             Pokemon = ParseNameUriPair(source["pokemon"]);
             Text = (string)source["description"];

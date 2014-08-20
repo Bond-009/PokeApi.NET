@@ -19,13 +19,13 @@ namespace PokeAPI.NET
         /// </summary>
         /// <param name="type">The PokemonType to convert</param>
         /// <returns>The converted PokemonType</returns>
-        public static PokemonTypeID ID(this PokemonTypeFlags type)
+        public static TypeID ID(this TypeFlags type)
         {
             if (!IsPowerOfTwo((int)type)) // multiple types
                 return 0;
 
-            PokemonTypeID id = PokemonTypeID.Normal;
-            for (int i = 1; i <= (int)PokemonTypeFlags.Fairy; i *= 2, id++) // lazy again
+            TypeID id = TypeID.Normal;
+            for (int i = 1; i <= (int)TypeFlags.Fairy; i *= 2, id++) // lazy again
                 if (((int)type & i) != 0)
                     return id;
 
@@ -36,18 +36,28 @@ namespace PokeAPI.NET
         /// </summary>
         /// <param name="type">The Type flags to analyze.</param>
         /// <returns>A list containing the enum values.</returns>
-        public static List<PokemonTypeID> AnalyzeIDs(this PokemonTypeFlags type)
+        public static List<TypeID> AnalyzeIDs(this TypeFlags type)
         {
-            List<PokemonTypeID> ret = new List<PokemonTypeID>();
+            List<TypeID> ret = new List<TypeID>();
 
-            for (PokemonTypeFlags i = PokemonTypeFlags.Normal; i <= PokemonTypeFlags.Fairy; i = (PokemonTypeFlags)((int)i * 2))
+            int id = 1;
+            for (TypeFlags i = TypeFlags.Normal; i <= TypeFlags.Fairy; i = (TypeFlags)((int)i * 2), id++)
                 if ((type & i) != 0)
-                    ret.Add((type & i).ID());
+                    ret.Add((TypeID)id);
 
             if (ret.Count == 0)
-                ret.Add(PokemonTypeID.Unknown);
+                ret.Add(TypeID.Unknown);
 
             return ret;
+        }
+        /// <summary>
+        /// Converts a PokemonTypeID to its Flags representation.
+        /// </summary>
+        /// <param name="id">The <see cref="TypeID" /> to cast.</param>
+        /// <returns>The type as a <see cref="TypeFlags" />.</returns>
+        public static TypeFlags Flags(this TypeID id)
+        {
+            return (TypeFlags)(int)Math.Pow(2, (int)id);
         }
 
         /// <summary>

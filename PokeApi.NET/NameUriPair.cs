@@ -5,7 +5,7 @@ namespace PokeAPI.NET
     /// <summary>
     /// A name/uri pair
     /// </summary>
-    public struct NameUriPair(string name, Uri resourceUri)
+    public class NameUriPair(string name, Uri resourceUri)
     {
         /// <summary>
         /// The name of the name/uri pair
@@ -13,7 +13,7 @@ namespace PokeAPI.NET
         public string Name
         {
             get;
-            set;
+            protected set;
         } = name;
         /// <summary>
         /// The uri of the name/uri pair
@@ -21,7 +21,7 @@ namespace PokeAPI.NET
         public Uri ResourceUri
         {
             get;
-            set;
+            protected set;
         } = resourceUri;
 
         /// <summary>
@@ -137,15 +137,6 @@ namespace PokeAPI.NET
         public static bool operator !=(NameUriPair a, NameUriPair b)
         {
             return a.Name != b.Name || a.ResourceUri != b.ResourceUri;
-        }
-
-        /// <summary>
-        /// Casts an instance of the NameUriPair class to a PokeApiType.
-        /// </summary>
-        /// <param name="nup">The NameUriPair to cast.</param>
-        public static implicit operator PokeApiType(NameUriPair nup)
-        {
-            return nup.GetResource();
         }
     }
 }

@@ -48,11 +48,11 @@ namespace PokeAPI.NET
         /// <summary>
         /// A list of all the Pokemon in this EggGroup
         /// </summary>
-        public List<NameUriPair> Pokemon
+        public NameUriPair[] Pokemon
         {
             get;
             private set;
-        } = new List<NameUriPair>();
+        } = new NameUriPair[0];
 
         /// <summary>
         /// Gets an entry of the Pokemon list as a Pokemon
@@ -70,8 +70,10 @@ namespace PokeAPI.NET
         /// <param name="source">The JSON object where to create the new instance from</param>
         protected override void Create(JsonData source)
         {
+            List<NameUriPair> pkmn = new List<NameUriPair>();
             foreach (JsonData data in source["pokemon"])
-                Pokemon.Add(ParseNameUriPair(data));
+                pkmn.Add(ParseNameUriPair(data));
+            Pokemon = pkmn.ToArray();
         }
 
         /// <summary>

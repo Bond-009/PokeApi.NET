@@ -155,8 +155,8 @@ namespace PokeAPI.NET
         /// <param name="source">The JSON object where to create the new instance from</param>
         protected override void Create(JsonData source)
         {
-            Pokemon = ParseNameUriPair(source["pokemon"].ToString());
-            ImageUri = new Uri("http://www.pokeapi/co" + source["image"].ToString());
+            Pokemon = ParseNameUriPair(source["pokemon"]);
+            ImageUri = new Uri("http://www.pokeapi.co" + source["image"].ToString());
 
             if (LoadImageAfterCreation)
                 LoadImageData();
@@ -170,7 +170,7 @@ namespace PokeAPI.NET
         /// <param name="name">The name of the Sprite to instantiate</param>
         /// <param name="loadImageAfterCreation">Wether the image data should be loaded directly after the Sprite has been created or not</param>
         /// <returns>The created instance of the Sprite</returns>
-        public static Sprite GetInstance(string name, bool loadImageAfterCreation = false)
+        public static Sprite GetInstance(string  name, bool loadImageAfterCreation = false)
         {
             return GetInstance(NET.Pokemon.IDs[name.ToLower()] + 1, loadImageAfterCreation);
         }
@@ -180,7 +180,7 @@ namespace PokeAPI.NET
         /// <param name="id">The id of the Sprite to instantiate</param>
         /// <param name="loadImageAfterCreation">Wether the image data should be loaded directly after the Sprite has been created or not</param>
         /// <returns>The created instance of the Sprite</returns>
-        public static Sprite GetInstance(int id, bool loadImageAfterCreation = false)
+        public static Sprite GetInstance(int     id  , bool loadImageAfterCreation = false)
         {
             if (CachedSprites.ContainsKey(id))
                 return CachedSprites[id];
@@ -201,18 +201,7 @@ namespace PokeAPI.NET
         /// <returns>The created instance of the Sprite.</returns>
         public static Sprite GetInstance(Pokemon pkmn, bool loadImageAfterCreation = false)
         {
-            int id = pkmn.ID + 1;
-
-            if (CachedSprites.ContainsKey(id))
-                return CachedSprites[id];
-
-            Sprite p = new Sprite(loadImageAfterCreation);
-            Create(DataFetcher.GetSprite(id), p);
-
-            if (ShouldCacheData)
-                CachedSprites.Add(id, p);
-
-            return p;
+            return GetInstance(pkmn.ID + 1, loadImageAfterCreation);
         }
     }
 }
