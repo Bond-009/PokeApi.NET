@@ -22,7 +22,7 @@ namespace PokeAPI.NET
         /// <summary>
         /// A big list of Pokemon as NameUriPairs within this Pokedex instance
         /// </summary>
-        public Dictionary<int, NameUriPair> PokemonList
+        public IDictionary<int, NameUriPair> PokemonList
         {
             get;
             private set;
@@ -50,9 +50,10 @@ namespace PokeAPI.NET
                 PokemonList.Add(Convert.ToInt32(num[num.Length - 1]), ParseNameUriPair(data));
             }
 
+            var list2 = new Dictionary<int, NameUriPair>(PokemonList);
             PokemonList.Clear();
 
-            foreach (var kvp in (from kvp in PokemonList orderby kvp.Key select kvp))
+            foreach (var kvp in (from kvp in list2 orderby kvp.Key select kvp))
                 PokemonList.Add(kvp.Key, kvp.Value);
         }
 

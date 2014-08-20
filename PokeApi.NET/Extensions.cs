@@ -57,7 +57,7 @@ namespace PokeAPI.NET
         /// <returns>The type as a <see cref="TypeFlags" />.</returns>
         public static TypeFlags Flags(this TypeID id)
         {
-            return (TypeFlags)(int)Math.Pow(2, (int)id);
+            return (TypeFlags)(int)Math.Pow(2, (int)id - 1);
         }
 
         /// <summary>

@@ -1079,13 +1079,20 @@ namespace PokeAPI.NET
             List<LearnableMove> moves = new List<LearnableMove>();
             foreach (JsonData data in source["moves"])
                 moves.Add(LearnableMove.Create(data));
+            List<LearnableMove> moves2 = new List<LearnableMove>(moves);
             moves.Clear();
-            foreach (var t in (from t in Moves orderby t.Name select t))
+            foreach (var t in (from t in moves2 orderby t.Name select t))
                 moves.Add(t);
             Moves = moves.ToArray();
 
             foreach (JsonData data in source["types"])
-                Type |= ((TypeID)ParseNameUriPair(data).GetResource().ID).Flags();
+            {
+                var nup = ParseNameUriPair(data);
+                var res = nup.GetResource();
+                var tid = (TypeID)res.ID;
+                var flags = tid.Flags();
+                Type |= flags;
+            }
 
             CatchRate = (int)source["catch_rate"];
             Species = source["species"].ToString();
