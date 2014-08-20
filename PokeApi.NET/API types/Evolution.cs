@@ -55,7 +55,7 @@ namespace PokeAPI.NET
             if (source.Keys.Contains("level"))
                 MethodPrecision = (int)source["level"];
 
-            Method = source["method"].ToString();
+            Method = source["method"].ToString().Replace('_', ' ');
             ResourceUri = new Uri("http://www.pokeapi.co/" + source["resource_uri"]);
             EvolveTo = source["to"].ToString();
 

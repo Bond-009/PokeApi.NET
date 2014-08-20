@@ -51,7 +51,7 @@ namespace PokeAPI.NET
 
         internal static LearnableMove Create(JsonData json)
         {
-            LearnableMove lm = new LearnableMove(json["name"].ToString(), "http://www.pokeapi.co" + json["resource_uri"].ToString());
+            LearnableMove lm = new LearnableMove(json["name"].ToString().Replace('-', ' '), "http://www.pokeapi.co" + json["resource_uri"].ToString());
 
             lm.LearnType = json["learn_type"].ToString();
 
