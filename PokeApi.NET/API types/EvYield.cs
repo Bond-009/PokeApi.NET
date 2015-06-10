@@ -8,7 +8,7 @@ namespace PokeAPI.NET
     /// <summary>
     /// Effort value yield.
     /// </summary>
-    public struct EvYield(int amt, string cat)
+    public struct EvYield
     {
         /// <summary>
         /// The amount of EV yielded.
@@ -17,7 +17,7 @@ namespace PokeAPI.NET
         {
             get;
             private set;
-        } = amt;
+        }
         /// <summary>
         /// The category.
         /// </summary>
@@ -25,7 +25,19 @@ namespace PokeAPI.NET
         {
             get;
             private set;
-        } = cat;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the NameUriPair class
+        /// </summary>
+        /// <param name="amt">The default amout</param>
+        /// <param name="cat">The default category</param>
+        public EvYield(int amt, string cat)
+        {
+            this.Amount = amt;
+            this.Category = cat;
+
+        }
 
         /// <summary>
         ///  Returns the current instance represented through a string.
@@ -50,7 +62,7 @@ namespace PokeAPI.NET
                 string val = (string)v;
 
                 string[] split = val.Split(' ');
-
+                int amt;
                 if (split.Length > 1)
                 {
                     string cat = split[1];
@@ -58,12 +70,12 @@ namespace PokeAPI.NET
                     for (int i = 2; i < split.Length; i++)
                         cat += " " + split[i];
 
-                    if (Int32.TryParse(split[0], out int amt))
+                    if (Int32.TryParse(split[0], out amt))
                         return new EvYield(amt, cat);
                     else
                         return new EvYield(0, cat);
                 }
-                else if (split.Length > 0 && Int32.TryParse(split[0], out int amt))
+                else if (split.Length > 0 && Int32.TryParse(split[0], out amt))
                     return new EvYield(amt, String.Empty);
                 else
                     return new EvYield(0, String.Empty);

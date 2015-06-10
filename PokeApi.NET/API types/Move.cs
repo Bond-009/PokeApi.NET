@@ -705,7 +705,8 @@ namespace PokeAPI.NET
             Power = (int)source["power"];
             PP = (int)source["pp"];
             Accurracy = Convert.ToDouble(source["accuracy"].ToString(), CultureInfo.InvariantCulture) / 100d;
-            Enum.TryParse(source["category"].ToString(), true, out MoveCategory cat);
+            MoveCategory cat;
+            Enum.TryParse(source["category"].ToString(), true, out cat);
             Category = cat;
         }
 

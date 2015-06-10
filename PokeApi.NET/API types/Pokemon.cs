@@ -54,8 +54,8 @@ namespace PokeAPI.NET
             LearnableMove lm = new LearnableMove(json["name"].ToString().Replace('-', ' '), "http://www.pokeapi.co" + json["resource_uri"].ToString());
 
             lm.LearnType = json["learn_type"].ToString();
-
-            if (json.Keys.Contains("level") && Int32.TryParse(json["level"].ToString(), out int lv))
+            int lv;
+            if (json.Keys.Contains("level") && Int32.TryParse(json["level"].ToString(), out lv))
                 lm.Level = lv;
 
             return lm;

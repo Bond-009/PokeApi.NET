@@ -49,7 +49,7 @@ namespace Tester
             // ----------------------------------------------------------
 
             Pokemon p = Pokemon.GetInstance("Lucario");
-            var tids = PokemonType.Combine(p.Types.FillNew(nup => (PokemonType)nup.GetResource())).AnalyzeIDs();
+            //var tids = PokemonType.Combine(p.Types.FillNew(nup => (PokemonType)nup.GetResource())).AnalyzeIDs();
             int baseHp = p.HP;
 
             // ----------------------------------------------------------
