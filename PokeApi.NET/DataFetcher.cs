@@ -1,343 +1,176 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
-using System.Threading;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using LitJson;
 
-namespace PokeAPI.NET
+namespace PokeAPI
 {
     /// <summary>
     /// Gets JSON data from the PokeApi.co site
     /// </summary>
     public static class DataFetcher
     {
-        #region Fields
-        internal static WebClient client = new WebClient();
+        const int
+            AMT_PKMN =  719,
+            AMT_TYPE =   19,
+            AMT_MOVE =  626,
+            AMT_ABTY =  249,
+            AMT_EGGG =   16,
+            AMT_DESC = 6611,
+            AMT_SPRT =  720,
+            AMT_GAME =   26;
+
+        readonly static string
+            BASE_URL = "http://pokeapi.co/api/v1/",
+            F_SLASH  = "/",
+
+            POKEDEX  = "pokedex/1"   ,
+            POKEMON  = "pokemon/"    ,
+            TYPE     = "type/"       ,
+            MOVE     = "move/"       ,
+            ABILITY  = "ability/"    ,
+            EGGGROUP = "egg/"        ,
+            DESCR    = "description/",
+            SPRITE   = "sprite/"     ,
+            GAME     = "game/"       ;
+
+        internal static HttpClient client = new HttpClient();
+
+        static Cache<JsonData> dex = new Cache<JsonData>(async () => Maybe.Just(await GetJsonAsync(POKEDEX)));
+        static Cache<int, JsonData>
+            pkmn    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(POKEMON  + i))),
+            type    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(TYPE     + i))),
+            move    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(MOVE     + i))),
+            ability = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(ABILITY  + i))),
+            eggG    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(EGGGROUP + i))),
+            desc    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(DESCR    + i))),
+            sprite  = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(SPRITE   + i))),
+            game    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(GAME     + i)));
 
         /// <summary>
-        /// The Pokédex is cached in this variable if ShouldCacheData equals true.
+        /// The cached Pokedex.
         /// </summary>
-        public static JsonData Pokédex = null;
-        /// <summary>
-        /// All Pokémon data is cached in this variable if ShouldCacheData equals true.
-        /// </summary>
-        public static Dictionary<int, JsonData> PokemonData = new Dictionary<int, JsonData>();
-        /// <summary>
-        /// All Type data is cached in this variable if ShouldCacheData equals true.
-        /// </summary>
-        public static Dictionary<int, JsonData> TypeData = new Dictionary<int, JsonData>();
-        /// <summary>
-        /// All Move data is cached in this variable if ShouldCacheData equals true.
-        /// </summary>
-        public static Dictionary<int, JsonData> MoveData = new Dictionary<int, JsonData>();
-        /// <summary>
-        /// All Ability data is cached in this variable if ShouldCacheData equals true.
-        /// </summary>
-        public static Dictionary<int, JsonData> AbilityData = new Dictionary<int, JsonData>();
-        /// <summary>
-        /// All Egg groups data is cached in this variable if ShouldCacheData equals true.
-        /// </summary>
-        public static Dictionary<int, JsonData> EggGroupData = new Dictionary<int, JsonData>();
-        /// <summary>
-        /// All Description data is cached in this variable if ShouldCacheData equals true.
-        /// </summary>
-        public static Dictionary<int, JsonData> DescriptionData = new Dictionary<int, JsonData>();
-        /// <summary>
-        /// All Sprite data is cached in this variable if ShouldCacheData equals true.
-        /// </summary>
-        public static Dictionary<int, JsonData> SpriteData = new Dictionary<int, JsonData>();
-        /// <summary>
-        /// All Game data is cached in this variable if ShouldCacheData equals true.
-        /// </summary>
-        public static Dictionary<int, JsonData> GameData = new Dictionary<int, JsonData>();
+        public static JsonData Pokedex => dex.TryGetDef();
+
+        public static CacheGetter Pokemon     { get; } = new CacheGetter(pkmn   );
+        public static CacheGetter Type        { get; } = new CacheGetter(type   );
+        public static CacheGetter Move        { get; } = new CacheGetter(move   );
+        public static CacheGetter Ability     { get; } = new CacheGetter(ability);
+        public static CacheGetter EggGroup    { get; } = new CacheGetter(eggG   );
+        public static CacheGetter Description { get; } = new CacheGetter(desc   );
+        public static CacheGetter Sprite      { get; } = new CacheGetter(sprite );
+        public static CacheGetter Game        { get; } = new CacheGetter(game   );
 
         /// <summary>
-        /// Specifies if the program should cache the data. Default is true.
+        /// Specifies whether fetched data should be cached or not. Default is true.
         /// </summary>
-        public static bool ShouldCacheData = true;
-        #endregion
-
-        /// <summary>
-        /// Gets the Pokédex data
-        /// </summary>
-        /// <returns>The Pokédex data</returns>
-        public static JsonData GetPokedex()
+        public static bool ShouldCacheData
         {
-            if (Pokédex != null)
-                return Pokédex;
-
-            JsonData data = JsonMapper.ToObject(client.DownloadString("http://pokeapi.co/api/v1/pokedex/1/"));
-
-            if (ShouldCacheData)
-                Pokédex = data;
-
-            return data;
-        }
-
-        /// <summary>
-        /// Gets the data of the Pokémon with the specified ID
-        /// </summary>
-        /// <param name="id">The ID of the Pokémon to get</param>
-        /// <returns>The raw data of the Pokémon</returns>
-        public static JsonData GetPokemon(int id)
-        {
-            if (PokemonData.ContainsKey(id))
-                return PokemonData[id];
-
-            JsonData data = JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/pokemon/" + id + "/"));
-
-            if (ShouldCacheData)
-                PokemonData.Add(id, data);
-
-            return data;
-        }
-        /// <summary>
-        /// Puts all Pokémon data into the Pokémon cache. Does not require ShouldCacheData to be true.
-        /// </summary>
-        public static void CacheAllPokemon()
-        {
-            for (int i = 1; i <= 718; i++)
+            get
             {
-                if (PokemonData.ContainsKey(i))
-                    continue;
-
-                Debug.WriteLine("Chaching Pokémon " + i);
-
-                PokemonData.Add(i, JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/pokemon/" + i + "/")));
+                return dex.IsActive;
+            }
+            set
+            {
+                dex.IsActive = pkmn.IsActive = type.IsActive = move.IsActive = ability.IsActive = eggG.IsActive = desc.IsActive = sprite.IsActive = game.IsActive
+                    = value;
             }
         }
 
-        /// <summary>
-        /// Gets the data of the Type with the specified ID
-        /// </summary>
-        /// <param name="id">The ID of the Type to get</param>
-        /// <returns>The raw data of the Type</returns>
-        public static JsonData GetType(int id)
+        static async Task<JsonData> GetJsonAsync(string obj) => JsonMapper.ToObject(await client.GetStringAsync(BASE_URL + obj));
+
+        public static async Task<JsonData> GetPokedex() => await dex.Get();
+
+        public static async Task<JsonData> GetPokemon(int id) => await pkmn.Get(id);
+        public static async void CacheAllPokemon()
         {
-            if (TypeData.ContainsKey(id))
-                return TypeData[id];
+            Task t = Task.Factory.StartNew(() => pkmn.Get(1));
 
-            JsonData data = JsonMapper.ToObject(client.DownloadString("http://pokeapi.co/api/v1/type/" + id + "/"));
+            for (int i = 2; i < AMT_PKMN; i++)
+                t = t.ContinueWith(_ => pkmn.Get(i));
 
-            if (ShouldCacheData)
-                TypeData.Add(id, data);
-
-            return data;
-        }
-        /// <summary>
-        /// Puts all Type data into the Type cache. Does not require ShouldCacheData to be true.
-        /// </summary>
-        public static void CacheAllTypes()
-        {
-            for (int i = 1; i <= 18; i++)
-            {
-                if (TypeData.ContainsKey(i))
-                    continue;
-
-                Debug.WriteLine("Chaching Type " + i);
-
-                TypeData.Add(i, JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/type/" + i + "/")));
-            }
+            await t;
         }
 
-        /// <summary>
-        /// Gets the data of the Move with the specified ID
-        /// </summary>
-        /// <param name="id">The ID of the Move to get</param>
-        /// <returns>The raw data of the Move</returns>
-        public static JsonData GetMove(int id)
+        public static async Task<JsonData> GetType(int id) => await type.Get(id);
+        public static async void CacheAllTypes()
         {
-            if (MoveData.ContainsKey(id))
-                return MoveData[id];
+            Task t = Task.Factory.StartNew(() => type.Get(1));
 
-            JsonData data = JsonMapper.ToObject(client.DownloadString("http://pokeapi.co/api/v1/move/" + id + "/"));
+            for (int i = 2; i < AMT_TYPE; i++)
+                t = t.ContinueWith(_ => type.Get(i));
 
-            if (ShouldCacheData)
-                MoveData.Add(id, data);
-
-            return data;
-        }
-        /// <summary>
-        /// Puts all Move data into the Move cache. Does not require ShouldCacheData to be true.
-        /// </summary>
-        public static void CacheAllMoves()
-        {
-            for (int i = 1; i <= 625; i++)
-            {
-                if (MoveData.ContainsKey(i))
-                    continue;
-
-                Debug.WriteLine("Chaching Move " + i);
-
-                MoveData.Add(i, JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/move/" + i + "/")));
-            }
+            await t;
         }
 
-        /// <summary>
-        /// Gets the data of the Ability with the specified ID
-        /// </summary>
-        /// <param name="id">The ID of the Ability to get</param>
-        /// <returns>The raw data of the Ability</returns>
-        public static JsonData GetAbility(int id)
+        public static async Task<JsonData> GetMove(int id) => await move.Get(id);
+        public static async void CacheAllMoves()
         {
-            if (AbilityData.ContainsKey(id))
-                return AbilityData[id];
+            Task t = Task.Factory.StartNew(() => move.Get(1));
 
-            JsonData data = JsonMapper.ToObject(client.DownloadString("http://pokeapi.co/api/v1/ability/" + id + "/"));
+            for (int i = 2; i < AMT_MOVE; i++)
+                t = t.ContinueWith(_ => move.Get(i));
 
-            if (ShouldCacheData)
-                AbilityData.Add(id, data);
-
-            return data;
-        }
-        /// <summary>
-        /// Puts all Ability data into the Ability cache. Does not require ShouldCacheData to be true.
-        /// </summary>
-        public static void CacheAllAbilities()
-        {
-            for (int i = 1; i <= 248; i++)
-            {
-                if (AbilityData.ContainsKey(i))
-                    continue;
-
-                Debug.WriteLine("Chaching Ability " + i);
-
-                AbilityData.Add(i, JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/ability/" + i + "/")));
-            }
+            await t;
         }
 
-        /// <summary>
-        /// Gets the data of the Egg group with the specified ID
-        /// </summary>
-        /// <param name="id">The ID of the Egg group to get</param>
-        /// <returns>The raw data of the Egg group</returns>
-        public static JsonData GetEggGroup(int id)
+        public static async Task<JsonData> GetAbility(int id) => await ability.Get(id);
+        public static async void CacheAllAbilities()
         {
-            if (EggGroupData.ContainsKey(id))
-                return EggGroupData[id];
+            Task t = Task.Factory.StartNew(() => ability.Get(1));
 
-            JsonData data = JsonMapper.ToObject(client.DownloadString("http://pokeapi.co/api/v1/egg/" + id + "/"));
+            for (int i = 2; i < AMT_ABTY; i++)
+                t = t.ContinueWith(_ => ability.Get(i));
 
-            if (ShouldCacheData)
-                EggGroupData.Add(id, data);
-
-            return data;
-        }
-        /// <summary>
-        /// Puts all Egg group data into the Egg group cache. Does not require ShouldCacheData to be true.
-        /// </summary>
-        public static void CacheAllEggGroups()
-        {
-            for (int i = 1; i <= 15; i++)
-            {
-                if (EggGroupData.ContainsKey(i))
-                    continue;
-
-                Debug.WriteLine("Chaching Egg group " + i);
-
-                EggGroupData.Add(i, JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/egg/" + i + "/")));
-            }
+            await t;
         }
 
-        /// <summary>
-        /// Gets the data of the Description with the specified ID
-        /// </summary>
-        /// <param name="id">The ID of the Description to get</param>
-        /// <returns>The raw data of the Description</returns>
-        public static JsonData GetDescription(int id)
+        public static async Task<JsonData> GetEggGroup(int id) => await eggG.Get(id);
+        public static async void CacheAllEggGroups()
         {
-            if (DescriptionData.ContainsKey(id))
-                return DescriptionData[id];
+            Task t = Task.Factory.StartNew(() => eggG.Get(1));
 
-            JsonData data = JsonMapper.ToObject(client.DownloadString("http://pokeapi.co/api/v1/description/" + id + "/"));
+            for (int i = 2; i < AMT_EGGG; i++)
+                t = t.ContinueWith(_ => eggG.Get(i));
 
-            if (ShouldCacheData)
-                DescriptionData.Add(id, data);
-
-            return data;
-        }
-        /// <summary>
-        /// Puts all Description data into the Description cache. Does not require ShouldCacheData to be true.
-        /// </summary>
-        public static void CacheAllDescriptions()
-        {
-            for (int i = 1; i <= 1; i++)
-            {
-                if (DescriptionData.ContainsKey(i))
-                    continue;
-
-                Debug.WriteLine("Chaching Description " + i);
-
-                DescriptionData.Add(i, JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/description/" + i + "/")));
-            }
+            await t;
         }
 
-        /// <summary>
-        /// Gets the data of the Sprite with the specified ID
-        /// </summary>
-        /// <param name="id">The ID of the Sprite to get</param>
-        /// <returns>The raw data of the Sprite</returns>
-        public static JsonData GetSprite(int id)
+        public static async Task<JsonData> GetDescription(int id) => await desc.Get(id);
+        public static async void CacheAllDescriptions()
         {
-            if (SpriteData.ContainsKey(id))
-                return SpriteData[id];
+            Task t = Task.Factory.StartNew(() => desc.Get(1));
 
-            JsonData data = JsonMapper.ToObject(client.DownloadString("http://pokeapi.co/api/v1/sprite/" + id + "/"));
+            for (int i = 2; i < AMT_DESC; i++)
+                t = t.ContinueWith(_ => desc.Get(i));
 
-            if (ShouldCacheData)
-                SpriteData.Add(id, data);
-
-            return data;
-        }
-        /// <summary>
-        /// Puts all Sprite data into the Sprite cache. Does not require ShouldCacheData to be true.
-        /// </summary>
-        public static void CacheAllSprites()
-        {
-            for (int i = 1; i <= 719; i++)
-            {
-                if (SpriteData.ContainsKey(i))
-                    continue;
-
-                Debug.WriteLine("Chaching Sprite " + i);
-
-                SpriteData.Add(i, JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/sprite/" + i + "/")));
-            }
+            await t;
         }
 
-        /// <summary>
-        /// Gets the data of the Game with the specified ID
-        /// </summary>
-        /// <param name="id">The ID of the Game to get</param>
-        /// <returns>The raw data of the Game</returns>
-        public static JsonData GetGame(int id)
+        public static async Task<JsonData> GetSprite(int id) => await sprite.Get(id);
+        public static async void CacheAllSprites()
         {
-            if (GameData.ContainsKey(id))
-                return GameData[id];
+            Task t = Task.Factory.StartNew(() => sprite.Get(1));
 
-            JsonData data = JsonMapper.ToObject(client.DownloadString("http://pokeapi.co/api/v1/game/" + id + "/"));
+            for (int i = 2; i < AMT_SPRT; i++)
+                t = t.ContinueWith(_ => sprite.Get(i));
 
-            if (ShouldCacheData)
-                GameData.Add(id, data);
-
-            return data;
+            await t;
         }
-        /// <summary>
-        /// Puts all Game data into the Game cache. Does not require ShouldCacheData to be true.
-        /// </summary>
-        public static void CacheAllGames()
+
+        public static async Task<JsonData> GetGame(int id) => await game.Get(id);
+        public static async void CacheAllGames()
         {
-            for (int i = 1; i <= 25; i++)
-            {
-                if (GameData.ContainsKey(i))
-                    continue;
+            Task t = Task.Factory.StartNew(() => game.Get(1));
 
-                Debug.WriteLine("Chaching Game " + i);
+            for (int i = 2; i < AMT_GAME; i++)
+                t = t.ContinueWith(_ => game.Get(i));
 
-                GameData.Add(i, JsonMapper.ToObject(client.DownloadString("http://www.pokeapi.co/api/v1/game/" + i + "/")));
-            }
+            await t;
         }
     }
 }

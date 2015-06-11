@@ -1,29 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using LitJson;
 
-namespace PokeAPI.NET
+namespace PokeAPI
 {
-    /// <summary>
-    /// Represents an instance of a Pokémon Move
-    /// </summary>
-    public class Move : PokeApiType
+    partial class Move
     {
-        /// <summary>
-        /// Wether it should cache moves or not
-        /// </summary>
-        public static bool ShouldCacheData = true;
-        /// <summary>
-        /// Gets all cached moves
-        /// </summary>
-        public static Dictionary<int, Move> CachedMoves = new Dictionary<int, Move>();
-
         #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int> { [...] };
-        /// <summary>
-        /// All move string->ID maps
-        /// </summary>
         public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>
         {
             {"pound", 1},
@@ -653,89 +636,5 @@ namespace PokeAPI.NET
             {"shadow sky", 625}
         };
         #endregion
-
-        /// <summary>
-        /// A description of the PokeMove instance
-        /// </summary>
-        public string Description
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// The base power of the PokeMove instance
-        /// </summary>
-        public int Power
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// The base power points of the PokeMove instance
-        /// </summary>
-        public int PP
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// The base accuracy of the PokeMove instance
-        /// </summary>
-        public double Accurracy
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// The category of the PokeMove instance
-        /// </summary>
-        public MoveCategory Category
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Creates a new instance from a JSON object
-        /// </summary>
-        /// <param name="source">The JSON object where to create the new instance from</param>
-        protected override void Create(JsonData source)
-        {
-            Description = source["description"].ToString();
-            Power = (int)source["power"];
-            PP = (int)source["pp"];
-            Accurracy = Convert.ToDouble(source["accuracy"].ToString(), CultureInfo.InvariantCulture) / 100d;
-            MoveCategory cat;
-            Enum.TryParse(source["category"].ToString(), true, out cat);
-            Category = cat;
-        }
-
-        /// <summary>
-        /// Creates an instance of a PokeMove with the given name
-        /// </summary>
-        /// <param name="name">The name of the PokeMove to instantiate</param>
-        /// <returns>The created instance of the PokeMove</returns>
-        public static Move GetInstance(string name)
-        {
-            return GetInstance(IDs[name]);
-        }
-        /// <summary>
-        /// Creates an instance of a PokeMove with the given ID
-        /// </summary>
-        /// <param name="id">The id of the PokeMove to instantiate</param>
-        /// <returns>The created instance of the PokeMove</returns>
-        public static Move GetInstance(int id)
-        {
-            if (CachedMoves.ContainsKey(id))
-                return CachedMoves[id];
-
-            Move p = new Move();
-            Create(DataFetcher.GetMove(id), p);
-
-            if (ShouldCacheData)
-                CachedMoves.Add(id, p);
-
-            return p;
-        }
     }
 }

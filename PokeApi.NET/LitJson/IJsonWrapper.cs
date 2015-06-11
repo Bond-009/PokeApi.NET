@@ -15,7 +15,7 @@
 
 
 using System.Collections;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 
 
 namespace LitJson
@@ -33,7 +33,7 @@ namespace LitJson
         Boolean
     }
 
-    public interface IJsonWrapper : IList, IOrderedDictionary
+    public interface IJsonWrapper : IList, IDictionary
     {
         bool IsArray   { get; }
         bool IsBoolean { get; }

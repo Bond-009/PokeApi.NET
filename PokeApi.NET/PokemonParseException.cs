@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace PokeAPI.NET
+namespace PokeAPI
 {
     /// <summary>
-    /// An exception thrown when parsing a PokéApi JSON object
+    /// An exception thrown when parsing a PokeApi JSON object
     /// </summary>
     public class PokemonParseException : Exception
     {
-        const string DEFAULT_MESSAGE = "An error occured when parsing Pokémon data.";
+        const string DEFAULT_MESSAGE = "An error occured when parsing Pokemon data.";
 
         /// <summary>
         /// Creates a new instance of the PokemonParseException class

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PokeAPI.NET
+namespace PokeAPI
 {
     /// <summary>
     /// Represents the category of a Move.

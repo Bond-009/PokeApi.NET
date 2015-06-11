@@ -63,17 +63,11 @@ namespace LitJson
             set { allow_single_quoted_strings = value; }
         }
 
-        public bool EndOfInput {
-            get { return end_of_input; }
-        }
+        public bool EndOfInput => end_of_input;
 
-        public int Token {
-            get { return token; }
-        }
+        public int Token => token;
 
-        public string StringValue {
-            get { return string_value; }
-        }
+        public string StringValue => string_value;
         #endregion
 
 

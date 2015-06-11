@@ -1,28 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LitJson;
 
-namespace PokeAPI.NET
+namespace PokeAPI
 {
-    /// <summary>
-    /// Represents an instance of a Pokémon Ability
-    /// </summary>
-    public class Ability : PokeApiType
+    partial class Ability
     {
-        /// <summary>
-        /// Wether it should cache ability data or not
-        /// </summary>
-        public static bool ShouldCacheData = true;
-        /// <summary>
-        /// All cached abilities
-        /// </summary>
-        public static Dictionary<int, Ability> CachedAbilities = new Dictionary<int, Ability>();
-
         #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>() { [...] };
-        /// <summary>
-        /// All ability string->ID maps
-        /// </summary>
         public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>()
         {
             {"stench", 1},
@@ -276,80 +260,5 @@ namespace PokeAPI.NET
             {"shield", 248}
         };
         #endregion
-
-        /// <summary>
-        /// The description of this Ability instance
-        /// </summary>
-        public string Description
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Creates a new instance from a JSON object
-        /// </summary>
-        /// <param name="source">The JSON object where to create the new instance from</param>
-        protected override void Create(JsonData source)
-        {
-            Description = source["description"].ToString();
-        }
-
-        /// <summary>
-        /// Creates an instance of a Ability with the given Ability
-        /// </summary>
-        /// <param name="ability">The Ability of the Ability to instantiate</param>
-        /// <returns>The created instance of the Ability</returns>
-        public static Ability GetInstance(AbilityID ability)
-        {
-            return GetInstance((int)ability);
-        }
-        /// <summary>
-        /// Creates an instance of a Ability with the given name
-        /// </summary>
-        /// <param name="name">The name of the Ability to instantiate</param>
-        /// <returns>The created instance of the Ability</returns>
-        public static Ability GetInstance(string name)
-        {
-            return GetInstance(IDs[name.ToLower()]);
-        }
-        /// <summary>
-        /// Creates an instance of a Ability with the given ID
-        /// </summary>
-        /// <param name="id">The id of the Ability to instantiate</param>
-        /// <returns>The created instance of the Ability</returns>
-        public static Ability GetInstance(int id)
-        {
-            if (CachedAbilities.ContainsKey(id))
-                return CachedAbilities[id];
-
-            Ability p = new Ability();
-            Create(DataFetcher.GetAbility(id), p);
-
-            if (ShouldCacheData)
-                CachedAbilities.Add(id, p);
-
-            return p;
-        }
-
-        /// <summary>
-        /// Converts the Ability instance to an AbilityID
-        /// </summary>
-        /// <param name="ability">The Ability to convert from</param>
-        public static implicit operator AbilityID(Ability ability)
-        {
-            // lazy<me>
-            AbilityID ret = 0;
-            Enum.TryParse(ability.Name.Replace(' ', '_'), false, out ret);
-            return ret;
-        }
-        /// <summary>
-        /// Converts the AbilityID instance to an Ability
-        /// </summary>
-        /// <param name="ability">The Ability to convert from</param>
-        public static explicit operator Ability(AbilityID ability)
-        {
-            return GetInstance(ability);
-        }
     }
 }

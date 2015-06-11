@@ -173,7 +173,7 @@ namespace LitJson
 
             data.IsArray = type.IsArray;
 
-            if (type.GetInterface ("System.Collections.IList") != null)
+            if (Array.IndexOf(type.GetInterfaces(), typeof(IList)) != -1)
                 data.IsList = true;
 
             foreach (PropertyInfo p_info in type.GetProperties ()) {
@@ -205,7 +205,7 @@ namespace LitJson
 
             ObjectMetadata data = new ObjectMetadata ();
 
-            if (type.GetInterface ("System.Collections.IDictionary") != null)
+            if (Array.IndexOf(type.GetInterfaces(), typeof(IDictionary)) != -1)
                 data.IsDictionary = true;
 
             data.Properties = new Dictionary<string, PropertyMetadata> ();
@@ -392,7 +392,7 @@ namespace LitJson
                     list = (IList) Activator.CreateInstance (inst_type);
                     elem_type = t_data.ElementType;
                 } else {
-                    list = new ArrayList ();
+                    list = new List<object> ();
                     elem_type = inst_type.GetElementType ();
                 }
 
@@ -840,11 +840,8 @@ namespace LitJson
             WriteValue (obj, writer, false, 0);
         }
 
-        public static JsonData ToObject (JsonReader reader)
-        {
-            return (JsonData) ToWrapper (
-                delegate { return new JsonData (); }, reader);
-        }
+        public static JsonData ToObject(JsonReader reader) => (JsonData)ToWrapper(
+                delegate { return new JsonData(); }, reader);
 
         public static JsonData ToObject (TextReader reader)
         {
@@ -854,16 +851,10 @@ namespace LitJson
                 delegate { return new JsonData (); }, json_reader);
         }
 
-        public static JsonData ToObject (string json)
-        {
-            return (JsonData) ToWrapper (
-                delegate { return new JsonData (); }, json);
-        }
+        public static JsonData ToObject(string json) => (JsonData)ToWrapper(
+                delegate { return new JsonData(); }, json);
 
-        public static T ToObject<T> (JsonReader reader)
-        {
-            return (T) ReadValue (typeof (T), reader);
-        }
+        public static T ToObject<T>(JsonReader reader) => (T)ReadValue(typeof(T), reader);
 
         public static T ToObject<T> (TextReader reader)
         {
@@ -879,11 +870,8 @@ namespace LitJson
             return (T) ReadValue (typeof (T), reader);
         }
 
-        public static IJsonWrapper ToWrapper (WrapperFactory factory,
-                                              JsonReader reader)
-        {
-            return ReadValue (factory, reader);
-        }
+        public static IJsonWrapper ToWrapper(WrapperFactory factory,
+                                              JsonReader reader) => ReadValue(factory, reader);
 
         public static IJsonWrapper ToWrapper (WrapperFactory factory,
                                               string json)
