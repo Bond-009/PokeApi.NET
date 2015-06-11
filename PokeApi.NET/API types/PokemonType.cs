@@ -566,8 +566,9 @@ namespace PokeAPI.NET
         {
             if (name.Trim() == "???")
                 name = "Unknown";
+            TypeID id;
 
-            if (Enum.TryParse(name.Trim(), true, out TypeID id))
+            if (Enum.TryParse(name.Trim(), true, out id))
                 return GetInstance((int)id);
 
             return null;

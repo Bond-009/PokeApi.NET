@@ -5,7 +5,7 @@ namespace PokeAPI.NET
     /// <summary>
     /// A name/uri pair
     /// </summary>
-    public class NameUriPair(string name, Uri resourceUri)
+    public class NameUriPair
     {
         /// <summary>
         /// The name of the name/uri pair
@@ -14,7 +14,7 @@ namespace PokeAPI.NET
         {
             get;
             protected set;
-        } = name;
+        }
         /// <summary>
         /// The uri of the name/uri pair
         /// </summary>
@@ -22,7 +22,7 @@ namespace PokeAPI.NET
         {
             get;
             protected set;
-        } = resourceUri;
+        }
 
         /// <summary>
         /// Creates a new instance of the NameUriPair class
@@ -33,6 +33,17 @@ namespace PokeAPI.NET
             : this(name, new Uri(resourceUri))
         {
 
+        }
+
+        /// <summary>
+        /// Creates a new instance of the NameUriPair class
+        /// </summary>
+        /// <param name="name">The name of the name/uri pair</param>
+        /// <param name="resourceUri">The uri of the name/uri pair</param>
+        public NameUriPair(string name, Uri resourceUri)
+        {
+            ResourceUri = resourceUri;
+            Name = name;
         }
 
         /// <summary>
@@ -70,7 +81,8 @@ namespace PokeAPI.NET
             string[] split = ResourceUri.ToString().Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             string type = split[split.Length - 2].ToLower();
             string requested = split[split.Length - 1].ToLower();
-            int? reqInt = Int32.TryParse(requested, out int i) ? (int?)i : null;
+            int i;
+            int? reqInt = Int32.TryParse(requested, out i) ? (int?)i : null;
 
             switch (type)
             {

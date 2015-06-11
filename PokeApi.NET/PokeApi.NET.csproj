@@ -26,7 +26,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
     <DocumentationFile>bin\Debug\PokéAPI.NET.xml</DocumentationFile>
-    <LangVersion>experimental</LangVersion>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,6 +57,7 @@
     <Compile Include="API types\Ability.cs" />
     <Compile Include="API types\Description.cs" />
     <Compile Include="API types\EvYield.cs" />
+    <Compile Include="API types\LearnableMove.cs" />
     <Compile Include="API types\Pokedex.cs" />
     <Compile Include="DataFetcher.cs" />
     <Compile Include="Enums.cs" />
