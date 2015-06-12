@@ -23,26 +23,45 @@ namespace PokeAPI
             }
         }
 
+        /// <summary>
+        /// The abilities this pokemon can have
+        /// </summary>
         public ApiResource[] Abilities
         {
             get;
             private set;
         }
+
+        /// <summary>
+        /// The egg groups this pokemon is in.
+        /// </summary>
         public ApiResource[] EggGroups
         {
             get;
             private set;
         }
+
+        /// <summary>
+        ///  The evolutions this pokemon can evolve into.
+        /// </summary>
         public Evolution[] Evolutions
         {
             get;
             private set;
         }
+
+        /// <summary>
+        ///  The moves this pokemon can learn.
+        /// </summary>
         public LearnableMove[] Moves
         {
             get;
             private set;
         }
+
+        /// <summary>
+        ///  the pokedex descriptions this pokemon has.
+        /// </summary>
         public ApiResource[] Descriptions
         {
             get;
@@ -54,6 +73,10 @@ namespace PokeAPI
             get;
             private set;
         }
+
+        /// <summary>
+        /// The growth rate of this pokemon.
+        /// </summary>
         public string GrowthRate
         {
             get;
@@ -75,6 +98,10 @@ namespace PokeAPI
             get;
             private set;
         }
+
+        /// <summary>
+        ///  This pokemon's catch rate.
+        /// </summary>
         public int CatchRate
         {
             get;
@@ -95,6 +122,10 @@ namespace PokeAPI
             get;
             private set;
         }
+
+        /// <summary>
+        /// Number of egg cycles needed.
+        /// </summary>
         public int EggCycles
         {
             get;
@@ -110,29 +141,46 @@ namespace PokeAPI
             get;
             private set;
         }
+
+        /// <summary>
+        /// Base happiness for this pokemon.
+        /// </summary>
         public int BaseHappiness
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// The ev yield for this pokemon.
+        /// </summary>
         public EvYield EvYield
         {
             get;
             private set;
         }
+
+        /// <summary>
+        /// The exp yield from this pokemon.
+        /// </summary>
         public int? ExpYield
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// the type this pokemon is.
+        /// </summary>
         public TypeFlags Type
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Male/Female ratio.
+        /// </summary>
         public Tuple<double, double> MaleFemaleRatio
         {
             get;
@@ -188,7 +236,33 @@ namespace PokeAPI
         public async Task<Move> RefMove(int index) => await Move.GetInstance(Moves[index].Id);
         public async Task<Description> RefDescription(int index) => await Description.GetInstance(Descriptions[index].Id);
 
+        /// <summary>
+        /// Returns an instance of the Pokemon by name.
+        
+        /// </summary>
+        /// <example>
+        /// You can get a pokemon using it the following way:
+        /// <code>
+        /// var bulbasaur = Pokemon.GetInstance("bulbasaur");
+        /// </code>
+        /// </example>
+        /// <param name="name">The name of the Pokemon to retrieve. The search is case insensitive</param>
+        /// <returns>Returns System.Threading.Tasks.Task`1.The task object representing the asynchronous
+        //     operation.</returns>
         public static async Task<Pokemon> GetInstance(string name) => await GetInstance(IDs[name.ToLowerInvariant()]);
+
+        /// <summary>
+        /// Returns an instance of the Pokemon by id.
+        /// </summary>
+        /// <example>
+        /// You can get a pokemon using it the following way:
+        /// <code>
+        /// var bulbasaur = Pokemon.GetInstance(1);
+        /// </code>
+        /// </example>
+        /// <param name="id">The id of the Pokemon to retrieve</param>
+        /// <returns>Returns System.Threading.Tasks.Task`1.The task object representing the asynchronous
+        //     operation.</returns>
         public static async Task<Pokemon> GetInstance(int id) => await cache.Get(id);
     }
 }

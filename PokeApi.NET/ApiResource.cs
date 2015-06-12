@@ -7,11 +7,18 @@ namespace PokeAPI
 {
     public class ApiResource : IEquatable<ApiResource>
     {
+        /// <summary>
+        /// The resource name
+        /// </summary>
         public string Name
         {
             get;
             protected set;
         }
+
+        /// <summary>
+        /// The resource Uri
+        /// </summary>
         public Uri ResourceUri
         {
             get;
