@@ -7,7 +7,7 @@ namespace PokeAPI
     partial class EggGroup
     {
         #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>() { [...] };
-        public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>()
+        public readonly static IDictionary<string, int> Ids = new Dictionary<string, int>()
         {
             {"monster", 1},
             {"water1", 2},

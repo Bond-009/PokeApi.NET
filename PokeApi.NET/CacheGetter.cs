@@ -6,19 +6,34 @@ using LitJson;
 
 namespace PokeAPI
 {
-    public struct CacheGetter : IDictionary<int, JsonData>
+    public struct CacheGetter<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        Cache<int, JsonData> c;
+        Cache<TKey, TValue> c;
 
-        public ICollection<int     > Keys   => c.Keys  ;
-        public ICollection<JsonData> Values => c.Values;
+        public ICollection<TKey  > Keys   => c.Keys  ;
+        public ICollection<TValue> Values => c.Values;
 
         public int Count => c.Count;
         public bool IsReadOnly => true;
 
-        public JsonData this[int key] => c.TryGetDef(key);
+        /// <summary>
+        /// Gets or sets whether the cache is active or not.
+        /// </summary>
+        public bool IsActive
+        {
+            get
+            {
+                return c.IsActive;
+            }
+            set
+            {
+                c.IsActive = value;
+            }
+        }
 
-        public CacheGetter(Cache<int, JsonData> cache)
+        public TValue this[TKey key] => c.TryGetDef(key);
+
+        public CacheGetter(Cache<TKey, TValue> cache)
         {
             c = cache;
         }
@@ -31,10 +46,10 @@ namespace PokeAPI
             c.Clear();
         }
 
-        public IEnumerator<KeyValuePair<int, JsonData>> GetEnumerator() => c.GetEnumerator();
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => c.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => c.GetEnumerator();
 
-        JsonData IDictionary<int, JsonData>.this[int key]
+        TValue IDictionary<TKey, TValue>.this[TKey key]
         {
             get
             {
@@ -46,35 +61,35 @@ namespace PokeAPI
             }
         }
 
-        void IDictionary<int, JsonData>.Add(int key, JsonData value)
+        void IDictionary<TKey, TValue>.Add(TKey key, TValue value)
         {
             throw new NotImplementedException();
         }
-        bool IDictionary<int, JsonData>.ContainsKey(int key)
+        bool IDictionary<TKey, TValue>.ContainsKey(TKey key)
         {
             throw new NotImplementedException();
         }
-        bool IDictionary<int, JsonData>.Remove(int key)
+        bool IDictionary<TKey, TValue>.Remove(TKey key)
         {
             throw new NotImplementedException();
         }
-        bool IDictionary<int, JsonData>.TryGetValue(int key, out JsonData value)
+        bool IDictionary<TKey, TValue>.TryGetValue(TKey key, out TValue value)
         {
             throw new NotImplementedException();
         }
-        void ICollection<KeyValuePair<int, JsonData>>.Add(KeyValuePair<int, JsonData> item)
+        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
         {
             throw new NotImplementedException();
         }
-        bool ICollection<KeyValuePair<int, JsonData>>.Contains(KeyValuePair<int, JsonData> item)
+        bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
         {
             throw new NotImplementedException();
         }
-        void ICollection<KeyValuePair<int, JsonData>>.CopyTo(KeyValuePair<int, JsonData>[] array, int arrayIndex)
+        void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
-        bool ICollection<KeyValuePair<int, JsonData>>.Remove(KeyValuePair<int, JsonData> item)
+        bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
         {
             throw new NotImplementedException();
         }

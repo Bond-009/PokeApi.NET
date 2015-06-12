@@ -10,6 +10,18 @@ namespace PokeAPI
 
     public partial class PokemonType : ApiObject<PokemonType>
     {
+        readonly static ApiResource[] EmptyResArr = { };
+
+        readonly static string
+            NO_EFF = "no_effect",
+            INEFF  = "ineffective",
+            RESIST = "resistance",
+            SUPERE = "super_effective",
+            WEAKNS = "weakness",
+
+            QMARKS  = "???",
+            UNKNOWN = "Unknown";
+
         static Cache<int, PokemonType> cache = new Cache<int, PokemonType>(
             async i => Maybe.Just(Create(await DataFetcher.GetType(i), new PokemonType())),
             defValues: new Dictionary<int, PokemonType>
@@ -19,53 +31,61 @@ namespace PokeAPI
                     Created      = DateTime.Now.Date,
                     LastModified = DateTime.Now.Date,
 
-                    Id   = 0    ,
-                    Name = "???",
+                    Id   = 0     ,
+                    Name = QMARKS,
 
-                    Ineffective    = new List<ApiResource>(),
-                    NoEffect       = new List<ApiResource>(),
-                    Resistance     = new List<ApiResource>(),
-                    SuperEffective = new List<ApiResource>(),
-                    Weakness       = new List<ApiResource>(),
+                    Ineffective    = EmptyResArr,
+                    NoEffect       = EmptyResArr,
+                    Resistance     = EmptyResArr,
+                    SuperEffective = EmptyResArr,
+                    Weakness       = EmptyResArr,
 
                     ResourceUri = null
                 }
             }
         );
 
-        public static bool ShouldCacheData
-        {
-            get
-            {
-                return cache.IsActive;
-            }
-            set
-            {
-                cache.IsActive = value;
-            }
-        }
+        /// <summary>
+        /// Gets the <see cref="PokemonType" /> instance cache.
+        /// </summary>
+        public static CacheGetter<int, PokemonType> Cache { get; } = new CacheGetter<int, PokemonType>(cache);
 
-        public List<ApiResource> NoEffect
+        /// <summary>
+        /// Gets an array of <see cref="ApiResource" />s pointing to types this <see cref="PokemonType" /> has no effect against.
+        /// </summary>
+        public ApiResource[] NoEffect
         {
             get;
             private set;
         }
-        public List<ApiResource> Ineffective
+        /// <summary>
+        /// Gets an array of <see cref="ApiResource" />s pointing to types this <see cref="PokemonType" /> is ineffective against.
+        /// </summary>
+        public ApiResource[] Ineffective
         {
             get;
             private set;
         }
-        public List<ApiResource> Resistance
+        /// <summary>
+        /// Gets an array of <see cref="ApiResource" />s pointing to types this <see cref="PokemonType" /> is resistent to.
+        /// </summary>
+        public ApiResource[] Resistance
         {
             get;
             private set;
         }
-        public List<ApiResource> SuperEffective
+        /// <summary>
+        /// Gets an array of <see cref="ApiResource" />s pointing to types this <see cref="PokemonType" /> is super effective against.
+        /// </summary>
+        public ApiResource[] SuperEffective
         {
             get;
             private set;
         }
-        public List<ApiResource> Weakness
+        /// <summary>
+        /// Gets an array of <see cref="ApiResource" />s pointing to types this <see cref="PokemonType" /> is weak to.
+        /// </summary>
+        public ApiResource[] Weakness
         {
             get;
             private set;
@@ -73,53 +93,123 @@ namespace PokeAPI
 
         private PokemonType() { }
 
+        /// <summary>
+        /// Does parsing stuff in the derived class.
+        /// </summary>
+        /// <param name="source">The JSON data to parse.</param>
         protected override void Create(JsonData source)
         {
-            NoEffect       = source["no_effect"      ].Map<JsonData, ApiResource>(ParseResource).ToList();
-            Ineffective    = source["ineffective"    ].Map<JsonData, ApiResource>(ParseResource).ToList();
-            Resistance     = source["resistance"     ].Map<JsonData, ApiResource>(ParseResource).ToList();
-            SuperEffective = source["super_effective"].Map<JsonData, ApiResource>(ParseResource).ToList();
-            Weakness       = source["weakness"       ].Map<JsonData, ApiResource>(ParseResource).ToList();
+            NoEffect       = source[NO_EFF].Map<JsonData, ApiResource>(ParseResource).ToArray();
+            Ineffective    = source[INEFF ].Map<JsonData, ApiResource>(ParseResource).ToArray();
+            Resistance     = source[RESIST].Map<JsonData, ApiResource>(ParseResource).ToArray();
+            SuperEffective = source[SUPERE].Map<JsonData, ApiResource>(ParseResource).ToArray();
+            Weakness       = source[WEAKNS].Map<JsonData, ApiResource>(ParseResource).ToArray();
         }
 
+        /// <summary>
+        /// Gets the <see cref="PokemonType" /> instance represented by an element in the <see cref="Ineffective" /> array.
+        /// </summary>
+        /// <param name="index">The index of the element.</param>
+        /// <returns>A task containing the <see cref="PokemonType" />.</returns>
         public async Task<PokemonType> RefIneffective   (int index) => await GetInstance(Ineffective   [index].Name);
+        /// <summary>
+        /// Gets the <see cref="PokemonType" /> instance represented by an element in the <see cref="NoEffect" /> array.
+        /// </summary>
+        /// <param name="index">The index of the element.</param>
+        /// <returns>A task containing the <see cref="PokemonType" />.</returns>
         public async Task<PokemonType> RefNoEffect      (int index) => await GetInstance(NoEffect      [index].Name);
+        /// <summary>
+        /// Gets the <see cref="PokemonType" /> instance represented by an element in the <see cref="Resistance" /> array.
+        /// </summary>
+        /// <param name="index">The index of the element.</param>
+        /// <returns>A task containing the <see cref="PokemonType" />.</returns>
         public async Task<PokemonType> RefResistance    (int index) => await GetInstance(Resistance    [index].Name);
+        /// <summary>
+        /// Gets the <see cref="PokemonType" /> instance represented by an element in the <see cref="SuperEffective" /> array.
+        /// </summary>
+        /// <param name="index">The index of the element.</param>
+        /// <returns>A task containing the <see cref="PokemonType" />.</returns>
         public async Task<PokemonType> RefSuperEffective(int index) => await GetInstance(SuperEffective[index].Name);
+        /// <summary>
+        /// Gets the <see cref="PokemonType" /> instance represented by an element in the <see cref="Weakness" /> array.
+        /// </summary>
+        /// <param name="index">The index of the element.</param>
+        /// <returns>A task containing the <see cref="PokemonType" />.</returns>
         public async Task<PokemonType> RefWeakness      (int index) => await GetInstance(Weakness      [index].Name);
 
+        /// <summary>
+        /// Gets a <see cref="PokemonType" /> instance from its name asynchronously.
+        /// </summary>
+        /// <param name="name">The name of the <see cref="PokemonType" /> to get.</param>
+        /// <returns>A task containing the <see cref="PokemonType" />.</returns>
         public static async Task<PokemonType> GetInstance(string name)
         {
-            if (name.Trim() == "???")
-                name = "Unknown";
+            if (name.Trim() == QMARKS)
+                name = UNKNOWN;
 
             TypeId id;
-
             if (Enum.TryParse(name.Trim(), true, out id))
                 return await GetInstance((int)id);
 
             return null;
         }
+        /// <summary>
+        /// Gets a <see cref="PokemonType" /> instance from the <see cref="TypeFlags" /> equivalent asynchronously.
+        /// </summary>
+        /// <param name="flags">The <see cref="TypeFlags" /> representing the <see cref="PokemonType" /> to get.</param>
+        /// <returns>A task containing the <see cref="PokemonType" />.</returns>
         public static async Task<PokemonType> GetInstance(TypeFlags flags) => await GetInstance(flags.Id());
+        /// <summary>
+        /// Gets a <see cref="PokemonType" /> instance from its id asynchronously.
+        /// </summary>
+        /// <param name="id">The <see cref="TypeId" /> representing the <see cref="PokemonType" /> to get.</param>
+        /// <returns>A task containing the <see cref="PokemonType" />.</returns>
         public static async Task<PokemonType> GetInstance(TypeId    type ) => await GetInstance((int)type );
+        /// <summary>
+        /// Gets a <see cref="PokemonType" /> instance from its id asynchronously.
+        /// </summary>
+        /// <param name="id">The id of the <see cref="PokemonType" /> to get.</param>
+        /// <returns>A task containing the <see cref="PokemonType" />.</returns>
         public static async Task<PokemonType> GetInstance(int       id   ) => await cache.Get  (id        );
 
-        public static double GetDamageMultiplier(TypeId attacking, TypeFlags defending)
+        /// <summary>
+        /// Calculates the damage multiplier of an attacking and defending type.
+        /// </summary>
+        /// <param name="attacking">The attacking type.</param>
+        /// <param name="defending">The defending type. Can be multiple flags combined.</param>
+        /// <returns>The damage multiplier.</returns>
+        public static double GetDamageMultiplier(TypeId    attacking, TypeFlags defending)
         {
-            List<TypeId> analyzed = defending.AnalyzeIDs();
+            List<TypeId> analyzed = defending.AnalyzeIds();
 
-            double ret = 1d;
+            if (attacking == TypeId.Unknown || (analyzed.Count == 1 && analyzed[0] == TypeId.Unknown))
+                return 1d;
 
-            for (int i = 0; i < analyzed.Count; i++)
-                ret *= DamageMultipliers[new PTIDT(attacking, analyzed[i])];
-
-            return ret;
+            return analyzed.Select(t => DamageMultipliers[Tuple.Create(attacking, t)]).Aggregate((a, b) => a * b);
         }
 
-        public static TypeFlags Combine(IEnumerable<PokemonType> types) => types.Select(t => (TypeFlags)t).Aggregate((a, b) => a | b);
-        public static TypeFlags Combine(params PokemonType[] types) => Combine((IEnumerable<PokemonType>)types);
+        /// <summary>
+        /// Combines multiple <see cref="PokemonType" />s to its flags representation.
+        /// </summary>
+        /// <param name="types">The types to combine.</param>
+        /// <returns>The combined type as a <see cref="TypeFlags" />.</returns>
+        public static TypeFlags Combine(IEnumerable<PokemonType>  types) => types.Select(t => (TypeFlags)t).Aggregate((a, b) => a | b);
+        /// <summary>
+        /// Combines multiple <see cref="PokemonType" />s to its flags representation.
+        /// </summary>
+        /// <param name="types">The types to combine.</param>
+        /// <returns>The combined type as a <see cref="TypeFlags" />.</returns>
+        public static TypeFlags Combine(params      PokemonType[] types) => Combine((IEnumerable<PokemonType>)types);
 
-        public static implicit operator TypeFlags(PokemonType type) => (TypeFlags)(1 << type.Id);
-        public static implicit operator TypeId   (PokemonType type) => (TypeId   )      type.Id ;
+        /// <summary>
+        /// Implicitely converts a <see cref="PokemonType" /> to its flags representation.
+        /// </summary>
+        /// <param name="type">The <see cref="PokemonType" /> to convert.</param>
+        public static implicit operator TypeFlags(PokemonType type) => (TypeFlags)(1 << (type.Id - 1));
+        /// <summary>
+        /// Implicitely converts a <see cref="PokemonType" /> to its id.
+        /// </summary>
+        /// <param name="type">The <see cref="PokemonType" /> to convert.</param>
+        public static implicit operator TypeId   (PokemonType type) => (TypeId   )       type.Id      ;
     }
 }

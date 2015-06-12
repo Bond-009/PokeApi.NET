@@ -8,6 +8,13 @@ namespace PokeAPI
 {
     public class Evolution : ApiResource
     {
+        readonly static string
+            RESU = "resource_uri",
+            LVL  = "level",
+            ITEM = "item",
+            MTD  = "method",
+            TO   = "to";
+
         public object MethodPrecision
         {
             get;
@@ -22,15 +29,15 @@ namespace PokeAPI
         }
 
         public Evolution(JsonData data)
-            : base(String.Empty, new Uri("http://www.pokeapi.co/" + data["resource_uri"]))
+            : base(String.Empty, new Uri(BASE_URI + data[RESU]))
         {
-            if (data.Keys.Contains("level"))
-                MethodPrecision = (int)data["level"];
-            if (data.Keys.Contains("item"))
-                MethodPrecision = data["item"].ToString();
+            if (data.Keys.Contains(LVL))
+                MethodPrecision = (int)data[LVL];
+            if (data.Keys.Contains(ITEM))
+                MethodPrecision = data[ITEM].ToString();
 
-            Method = data["method"].ToString().Replace('_', ' ');
-            EvolveTo = data["to"].ToString();
+            Method = data[MTD].ToString().Replace('_', ' ');
+            EvolveTo = data[TO].ToString();
         }
 
         public async Task<Pokemon> ToPokemon() => await Pokemon.GetInstance(EvolveTo);

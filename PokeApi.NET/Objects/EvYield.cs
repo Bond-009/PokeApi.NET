@@ -7,6 +7,8 @@ namespace PokeAPI
 {
     public struct EvYield
     {
+        readonly static string SPACE = " ";
+
         public int Amount
         {
             get;
@@ -22,7 +24,7 @@ namespace PokeAPI
             this.Category = cat;
         }
 
-        public override string ToString() => Amount + " " + Category;
+        public override string ToString() => Amount + SPACE + Category;
 
         public static EvYield Parse(JsonData j, string key = "ev_yield")
         {

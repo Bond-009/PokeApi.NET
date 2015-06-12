@@ -7,7 +7,7 @@ namespace PokeAPI
     partial class Move
     {
         #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int> { [...] };
-        public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>
+        public readonly static IDictionary<string, int> Ids = new Dictionary<string, int>
         {
             {"pound", 1},
             {"karate chop", 2},

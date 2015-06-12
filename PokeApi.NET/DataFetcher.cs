@@ -38,6 +38,8 @@ namespace PokeAPI
             SPRITE   = "sprite/"     ,
             GAME     = "game/"       ;
 
+        static bool shouldCache = true;
+
         internal static HttpClient client = new HttpClient();
 
         static Cache<JsonData> dex = new Cache<JsonData>(async () => Maybe.Just(await GetJsonAsync(POKEDEX)));
@@ -59,49 +61,50 @@ namespace PokeAPI
         /// <summary>
         /// Gets all cached Pokemon JSON data.
         /// </summary>
-        public static CacheGetter Pokemon     { get; } = new CacheGetter(pkmn   );
+        public static CacheGetter<int, JsonData> Pokemon     { get; } = new CacheGetter<int, JsonData>(pkmn   );
         /// <summary>
         /// Gets all cached Type JSON data.
         /// </summary>
-        public static CacheGetter Type        { get; } = new CacheGetter(type   );
+        public static CacheGetter<int, JsonData> Type        { get; } = new CacheGetter<int, JsonData>(type   );
         /// <summary>
         /// Gets all cached Move JSON data.
         /// </summary>
-        public static CacheGetter Move        { get; } = new CacheGetter(move   );
+        public static CacheGetter<int, JsonData> Move        { get; } = new CacheGetter<int, JsonData>(move   );
         /// <summary>
         /// Gets all cached Ability JSON data.
         /// </summary>
-        public static CacheGetter Ability     { get; } = new CacheGetter(ability);
+        public static CacheGetter<int, JsonData> Ability     { get; } = new CacheGetter<int, JsonData>(ability);
         /// <summary>
         /// Gets all cached Egg group JSON data.
         /// </summary>
-        public static CacheGetter EggGroup    { get; } = new CacheGetter(eggG   );
+        public static CacheGetter<int, JsonData> EggGroup    { get; } = new CacheGetter<int, JsonData>(eggG   );
         /// <summary>
         /// Gets all cached Description JSON data.
         /// </summary>
-        public static CacheGetter Description { get; } = new CacheGetter(desc   );
+        public static CacheGetter<int, JsonData> Description { get; } = new CacheGetter<int, JsonData>(desc   );
         /// <summary>
         /// Gets all cached Sprite JSON data.
         /// </summary>
-        public static CacheGetter Sprite      { get; } = new CacheGetter(sprite );
+        public static CacheGetter<int, JsonData> Sprite      { get; } = new CacheGetter<int, JsonData>(sprite );
         /// <summary>
         /// Gets all cached Game JSON data.
         /// </summary>
-        public static CacheGetter Game        { get; } = new CacheGetter(game   );
+        public static CacheGetter<int, JsonData> Game        { get; } = new CacheGetter<int, JsonData>(game   );
 
         /// <summary>
         /// Gets or sets whether fetched data should be cached or not. Default is true.
         /// </summary>
+        /// <remarks>Controls the <see cref="CacheGetter{TKey, TValue}.IsActive" /> value of all caches in the <see cref="DataFetcher" /> class. The value returned by the getter is the value passed to the last set call.</remarks>
         public static bool ShouldCacheData
         {
             get
             {
-                return dex.IsActive;
+                return shouldCache;
             }
             set
             {
                 dex.IsActive = pkmn.IsActive = type.IsActive = move.IsActive = ability.IsActive = eggG.IsActive = desc.IsActive = sprite.IsActive = game.IsActive
-                    = value;
+                    = shouldCache = value;
             }
         }
 

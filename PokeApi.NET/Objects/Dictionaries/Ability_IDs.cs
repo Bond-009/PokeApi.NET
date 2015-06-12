@@ -7,7 +7,7 @@ namespace PokeAPI
     partial class Ability
     {
         #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>() { [...] };
-        public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>()
+        public readonly static IDictionary<string, int> Ids = new Dictionary<string, int>()
         {
             {"stench", 1},
             {"drizzle", 2},

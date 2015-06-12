@@ -5,6 +5,12 @@ namespace PokeAPI
 {
     public class LearnableMove : ApiResource
     {
+        readonly static string
+            NAME = "name",
+            RESU = "resource_uri",
+            L_TP = "learn_type",
+            LVL  = "level";
+
         public string LearnType
         {
             get;
@@ -29,15 +35,15 @@ namespace PokeAPI
 
         internal static LearnableMove Parse(JsonData json)
         {
-            var lm = new LearnableMove(json["name"].ToString().Replace('-', ' '), "http://www.pokeapi.co" + json["resource_uri"].ToString())
+            var lm = new LearnableMove(json[NAME].ToString().Replace('-', ' '), BASE_URI + json[RESU].ToString())
             {
-                LearnType = json["learn_type"].ToString()
+                LearnType = json[L_TP].ToString()
             };
 
             int lv = -1;
 
-            if (json.Keys.Contains("level"))
-                Int32.TryParse(json["level"].ToString(), out lv);
+            if (json.Keys.Contains(LVL))
+                Int32.TryParse(json[LVL].ToString(), out lv);
 
             lm.Level = lv;
 

@@ -7,7 +7,7 @@ namespace PokeAPI
     partial class Game
     {
         #region public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>() { [...] };
-        public readonly static IDictionary<string, int> IDs = new Dictionary<string, int>()
+        public readonly static IDictionary<string, int> Ids = new Dictionary<string, int>()
         {
             {"red (jpn)", 1},
             {"green (jpn)", 2},

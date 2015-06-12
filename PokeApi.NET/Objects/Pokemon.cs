@@ -9,58 +9,74 @@ namespace PokeAPI
 {
     public partial class Pokemon : ApiObject<Pokemon>
     {
+        readonly static string
+            NID = "national_id",
+            ABS = "abilities",
+            EGS = "egg_groups",
+            DSS = "descriptions",
+            MVS = "moves",
+            EVS = "evolutins",
+            TPS = "types",
+            CRT = "catch_rate",
+            SCS = "species",
+            HP_ = "hp",
+            ATK = "attack",
+            DEF = "defense",
+            SAT = "sp_atk",
+            SDF = "sp_def",
+            SPD = "speed",
+            EGC = "egg_cycles",
+            EXP = "exp",
+            GRT = "growth_rate",
+            HT  = "height",
+            MS  = "weight", // let's be technically correct
+            BHP = "happiness",
+            MFR = "male_female_ratio";
+
+        readonly static Evolution[] EmptyEvoArr = { };
+        readonly static Tuple<double, double> NanPair = Tuple.Create(Double.NaN, Double.NaN);
+
         static Cache<int, Pokemon> cache = new Cache<int, Pokemon>(async i => Maybe.Just(Create(await DataFetcher.GetPokemon(i), new Pokemon())));
 
-        public static bool ShouldCacheData
-        {
-            get
-            {
-                return cache.IsActive;
-            }
-            set
-            {
-                cache.IsActive = value;
-            }
-        }
+        /// <summary>
+        /// Gets the <see cref="Pokemon" /> instance cache.
+        /// </summary>
+        public static CacheGetter<int, Pokemon> Cache { get; } = new CacheGetter<int, Pokemon>(cache);
 
         /// <summary>
-        /// The abilities this pokemon can have
+        /// Gets the abilities this Pokemon can have.
         /// </summary>
         public ApiResource[] Abilities
         {
             get;
             private set;
         }
-
         /// <summary>
-        /// The egg groups this pokemon is in.
+        /// Gets the egg groups this Pokemon is in.
         /// </summary>
         public ApiResource[] EggGroups
         {
             get;
             private set;
         }
-
         /// <summary>
-        ///  The evolutions this pokemon can evolve into.
+        /// Gets the evolutions this Pokemon can evolve into.
         /// </summary>
         public Evolution[] Evolutions
         {
             get;
             private set;
         }
-
         /// <summary>
-        ///  The moves this pokemon can learn.
+        /// Gets the moves this Pokemon can learn.
         /// </summary>
         public LearnableMove[] Moves
         {
             get;
             private set;
         }
-
         /// <summary>
-        ///  the pokedex descriptions this pokemon has.
+        /// Gets the pokedex descriptions this Pokemon has.
         /// </summary>
         public ApiResource[] Descriptions
         {
@@ -75,7 +91,7 @@ namespace PokeAPI
         }
 
         /// <summary>
-        /// The growth rate of this pokemon.
+        /// Gets the growth rate of this Pokemon.
         /// </summary>
         public string GrowthRate
         {
@@ -100,7 +116,7 @@ namespace PokeAPI
         }
 
         /// <summary>
-        ///  This pokemon's catch rate.
+        /// Gets the Pokemon's catch rate.
         /// </summary>
         public int CatchRate
         {
@@ -124,7 +140,7 @@ namespace PokeAPI
         }
 
         /// <summary>
-        /// Number of egg cycles needed.
+        /// Gets the number of egg cycles needed.
         /// </summary>
         public int EggCycles
         {
@@ -143,7 +159,7 @@ namespace PokeAPI
         }
 
         /// <summary>
-        /// Base happiness for this pokemon.
+        /// Ges the base happiness for this Pokemon.
         /// </summary>
         public int BaseHappiness
         {
@@ -152,7 +168,7 @@ namespace PokeAPI
         }
 
         /// <summary>
-        /// The ev yield for this pokemon.
+        /// Gets the EV yield for this Pokemon.
         /// </summary>
         public EvYield EvYield
         {
@@ -161,7 +177,7 @@ namespace PokeAPI
         }
 
         /// <summary>
-        /// The exp yield from this pokemon.
+        /// Gets the Exp. yield from this Pokemon.
         /// </summary>
         public int? ExpYield
         {
@@ -170,7 +186,7 @@ namespace PokeAPI
         }
 
         /// <summary>
-        /// the type this pokemon is.
+        /// Gets the types this Pokemon is.
         /// </summary>
         public TypeFlags Type
         {
@@ -179,7 +195,7 @@ namespace PokeAPI
         }
 
         /// <summary>
-        /// Male/Female ratio.
+        /// Gets the Male/Female ratio.
         /// </summary>
         public Tuple<double, double> MaleFemaleRatio
         {
@@ -189,56 +205,79 @@ namespace PokeAPI
 
         private Pokemon() { }
 
+        /// <summary>
+        /// Does parsing stuff in the derived class.
+        /// </summary>
+        /// <param name="source">The JSON data to parse.</param>
         protected override void Create(JsonData source)
         {
-            Id = (int)source["national_id"];
+            Id = (int)source[NID];
 
-            Abilities = source["abilities"].Map<JsonData, ApiResource>(ParseResource).ToArray();
-            EggGroups = source["egg_groups"].Map<JsonData, ApiResource>(ParseResource).ToArray();
-            Descriptions = source["descriptions"].Map<JsonData, ApiResource>(ParseResource).ToArray();
-            Moves = source["moves"].Map<JsonData, LearnableMove>(LearnableMove.Parse).OrderBy(t => t.Id).ToArray();
+            Abilities    = source[ABS].Map<JsonData, ApiResource>(ParseResource).ToArray();
+            EggGroups    = source[EGS].Map<JsonData, ApiResource>(ParseResource).ToArray();
+            Descriptions = source[DSS].Map<JsonData, ApiResource>(ParseResource).ToArray();
 
-            if (source.Keys.Contains("evolutions"))
-                Evolutions = source["evolutions"].Map<JsonData, Evolution>(data => new Evolution(data)).ToArray();
-            else
-                Evolutions = new Evolution[0];
+            Moves        = source[MVS].Map<JsonData, LearnableMove>(LearnableMove.Parse).OrderBy(t => t.Level).ToArray();
 
-            Type = source["types"].Map<JsonData, ApiResource>(ParseResource).Select(r => (TypeFlags)r.Id).Aggregate((a, b) => a | b);
+            Evolutions = source.Keys.Contains(EVS)
+                ? source[EVS].Map<JsonData, Evolution>(data => new Evolution(data)).ToArray() : EmptyEvoArr;
 
-            CatchRate = (int)source["catch_rate"];
-            Species = source["species"].ToString();
-            HP = (int)source["hp"];
-            Attack = (int)source["attack"];
-            Defense = (int)source["defense"];
-            SpecialAttack = (int)source["sp_atk"];
-            SpecialDefense = (int)source["sp_def"];
-            Speed = (int)source["speed"];
-            EggCycles = (int)source["egg_cycles"];
+            Type = source[TPS].Map<JsonData, ApiResource>(ParseResource).Select(r => (TypeFlags)r.Id).Aggregate((a, b) => a | b);
+
+            Species = source[SCS].ToString();
+
+            CatchRate      = source.AsInt(CRT);
+            HP             = source.AsInt(HP_);
+            Attack         = source.AsInt(ATK);
+            Defense        = source.AsInt(DEF);
+            SpecialAttack  = source.AsInt(SAT);
+            SpecialDefense = source.AsInt(SDF);
+            Speed          = source.AsInt(SPD);
+            EggCycles      = source.AsInt(EGC);
+            Height         = source.AsInt(HT );
+            Mass           = source.AsInt(MS );
+
             EvYield = EvYield.Parse(source);
-            ExpYield = source.AsNullInt("exp");
-            GrowthRate = source["growth_rate"].ToString();
-            Height = source.AsInt("height");
-            Mass = source.AsInt("weight");
-            BaseHappiness = (int)source["happiness"];
 
+            ExpYield      = source.AsNullInt(EXP);
+            GrowthRate    = source[GRT].ToString();
+            BaseHappiness = (int)source[BHP];
 
-            MaleFemaleRatio = String.IsNullOrEmpty(source["male_female_ratio"].ToString())
-                ? new Tuple<double, double>(Double.NaN, Double.NaN)
-                : new Tuple<double, double>
-            (
-                Convert.ToDouble(source["male_female_ratio"].ToString().Split('/')[0], CultureInfo.InvariantCulture) / 100d,
-                Convert.ToDouble(source["male_female_ratio"].ToString().Split('/')[1], CultureInfo.InvariantCulture) / 100d
-            );
+            var mfr = source[MFR].ToString();
+            var split = mfr.Split('/');
+
+            MaleFemaleRatio = String.IsNullOrEmpty(mfr) ? NanPair
+                : Tuple.Create(Double.Parse(split[0], CultureInfo.InvariantCulture) / 100d,
+                               Double.Parse(split[1], CultureInfo.InvariantCulture) / 100d);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Ability" /> instance represented by <see cref="Abilities" /> asynchronously.
+        /// </summary>
+        /// <param name="index">The array element index.</param>
+        /// <returns>A task containing the <see cref="Ability" />.</returns>
         public async Task<Ability> RefAbility(int index) => await Ability.GetInstance(Abilities[index].Name);
+        /// <summary>
+        /// Gets the <see cref="EggGroup" /> instance represented by <see cref="EggGroups" /> asynchronously.
+        /// </summary>
+        /// <param name="index">The array element index.</param>
+        /// <returns>A task containing the <see cref="EggGroup" />.</returns>
         public async Task<EggGroup> RefEggGroup(int index) => await EggGroup.GetInstance(EggGroups[index].Name);
+        /// <summary>
+        /// Gets the <see cref="Move" /> instance represented by <see cref="Moves" /> asynchronously.
+        /// </summary>
+        /// <param name="index">The array element index.</param>
+        /// <returns>A task containing the <see cref="Move" />.</returns>
         public async Task<Move> RefMove(int index) => await Move.GetInstance(Moves[index].Id);
+        /// <summary>
+        /// Gets the <see cref="Description" /> instance represented by <see cref="Descriptions" /> asynchronously.
+        /// </summary>
+        /// <param name="index">The array element index.</param>
+        /// <returns>A task containing the <see cref="Description" />.</returns>
         public async Task<Description> RefDescription(int index) => await Description.GetInstance(Descriptions[index].Id);
 
         /// <summary>
         /// Returns an instance of the Pokemon by name.
-        
         /// </summary>
         /// <example>
         /// You can get a pokemon using it the following way:
@@ -246,11 +285,9 @@ namespace PokeAPI
         /// var bulbasaur = Pokemon.GetInstance("bulbasaur");
         /// </code>
         /// </example>
-        /// <param name="name">The name of the Pokemon to retrieve. The search is case insensitive</param>
-        /// <returns>Returns System.Threading.Tasks.Task`1.The task object representing the asynchronous
-        //     operation.</returns>
-        public static async Task<Pokemon> GetInstance(string name) => await GetInstance(IDs[name.ToLowerInvariant()]);
-
+        /// <param name="name">The name of the Pokemon to get. The search is case insensitive.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static async Task<Pokemon> GetInstance(string name) => await GetInstance(Ids[name.ToLowerInvariant()]);
         /// <summary>
         /// Returns an instance of the Pokemon by id.
         /// </summary>
@@ -260,9 +297,8 @@ namespace PokeAPI
         /// var bulbasaur = Pokemon.GetInstance(1);
         /// </code>
         /// </example>
-        /// <param name="id">The id of the Pokemon to retrieve</param>
-        /// <returns>Returns System.Threading.Tasks.Task`1.The task object representing the asynchronous
-        //     operation.</returns>
-        public static async Task<Pokemon> GetInstance(int id) => await cache.Get(id);
+        /// <param name="id">The id of the Pokemon to get.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static async Task<Pokemon> GetInstance(int    id  ) => await cache.Get(id);
     }
 }

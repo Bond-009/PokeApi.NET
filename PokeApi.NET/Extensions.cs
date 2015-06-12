@@ -37,7 +37,7 @@ namespace PokeAPI
         /// </summary>
         /// <param name="type">The <see cref="TypeFlags" /> to convert.</param>
         /// <returns>A list containing all the <see cref="TypeId" />s represented by <paramref name="type" />. A list containing <see cref="TypeId.Unknown" /> is returned when <paramref name="type" /> equals <see cref="TypeFlags.Unknown" />.</returns>
-        public static List<TypeId> AnalyzeIDs(this TypeFlags type)
+        public static List<TypeId> AnalyzeIds(this TypeFlags type)
         {
             List<TypeId> ret = new List<TypeId>();
 

@@ -16,6 +16,7 @@ namespace PokeAPI
             CLBR = "}",
 
             TYPE_ERR = "Type mismatch.";
+        protected internal readonly static string BASE_URI = "http://pokeapi.co";
 
         readonly static char[] SplitChars = { '/' };
 
