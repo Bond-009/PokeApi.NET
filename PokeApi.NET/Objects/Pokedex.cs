@@ -6,6 +6,9 @@ using LitJson;
 
 namespace PokeAPI
 {
+    /// <summary>
+    /// A Pokedex returns the names and ResourceUri for all pokemon
+    /// </summary>
     public class Pokedex : ApiObject<Pokedex>
     {
         static Cache<Pokedex> cache = new Cache<Pokedex>(async () => Maybe.Just(Create(await DataFetcher.GetPokedex(), new Pokedex())));
