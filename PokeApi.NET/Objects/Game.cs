@@ -41,10 +41,10 @@ namespace PokeAPI
             Generation  = (int)source["generation"  ];
         }
 
-        public static async Task<Game> GetInstance(GameID game) => await GetInstance((int)game);
+        public static async Task<Game> GetInstance(GameId game) => await GetInstance((int)game);
         public static async Task<Game> GetInstance(string name) => await GetInstance(IDs[name.ToLowerInvariant()]);
         public static async Task<Game> GetInstance(int id) => await cache.Get(id);
 
-        public static implicit operator GameID(Game game) => (GameID)(game.Id - 1);
+        public static implicit operator GameId(Game game) => (GameId)(game.Id - 1);
     }
 }

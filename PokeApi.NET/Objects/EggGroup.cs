@@ -35,12 +35,12 @@ namespace PokeAPI
             Pokemon = source["pokemon"].Map<JsonData, ApiResource>(ParseResource).ToArray();
         }
 
-        public static async Task<EggGroup> GetInstance(EggGroupID eggGroup) => await GetInstance((int)eggGroup);
-        public static async Task<EggGroup> GetInstance(string name) => await GetInstance(IDs[name.ToLower()]);
+        public static async Task<EggGroup> GetInstance(EggGroupId eggGroup) => await GetInstance((int)eggGroup);
+        public static async Task<EggGroup> GetInstance(string name) => await GetInstance(IDs[name.ToLowerInvariant()]);
         public static async Task<EggGroup> GetInstance(int id) => await cache.Get(id);
 
         public async Task<Pokemon> RefPokemon(int index) => await PokeAPI.Pokemon.GetInstance(Pokemon[index].Name);
 
-        public static implicit operator EggGroupID(EggGroup eggGroup) => (EggGroupID)(eggGroup.Id + 1);
+        public static implicit operator EggGroupId(EggGroup eggGroup) => (EggGroupId)(eggGroup.Id + 1);
     }
 }

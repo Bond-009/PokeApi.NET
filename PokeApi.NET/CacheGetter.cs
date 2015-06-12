@@ -23,6 +23,14 @@ namespace PokeAPI
             c = cache;
         }
 
+        /// <summary>
+        /// Clears the cache.
+        /// </summary>
+        public void Clear()
+        {
+            c.Clear();
+        }
+
         public IEnumerator<KeyValuePair<int, JsonData>> GetEnumerator() => c.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => c.GetEnumerator();
 
@@ -55,10 +63,6 @@ namespace PokeAPI
             throw new NotImplementedException();
         }
         void ICollection<KeyValuePair<int, JsonData>>.Add(KeyValuePair<int, JsonData> item)
-        {
-            throw new NotImplementedException();
-        }
-        void ICollection<KeyValuePair<int, JsonData>>.Clear()
         {
             throw new NotImplementedException();
         }

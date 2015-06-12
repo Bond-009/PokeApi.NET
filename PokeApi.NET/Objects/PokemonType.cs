@@ -6,7 +6,7 @@ using LitJson;
 
 namespace PokeAPI
 {
-    using PTIDT = Tuple<TypeID, TypeID>;
+    using PTIDT = Tuple<TypeId, TypeId>;
 
     public partial class PokemonType : ApiObject<PokemonType>
     {
@@ -93,20 +93,20 @@ namespace PokeAPI
             if (name.Trim() == "???")
                 name = "Unknown";
 
-            TypeID id;
+            TypeId id;
 
             if (Enum.TryParse(name.Trim(), true, out id))
                 return await GetInstance((int)id);
 
             return null;
         }
-        public static async Task<PokemonType> GetInstance(TypeFlags flags) => await GetInstance(flags.ID());
-        public static async Task<PokemonType> GetInstance(TypeID    type ) => await GetInstance((int)type );
+        public static async Task<PokemonType> GetInstance(TypeFlags flags) => await GetInstance(flags.Id());
+        public static async Task<PokemonType> GetInstance(TypeId    type ) => await GetInstance((int)type );
         public static async Task<PokemonType> GetInstance(int       id   ) => await cache.Get  (id        );
 
-        public static double GetDamageMultiplier(TypeID attacking, TypeFlags defending)
+        public static double GetDamageMultiplier(TypeId attacking, TypeFlags defending)
         {
-            List<TypeID> analyzed = defending.AnalyzeIDs();
+            List<TypeId> analyzed = defending.AnalyzeIDs();
 
             double ret = 1d;
 
@@ -120,6 +120,6 @@ namespace PokeAPI
         public static TypeFlags Combine(params PokemonType[] types) => Combine((IEnumerable<PokemonType>)types);
 
         public static implicit operator TypeFlags(PokemonType type) => (TypeFlags)(1 << type.Id);
-        public static implicit operator TypeID   (PokemonType type) => (TypeID   )      type.Id ;
+        public static implicit operator TypeId   (PokemonType type) => (TypeId   )      type.Id ;
     }
 }

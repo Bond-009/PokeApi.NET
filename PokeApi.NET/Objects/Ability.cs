@@ -35,14 +35,14 @@ namespace PokeAPI
             Description = source["description"].ToString();
         }
 
-        public static async Task<Ability> GetInstance(AbilityID ability) => await GetInstance((int)ability);
+        public static async Task<Ability> GetInstance(AbilityId ability) => await GetInstance((int)ability);
         public static async Task<Ability> GetInstance(string name) => await GetInstance(IDs[name.ToLowerInvariant()]);
         public static async Task<Ability> GetInstance(int id) => await cache.Get(id);
 
-        public static implicit operator AbilityID(Ability ability)
+        public static implicit operator AbilityId(Ability ability)
         {
             // lazy<me>
-            AbilityID ret = 0;
+            AbilityId ret = 0;
             Enum.TryParse(ability.Name.Replace(' ', '_'), false, out ret);
             return ret;
         }

@@ -68,7 +68,7 @@ namespace PokeAPI
 
         public async Task<Pokemon> RefPokemon() => await PokeAPI.Pokemon.GetInstance(Pokemon.Name);
 
-        public static async Task<Sprite> GetInstance(string  name) => await GetInstance(PokeAPI.Pokemon.IDs[name.ToLower()] + 1);
+        public static async Task<Sprite> GetInstance(string  name) => await GetInstance(PokeAPI.Pokemon.IDs[name.ToLowerInvariant()] + 1);
         public static async Task<Sprite> GetInstance(Pokemon pkmn) => await GetInstance(pkmn.Id + 1);
         public static async Task<Sprite> GetInstance(int     id  ) => await cache.Get(id);
     }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PokeAPI
 {
@@ -24,7 +26,8 @@ namespace PokeAPI
     /// Represents the types a Pokémon can be, as a set of flags.
     /// </summary>
     /// <remarks>Marked with the <see cref="FlagsAttribute" /> attribute.</remarks>
-    [Flags] public enum TypeFlags : int
+    [Flags]
+    public enum TypeFlags : int
     {
         /// <summary>
         /// The ??? type
@@ -106,7 +109,7 @@ namespace PokeAPI
     /// <summary>
     /// Represents the types a Pokémon can be.
     /// </summary>
-    public enum TypeID : byte
+    public enum TypeId : byte
     {
         /// <summary>
         /// The ??? type
@@ -190,7 +193,7 @@ namespace PokeAPI
     /// <summary>
     /// Represents the ability of a Pokémon
     /// </summary>
-    public enum AbilityID
+    public enum AbilityId
     {
         #region A-L
         Adaptability = 1,
@@ -388,7 +391,7 @@ namespace PokeAPI
     /// <summary>
     /// Represents the egg group of a Pokémon
     /// </summary>
-    public enum EggGroupID
+    public enum EggGroupId
     {
         Monster = 1,
         Water1,
@@ -405,14 +408,14 @@ namespace PokeAPI
         Ditto,
         Dragon,
         /// <summary>
-        /// Cannot make eggs
+        /// Cannot make eggs.
         /// </summary>
         Undiscovered
     }
     /// <summary>
     /// Represents a Pokémon game
     /// </summary>
-    public enum GameID
+    public enum GameId
     {
         /// <summary>
         /// Red (Japan)

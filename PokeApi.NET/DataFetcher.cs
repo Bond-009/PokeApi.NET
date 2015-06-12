@@ -10,7 +10,7 @@ using LitJson;
 namespace PokeAPI
 {
     /// <summary>
-    /// Gets JSON data from the PokeApi.co site
+    /// Retrieves JSON data from the http://pokeapi.co/ site.
     /// </summary>
     public static class DataFetcher
     {
@@ -52,21 +52,45 @@ namespace PokeAPI
             game    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(GAME     + i)));
 
         /// <summary>
-        /// The cached Pokedex.
+        /// Gets the cached Pokedex, as JSON data.
         /// </summary>
         public static JsonData Pokedex => dex.TryGetDef();
 
+        /// <summary>
+        /// Gets all cached Pokemon JSON data.
+        /// </summary>
         public static CacheGetter Pokemon     { get; } = new CacheGetter(pkmn   );
+        /// <summary>
+        /// Gets all cached Type JSON data.
+        /// </summary>
         public static CacheGetter Type        { get; } = new CacheGetter(type   );
+        /// <summary>
+        /// Gets all cached Move JSON data.
+        /// </summary>
         public static CacheGetter Move        { get; } = new CacheGetter(move   );
+        /// <summary>
+        /// Gets all cached Ability JSON data.
+        /// </summary>
         public static CacheGetter Ability     { get; } = new CacheGetter(ability);
+        /// <summary>
+        /// Gets all cached Egg group JSON data.
+        /// </summary>
         public static CacheGetter EggGroup    { get; } = new CacheGetter(eggG   );
+        /// <summary>
+        /// Gets all cached Description JSON data.
+        /// </summary>
         public static CacheGetter Description { get; } = new CacheGetter(desc   );
+        /// <summary>
+        /// Gets all cached Sprite JSON data.
+        /// </summary>
         public static CacheGetter Sprite      { get; } = new CacheGetter(sprite );
+        /// <summary>
+        /// Gets all cached Game JSON data.
+        /// </summary>
         public static CacheGetter Game        { get; } = new CacheGetter(game   );
 
         /// <summary>
-        /// Specifies whether fetched data should be cached or not. Default is true.
+        /// Gets or sets whether fetched data should be cached or not. Default is true.
         /// </summary>
         public static bool ShouldCacheData
         {
@@ -83,9 +107,22 @@ namespace PokeAPI
 
         static async Task<JsonData> GetJsonAsync(string obj) => JsonMapper.ToObject(await client.GetStringAsync(BASE_URL + obj));
 
+        /// <summary>
+        /// Gets the Pokedex as JSON data asynchronously.
+        /// </summary>
+        /// <returns>An awaitable task that contains the Pokedex JSON data.</returns>
         public static async Task<JsonData> GetPokedex() => await dex.Get();
 
+        /// <summary>
+        /// Gets the Pokemon as JSON data asynchronously.
+        /// </summary>
+        /// <param name="id">The id of the Pokemon to get.</param>
+        /// <returns>An awaitable task that contains the Pokemon JSON data.</returns>
         public static async Task<JsonData> GetPokemon(int id) => await pkmn.Get(id);
+        /// <summary>
+        /// Caches all Pokemon JSON data asynchronously.
+        /// </summary>
+        /// <remarks>This may take a while to complete.</remarks>
         public static async void CacheAllPokemon()
         {
             Task t = Task.Factory.StartNew(() => pkmn.Get(1));
@@ -96,7 +133,16 @@ namespace PokeAPI
             await t;
         }
 
+        /// <summary>
+        /// Gets the Type as JSON data asynchronously.
+        /// </summary>
+        /// <param name="id">The id of the Type to get.</param>
+        /// <returns>An awaitable task that contains the Type JSON data.</returns>
         public static async Task<JsonData> GetType(int id) => await type.Get(id);
+        /// <summary>
+        /// Caches all Type JSON data asynchronously.
+        /// </summary>
+        /// <remarks>This may take a while to complete.</remarks>
         public static async void CacheAllTypes()
         {
             Task t = Task.Factory.StartNew(() => type.Get(1));
@@ -107,7 +153,16 @@ namespace PokeAPI
             await t;
         }
 
+        /// <summary>
+        /// Gets the Move as JSON data asynchronously.
+        /// </summary>
+        /// <param name="id">The id of the Move to get.</param>
+        /// <returns>An awaitable task that contains the Move JSON data.</returns>
         public static async Task<JsonData> GetMove(int id) => await move.Get(id);
+        /// <summary>
+        /// Caches all Move JSON data asynchronously.
+        /// </summary>
+        /// <remarks>This may take a while to complete.</remarks>
         public static async void CacheAllMoves()
         {
             Task t = Task.Factory.StartNew(() => move.Get(1));
@@ -118,7 +173,16 @@ namespace PokeAPI
             await t;
         }
 
+        /// <summary>
+        /// Gets the Ability as JSON data asynchronously.
+        /// </summary>
+        /// <param name="id">The id of the Ability to get.</param>
+        /// <returns>An awaitable task that contains the Ability JSON data.</returns>
         public static async Task<JsonData> GetAbility(int id) => await ability.Get(id);
+        /// <summary>
+        /// Caches all Ability JSON data asynchronously.
+        /// </summary>
+        /// <remarks>This may take a while to complete.</remarks>
         public static async void CacheAllAbilities()
         {
             Task t = Task.Factory.StartNew(() => ability.Get(1));
@@ -129,7 +193,16 @@ namespace PokeAPI
             await t;
         }
 
+        /// <summary>
+        /// Gets the Egg group as JSON data asynchronously.
+        /// </summary>
+        /// <param name="id">The id of the Egg group to get.</param>
+        /// <returns>An awaitable task that contains the Egg group JSON data.</returns>
         public static async Task<JsonData> GetEggGroup(int id) => await eggG.Get(id);
+        /// <summary>
+        /// Caches all Egg group JSON data asynchronously.
+        /// </summary>
+        /// <remarks>This may take a while to complete.</remarks>
         public static async void CacheAllEggGroups()
         {
             Task t = Task.Factory.StartNew(() => eggG.Get(1));
@@ -140,7 +213,16 @@ namespace PokeAPI
             await t;
         }
 
+        /// <summary>
+        /// Gets the Description as JSON data asynchronously.
+        /// </summary>
+        /// <param name="id">The id of the Description to get.</param>
+        /// <returns>An awaitable task that contains the Description JSON data.</returns>
         public static async Task<JsonData> GetDescription(int id) => await desc.Get(id);
+        /// <summary>
+        /// Caches all Description JSON data asynchronously.
+        /// </summary>
+        /// <remarks>This may take a while to complete.</remarks>
         public static async void CacheAllDescriptions()
         {
             Task t = Task.Factory.StartNew(() => desc.Get(1));
@@ -151,7 +233,16 @@ namespace PokeAPI
             await t;
         }
 
+        /// <summary>
+        /// Gets the Sprite as JSON data asynchronously.
+        /// </summary>
+        /// <param name="id">The id of the Sprite to get.</param>
+        /// <returns>An awaitable task that contains the Sprite JSON data.</returns>
         public static async Task<JsonData> GetSprite(int id) => await sprite.Get(id);
+        /// <summary>
+        /// Caches all Sprite JSON data asynchronously.
+        /// </summary>
+        /// <remarks>This may take a while to complete.</remarks>
         public static async void CacheAllSprites()
         {
             Task t = Task.Factory.StartNew(() => sprite.Get(1));
@@ -162,7 +253,16 @@ namespace PokeAPI
             await t;
         }
 
+        /// <summary>
+        /// Gets the Game as JSON data asynchronously.
+        /// </summary>
+        /// <param name="id">The id of the Game to get.</param>
+        /// <returns>An awaitable task that contains the Game JSON data.</returns>
         public static async Task<JsonData> GetGame(int id) => await game.Get(id);
+        /// <summary>
+        /// Caches all Game JSON data asynchronously.
+        /// </summary>
+        /// <remarks>This may take a while to complete.</remarks>
         public static async void CacheAllGames()
         {
             Task t = Task.Factory.StartNew(() => game.Get(1));
