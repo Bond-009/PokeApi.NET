@@ -108,7 +108,7 @@ namespace PokeAPI
             }
         }
 
-        static async Task<JsonData> GetJsonAsync(string obj) => JsonMapper.ToObject(await client.GetStringAsync(BASE_URL + obj));
+        static async Task<JsonData> GetJsonAsync(string obj) => JsonMapper.ToObject(await client.GetStringAsync(BASE_URL + F_SLASH + obj));
 
         /// <summary>
         /// Gets the Pokedex as JSON data asynchronously.
