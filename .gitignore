@@ -160,3 +160,4 @@ PokeApi.NET.sln.ide/storage.ide
 PokeApi.NET.sln.ide/
 *.sln.ide
 *.sln.ide/
+.vs/
