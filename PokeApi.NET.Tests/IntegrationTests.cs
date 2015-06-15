@@ -1,31 +1,28 @@
-﻿using PokeAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PokeApi.NET.Tests
+namespace PokeAPI.Tests
 {
     public class IntegrationTests
     {
         [Fact]
-        public async Task GetPokedex()
+        public void GetPokedex()
         {
-            var pokedex = await Pokedex.GetInstance();
+            var pokedex = AsyncHelpers.RunSync(() => Pokedex.GetInstance());
 
             Assert.NotNull(pokedex);
-            Assert.False(pokedex.AnyStringPropertyNullOrEmpty());
+            Assert.False(pokedex.AnyStringPropertyEmpty());
         }
-
         [Fact]
-        public async Task GetPokemonById()
+        public void GetPokemonById()
         {
-            var pokemon = await Pokemon.GetInstance(1);
+            var pokemon = AsyncHelpers.RunSync(() => Pokemon.GetInstance(1));
 
             Assert.NotNull(pokemon);
-            Assert.False(pokemon.AnyStringPropertyNullOrEmpty());
+            Assert.False(pokemon.AnyStringPropertyEmpty());
         }
     }
 }

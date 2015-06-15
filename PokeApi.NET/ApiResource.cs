@@ -53,7 +53,7 @@ namespace PokeAPI
         /// <param name="name">The name of the resource.</param>
         /// <param name="resourceUri">the uri of the resource as a <see cref="string"/>.</param>
         public ApiResource(string name, string resourceUri)
-            : this(name, new Uri(resourceUri))
+            : this(name, new Uri(resourceUri ?? BASE_URI))
         {
 
         }
@@ -64,11 +64,15 @@ namespace PokeAPI
         /// <param name="resourceUri">the uri of the resource as a <see cref="Uri" />.</param>
         public ApiResource(string name, Uri    resourceUri)
         {
+            resourceUri = resourceUri ?? new Uri(BASE_URI);
+
             ResourceUri = resourceUri;
             Name        = name       ;
 
             var num = resourceUri.ToString().Split(SplitChars, StringSplitOptions.RemoveEmptyEntries);
-            Id = Int32.Parse(num[num.Length - 1]);
+            int i;
+            Int32.TryParse(num[num.Length - 1], out i);
+            Id = i; // will be 0 if TryParse returned false, which is the def value
         }
 
         /// <summary>

@@ -74,7 +74,7 @@ namespace PokeAPI
             {
                 if (!ret.OverrideDefaultParsing)
                 {
-                    ret.Name = source[RESU].ToString().Replace('-', ' ');
+                    ret.Name = source[NAME].ToString().Replace('-', ' ');
                     ret.ResourceUri = new Uri(BASE_URI + source[RESU].ToString());
 
                     if (source.Keys.Contains(ID)) // pokemon uses national_id, and the dex can't have an ID
