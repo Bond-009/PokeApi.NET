@@ -13,16 +13,14 @@ namespace PokeAPI.Tests
         {
             var pokedex = AsyncHelpers.RunSync(() => Pokedex.GetInstance());
 
-            Assert.NotNull(pokedex);
-            Assert.False(pokedex.AnyStringPropertyEmpty());
+            pokedex.AssertResourceWellConfigured();
         }
         [Fact]
         public void GetPokemonById()
         {
             var pokemon = AsyncHelpers.RunSync(() => Pokemon.GetInstance(1));
 
-            Assert.NotNull(pokemon);
-            Assert.False(pokemon.AnyStringPropertyEmpty());
+            pokemon.AssertResourceWellConfigured();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 [assembly: AssemblyTitle("PokéAPI.NET")]
 [assembly: AssemblyDescription("Wrapper for http://www.pokeapi.co/")]
@@ -12,3 +13,4 @@ using System.Reflection;
 [assembly: AssemblyVersion("1.1.0.0")]
 [assembly: AssemblyFileVersion("1.1.0.0")]
 [assembly: CLSCompliant(true)]
+[assembly: InternalsVisibleTo("PokeApi.NET.Tests")]

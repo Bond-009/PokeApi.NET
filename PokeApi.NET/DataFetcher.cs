@@ -38,7 +38,7 @@ namespace PokeAPI
 
         static bool shouldCache = true;
 
-        internal static HttpClient client = new HttpClient();
+        internal static IHttpClientAdapter client = new HttpClientDefaultAdapter();
 
         static Cache<JsonData> dex = new Cache<JsonData>(async () => Maybe.Just(await GetJsonAsync(POKEDEX)));
         static Cache<int, JsonData>
