@@ -55,13 +55,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbilityTests.cs" />
     <Compile Include="AsyncHelpers.cs" />
+    <Compile Include="CustomAsserts.cs" />
+    <Compile Include="DescriptionTests.cs" />
+    <Compile Include="EggGroupTests.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FakeHttpClientAdapter.cs" />
     <Compile Include="IntegrationTests.cs" />
+    <Compile Include="MoveTests.cs" />
+    <Compile Include="PokedexTests.cs" />
+    <Compile Include="PokemonTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XUnitRunnerDoesntWorkSoIllDoItThisWay.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="JsonResponses\httppokeapicoapiv1ability1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="JsonResponses\httppokeapicoapiv1description1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="JsonResponses\httppokeapicoapiv1egg1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="JsonResponses\httppokeapicoapiv1move1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="JsonResponses\httppokeapicoapiv1pokedex1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="JsonResponses\httppokeapicoapiv1pokemon1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

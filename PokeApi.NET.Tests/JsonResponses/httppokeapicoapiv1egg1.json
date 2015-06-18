@@ -1,0 +1,18 @@
+﻿{
+  "created": "2013-11-02T12:24:55.532023",
+  "id": 1,
+  "modified": "2013-11-02T12:24:55.531989",
+  "name": "Monster",
+  "pokemon": [
+    {
+      "name": "Ivysaur",
+      "resource_uri": "/api/v1/pokemon/2/"
+    },
+    {
+      "name": "Bulbasaur",
+      "resource_uri": "/api/v1/pokemon/1/"
+    }
+  ],
+  "resource_uri": "/api/v1/egg/1/"
+}
+     
