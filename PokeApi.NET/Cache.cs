@@ -9,6 +9,7 @@ namespace PokeAPI
 {
     public class Cache<TKey, TValue> : IDictionary<TKey, TValue>
     {
+        static readonly Object _lock = new Object();
         Dictionary<TKey, TValue> dict;
         Func<TKey, Task<Maybe<TValue>>> get;
 
@@ -32,24 +33,31 @@ namespace PokeAPI
 
         public async Task<TValue> Get(TKey key)
         {
-            TValue v;
-            if (dict.TryGetValue(key, out v))
-                return v;
-
-            return await get(key).ContinueWith(t =>
+            //http://stackoverflow.com/a/7612704/1322417
+            TValue cacheItem;
+            lock (_lock)
             {
-                var m = t.Result;
+                if (dict.TryGetValue(key, out cacheItem))
+                    return cacheItem;
+            }
 
-                if (m.HasValue)
+            var item = await get(key);
+
+            lock (_lock)
+            {
+                if (dict.TryGetValue(key, out cacheItem))
+                    return cacheItem;
+
+                if (item.HasValue)
                 {
                     if (IsActive)
-                        dict.Add(key, m.Value);
+                        dict.Add(key, item.Value);
 
-                    return m.Value;
+                    return item.Value;
                 }
 
                 throw new KeyNotFoundException();
-            });
+            }
         }
         public Maybe<TValue> TryGet(TKey key)
         {
@@ -68,7 +76,7 @@ namespace PokeAPI
 
         public int Count => dict.Count;
         public bool IsReadOnly => true;
-        public ICollection<TKey  > Keys   => dict.Keys  ;
+        public ICollection<TKey> Keys => dict.Keys;
         public ICollection<TValue> Values => dict.Values;
 
         public void Clear()
@@ -131,8 +139,8 @@ namespace PokeAPI
 
         }
 
-        public Task <T> Get      () => Get      (0);
-        public Maybe<T> TryGet   () => TryGet   (0);
-        public       T  TryGetDef() => TryGetDef(0);
+        public Task<T> Get() => Get(0);
+        public Maybe<T> TryGet() => TryGet(0);
+        public T TryGetDef() => TryGetDef(0);
     }
 }
