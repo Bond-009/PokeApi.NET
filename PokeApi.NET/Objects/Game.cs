@@ -53,19 +53,19 @@ namespace PokeAPI
         /// </summary>
         /// <param name="game">The <see cref="GameId" /> of the <see cref="Game" /> to get.</param>
         /// <returns>A task containing the <see cref="Game" /> instance.</returns>
-        public static async Task<Game> GetInstance(GameId game) => await GetInstance((int)game);
+        public static async Task<Game> GetInstanceAsync(GameId game) => await GetInstanceAsync((int)game);
         /// <summary>
         /// Gets a <see cref="Game" /> instance from its name.
         /// </summary>
         /// <param name="id">The name of the <see cref="Game" /> to get.</param>
         /// <returns>A task containing the <see cref="Game" /> instance.</returns>
-        public static async Task<Game> GetInstance(string name) => await GetInstance(Ids[name.ToLowerInvariant()]);
+        public static async Task<Game> GetInstanceAsync(string name) => await GetInstanceAsync(Ids[name.ToLowerInvariant()]);
         /// <summary>
         /// Gets a <see cref="Game" /> instance from its id.
         /// </summary>
         /// <param name="id">The id of the <see cref="Game" /> to get.</param>
         /// <returns>A task containing the <see cref="Game" /> instance.</returns>
-        public static async Task<Game> GetInstance(int    id  ) => await cache.Get(id);
+        public static async Task<Game> GetInstanceAsync(int    id  ) => await cache.Get(id);
 
         /// <summary>
         /// Implicitely casts a <see cref="Game" /> to its id.

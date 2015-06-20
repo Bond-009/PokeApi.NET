@@ -126,55 +126,55 @@ namespace PokeAPI
                         throw new ArgumentException(TYPE_ERR, nameof(TApi));
 
                     return (TApi)(object)(await (reqInt.HasValue
-                        ? Pokemon.GetInstance(reqInt.Value)
-                        : Pokemon.GetInstance(requested)));
+                        ? Pokemon.GetInstanceAsync(reqInt.Value)
+                        : Pokemon.GetInstanceAsync(requested)));
                 case "type":
                     if (typeof(TApi) != typeof(PokemonType))
                         throw new ArgumentException(TYPE_ERR, nameof(TApi));
 
                     return (TApi)(object)(await (reqInt.HasValue
-                        ? PokemonType.GetInstance(reqInt.Value)
-                        : PokemonType.GetInstance(requested)));
+                        ? PokemonType.GetInstanceAsync(reqInt.Value)
+                        : PokemonType.GetInstanceAsync(requested)));
                 case "move":
                     if (typeof(TApi) != typeof(Move))
                         throw new ArgumentException(TYPE_ERR, nameof(TApi));
 
                     return (TApi)(object)(await (reqInt.HasValue
-                        ? Move.GetInstance(reqInt.Value)
-                        : Move.GetInstance(requested)));
+                        ? Move.GetInstanceAsync(reqInt.Value)
+                        : Move.GetInstanceAsync(requested)));
                 case "ability":
                     if (typeof(TApi) != typeof(Ability))
                         throw new ArgumentException(TYPE_ERR, nameof(TApi));
 
                     return (TApi)(object)(await (reqInt.HasValue
-                        ? Ability.GetInstance(reqInt.Value)
-                        : Ability.GetInstance(requested)));
+                        ? Ability.GetInstanceAsync(reqInt.Value)
+                        : Ability.GetInstanceAsync(requested)));
                 case "egg":
                     if (typeof(TApi) != typeof(EggGroup))
                         throw new ArgumentException(TYPE_ERR, nameof(TApi));
 
                     return (TApi)(object)(await (reqInt.HasValue
-                        ? EggGroup.GetInstance(reqInt.Value)
-                        : EggGroup.GetInstance(requested)));
+                        ? EggGroup.GetInstanceAsync(reqInt.Value)
+                        : EggGroup.GetInstanceAsync(requested)));
                 case "description":
                     if (typeof(TApi) != typeof(Description))
                         throw new ArgumentException(TYPE_ERR, nameof(TApi));
 
-                    return (TApi)(object)(await Description.GetInstance(reqInt.Value));
+                    return (TApi)(object)(await Description.GetInstanceAsync(reqInt.Value));
                 case "sprite":
                     if (typeof(TApi) != typeof(Sprite))
                         throw new ArgumentException(TYPE_ERR, nameof(TApi));
 
                     return (TApi)(object)(await (reqInt.HasValue
-                        ? Sprite.GetInstance(reqInt.Value)
-                        : Sprite.GetInstance(requested)));
+                        ? Sprite.GetInstanceAsync(reqInt.Value)
+                        : Sprite.GetInstanceAsync(requested)));
                 case "game":
                     if (typeof(TApi) != typeof(Game))
                         throw new ArgumentException(TYPE_ERR, nameof(TApi));
 
                     return (TApi)(object)(await (reqInt.HasValue
-                        ? Game.GetInstance(reqInt.Value)
-                        : Game.GetInstance(requested)));
+                        ? Game.GetInstanceAsync(reqInt.Value)
+                        : Game.GetInstanceAsync(requested)));
             }
 
             return null;

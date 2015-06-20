@@ -87,25 +87,25 @@ namespace PokeAPI
         /// Gets the <see cref="PokeAPI.Pokemon" /> instance represented by <see cref="Pokemon" /> asynchronously.
         /// </summary>
         /// <returns>A task containing the <see cref="PokeAPI.Pokemon" />.</returns>
-        public async Task<Pokemon> RefPokemon() => await PokeAPI.Pokemon.GetInstance(Pokemon.Id);
+        public async Task<Pokemon> RefPokemon() => await PokeAPI.Pokemon.GetInstanceAsync(Pokemon.Id);
 
         /// <summary>
         /// Gets a <see cref="Sprite" /> instance from its name asynchronously.
         /// </summary>
         /// <param name="name">The name of the Pokemon who's <see cref="Sprite" /> should be returned.</param>
         /// <returns>A task containing the <see cref="Sprite" /> instance.</returns>
-        public static async Task<Sprite> GetInstance(string  name) => await GetInstance(PokeAPI.Pokemon.Ids[name.ToLowerInvariant()] + 1);
+        public static async Task<Sprite> GetInstanceAsync(string  name) => await GetInstanceAsync(PokeAPI.Pokemon.Ids[name.ToLowerInvariant()] + 1);
         /// <summary>
         /// Gets a <see cref="Sprite" /> instance from a <see cref="PokeAPI.Pokemon" /> instance asynchronously.
         /// </summary>
         /// <param name="pkmn">The <see cref="PokeAPI.Pokemon" /> who's <see cref="Sprite" /> should be returned.</param>
         /// <returns>A task containing the <see cref="Sprite" /> instance.</returns>
-        public static async Task<Sprite> GetInstance(Pokemon pkmn) => await GetInstance(pkmn.Id + 1);
+        public static async Task<Sprite> GetInstanceAsync(Pokemon pkmn) => await GetInstanceAsync(pkmn.Id + 1);
         /// <summary>
         /// Gets a <see cref="Sprite" /> instance from its id asynchronously.
         /// </summary>
         /// <param name="id">The id of the <see cref="Sprite" />.</param>
         /// <returns>A task containing the <see cref="Sprite" /> instance.</returns>
-        public static async Task<Sprite> GetInstance(int     id  ) => await cache.Get(id);
+        public static async Task<Sprite> GetInstanceAsync(int     id  ) => await cache.Get(id);
     }
 }

@@ -11,14 +11,14 @@ namespace PokeAPI.Tests
         [Fact]
         public void GetPokedex()
         {
-            var pokedex = AsyncHelpers.RunSync(() => Pokedex.GetInstance());
+            var pokedex = AsyncHelpers.RunSync(() => Pokedex.GetInstanceAsync());
 
             pokedex.AssertResourceWellConfigured();
         }
         [Fact]
         public void GetPokemonById()
         {
-            var pokemon = AsyncHelpers.RunSync(() => Pokemon.GetInstance(1));
+            var pokemon = AsyncHelpers.RunSync(() => Pokemon.GetInstanceAsync(1));
 
             pokemon.AssertResourceWellConfigured();
         }

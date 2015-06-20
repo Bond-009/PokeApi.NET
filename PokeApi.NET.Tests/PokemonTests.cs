@@ -10,7 +10,7 @@ namespace PokeAPI.Tests
         public async Task GetPokemonInstanceByIdDeserializeAllProperties()
         {
             DataFetcher.client = new FakeHttpClientAdapter();
-            var pokemon = await Pokemon.GetInstance(1);
+            var pokemon = await Pokemon.GetInstanceAsync(1);
             pokemon.AssertResourceWellConfigured();
         }
 
@@ -18,8 +18,8 @@ namespace PokeAPI.Tests
         public async Task GetMultipleTimesTheSameItemShouldReturnFromCache()
         {
             DataFetcher.client = new FakeHttpClientAdapter();
-            var FirstTask = Pokemon.GetInstance(1);
-            var SecondTask = Pokemon.GetInstance(1);
+            var FirstTask = Pokemon.GetInstanceAsync(1);
+            var SecondTask = Pokemon.GetInstanceAsync(1);
             var results = await Task.WhenAll(FirstTask, SecondTask);
 
             // this should validate if the item is from the cache, because all are the same.

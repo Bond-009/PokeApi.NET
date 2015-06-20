@@ -92,12 +92,12 @@ namespace PokeAPI
         /// </summary>
         /// <param name="name">The name of the <see cref="Move" /> that should be returned.</param>
         /// <returns>A task containing the <see cref="Move" /> instance.</returns>
-        public static async Task<Move> GetInstance(string name) => await GetInstance(Ids[name]);
+        public static async Task<Move> GetInstanceAsync(string name) => await GetInstanceAsync(Ids[name]);
         /// <summary>
         /// Gets a <see cref="Move" /> instance from its id asynchronously.
         /// </summary>
         /// <param name="id">The id of the <see cref="Move" />.</param>
         /// <returns>A task containing the <see cref="Move" /> instance.</returns>
-        public static async Task<Move> GetInstance(int    id  ) => await cache.Get(id);
+        public static async Task<Move> GetInstanceAsync(int    id  ) => await cache.Get(id);
     }
 }

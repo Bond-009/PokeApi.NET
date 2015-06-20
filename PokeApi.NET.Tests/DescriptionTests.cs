@@ -10,7 +10,7 @@ namespace PokeAPI.Tests
         public async Task GetDescriptionInstanceByIdDeserializeAllProperties()
         {
             DataFetcher.client = new FakeHttpClientAdapter();
-            var description = await Description.GetInstance(1);
+            var description = await Description.GetInstanceAsync(1);
             description.AssertResourceWellConfigured();
         }
 

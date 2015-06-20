@@ -41,26 +41,26 @@ namespace PokeAPI
         /// Gets the <see cref="PokeAPI.Pokemon" /> instance represented by <see cref="Pokemon" /> asynchronously.
         /// </summary>
         /// <returns>A task containing the <see cref="PokeAPI.Pokemon" />.</returns>
-        public async Task<Pokemon> RefPokemon(int index) => await PokeAPI.Pokemon.GetInstance(Pokemon[index].Name);
+        public async Task<Pokemon> RefPokemon(int index) => await PokeAPI.Pokemon.GetInstanceAsync(Pokemon[index].Name);
 
         /// <summary>
         /// Gets an <see cref="EggGroup" /> instance from its <see cref="EggGroupId" /> equivalent asynchronously.
         /// </summary>
         /// <param name="eggGroup">The <see cref="EggGroupId" /> equivalent of the <see cref="EggGroup" />.</param>
         /// <returns>A task containing the <see cref="EggGroup" /> instance.</returns>
-        public static async Task<EggGroup> GetInstance(EggGroupId eggGroup) => await GetInstance((int)eggGroup);
+        public static async Task<EggGroup> GetInstanceAsync(EggGroupId eggGroup) => await GetInstanceAsync((int)eggGroup);
         /// <summary>
         /// Gets an <see cref="EggGroup" /> instance from its name asynchronously.
         /// </summary>
         /// <param name="name">The name of the <see cref="EggGroup" />.</param>
         /// <returns>A task containing the <see cref="EggGroup" /> instance.</returns>
-        public static async Task<EggGroup> GetInstance(string     name    ) => await GetInstance(Ids[name.ToLowerInvariant()]);
+        public static async Task<EggGroup> GetInstanceAsync(string     name    ) => await GetInstanceAsync(Ids[name.ToLowerInvariant()]);
         /// <summary>
         /// Gets an <see cref="EggGroup" /> instance from its id asynchronously.
         /// </summary>
         /// <param name="id">The id of the <see cref="EggGroup" />.</param>
         /// <returns>A task containing the <see cref="EggGroup" /> instance.</returns>
-        public static async Task<EggGroup> GetInstance(int        id      ) => await cache.Get(id);
+        public static async Task<EggGroup> GetInstanceAsync(int        id      ) => await cache.Get(id);
 
         /// <summary>
         /// Implicitely casts an <see cref="EggGroup" /> to its <see cref="EggGroupId" />.
