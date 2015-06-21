@@ -10,7 +10,7 @@ namespace PokeAPI.Tests
         public async Task GetMoveInstanceByIdDeserializeAllProperties()
         {
             DataFetcher.client = new FakeHttpClientAdapter();
-            var move = await Move.GetInstance(1);
+            var move = await Move.GetInstanceAsync(1);
             move.AssertResourceWellConfigured();
         }
 

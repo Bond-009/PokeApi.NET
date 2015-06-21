@@ -42,19 +42,19 @@ namespace PokeAPI
         /// </summary>
         /// <param name="ability">The <see cref="AbilityId" /> equivalent of the <see cref="Ability" />.</param>
         /// <returns>A task containing the <see cref="Ability" /> instance.</returns>
-        public static async Task<Ability> GetInstance(AbilityId ability) => await GetInstance((int)ability);
+        public static async Task<Ability> GetInstanceAsync(AbilityId ability) => await GetInstanceAsync((int)ability);
         /// <summary>
         /// Gets an <see cref="Ability" /> instance from its name asynchronously.
         /// </summary>
         /// <param name="name">The name of the <see cref="Ability" />.</param>
         /// <returns>A task containing the <see cref="Ability" /> instance.</returns>
-        public static async Task<Ability> GetInstance(string    name   ) => await GetInstance(Ids[name.ToLowerInvariant()]);
+        public static async Task<Ability> GetInstanceAsync(string    name   ) => await GetInstanceAsync(Ids[name.ToLowerInvariant()]);
         /// <summary>
         /// Gets an <see cref="Ability" /> instance from its id asynchronously.
         /// </summary>
         /// <param name="id">The id of the <see cref="Ability" />.</param>
         /// <returns>A task containing the <see cref="Ability" /> instance.</returns>
-        public static async Task<Ability> GetInstance(int       id     ) => await cache.Get(id);
+        public static async Task<Ability> GetInstanceAsync(int       id     ) => await cache.Get(id);
 
         /// <summary>
         /// Implicitely casts an <see cref="Ability" /> to its <see cref="AbilityId" /> equivalent.

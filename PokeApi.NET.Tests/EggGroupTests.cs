@@ -10,7 +10,7 @@ namespace PokeAPI.Tests
         public async Task GetEggGroupInstanceByIdDeserializeAllProperties()
         {
             DataFetcher.client = new FakeHttpClientAdapter();
-            var eggGroup = await EggGroup.GetInstance(1);
+            var eggGroup = await EggGroup.GetInstanceAsync(1);
             eggGroup.AssertResourceWellConfigured();
         }
 

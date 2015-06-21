@@ -10,7 +10,7 @@ namespace PokeAPI.Tests
         public async Task GetPokedexInstanceByIdDeserializeAllProperties()
         {
             DataFetcher.client = new FakeHttpClientAdapter();
-            var pokedex = await Pokedex.GetInstance();
+            var pokedex = await Pokedex.GetInstanceAsync();
             pokedex.AssertResourceWellConfigured();
         }
 

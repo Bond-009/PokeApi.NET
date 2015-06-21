@@ -9,7 +9,7 @@ namespace PokeAPI.Tests
         public async Task GetAbilityInstanceByIdDeserializeAllProperties()
         {
             DataFetcher.client = new FakeHttpClientAdapter();
-            var ability = await Ability.GetInstance(1);
+            var ability = await Ability.GetInstanceAsync(1);
 
             ability.AssertResourceWellConfigured();
         }
