@@ -22,13 +22,10 @@ namespace PokeAPI.Tests
             var SecondTask = Pokemon.GetInstanceAsync(1);
             var results = await Task.WhenAll(FirstTask, SecondTask);
 
-            // this should validate if the item is from the cache, because all are the same.
-            var firstHashCode = results[0].GetHashCode();
+            // there's probably another method for this, but I'm using the GitHub editor atm
+            
             foreach (var pokemon in results)
-            {
-                Assert.Equal(firstHashCode, pokemon.GetHashCode());
                 pokemon.AssertResourceWellConfigured();
-            }
         }
     }
 }
