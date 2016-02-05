@@ -15,7 +15,7 @@ namespace PokeAPI
             EGS = "egg_groups",
             DSS = "descriptions",
             MVS = "moves",
-            EVS = "evolutins",
+            EVS = "evolutions",
             TPS = "types",
             CRT = "catch_rate",
             SCS = "species",
@@ -221,9 +221,9 @@ namespace PokeAPI
 
             Evolutions = source.Keys.Contains(EVS)
                 ? source[EVS].Map<JsonData, Evolution>(data => new Evolution(data)).ToArray() : EmptyEvoArr;
-
-            Type = source[TPS].Map<JsonData, ApiResource>(ParseResource).Select(r => (TypeFlags)r.Id).Aggregate((a, b) => a | b);
-
+            
+            Type = source[TPS].Map<JsonData, ApiResource>(ParseResource).Select(r => (TypeFlags)(1 << r.Id - 1)).Aggregate((a, b) => a | b);
+            
             Species = source[SCS].ToString();
 
             CatchRate      = source.AsInt(CRT);
