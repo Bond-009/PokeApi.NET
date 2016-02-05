@@ -15,7 +15,7 @@ namespace PokeAPI
             EGS = "egg_groups",
             DSS = "descriptions",
             MVS = "moves",
-            EVS = "evolutins",
+            EVS = "evolutions",
             TPS = "types",
             CRT = "catch_rate",
             SCS = "species",
