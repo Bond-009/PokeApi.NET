@@ -19,7 +19,7 @@ namespace PokeAPI
             ACC  = "accuracy",
             CAT  = "category";
 
-        static Cache<int, Move> cache = new Cache<int, Move>(async i => Maybe.Just(Create(await DataFetcher.GetMove(i), new Move())));
+        static readonly Cache<int, Move> cache = new Cache<int, Move>(async i => Maybe.Just(Create(await DataFetcher.GetMove(i), new Move())));
 
         /// <summary>
         /// Gets the <see cref="Move" /> instance cache.
@@ -67,7 +67,9 @@ namespace PokeAPI
             private set;
         }
 
-        private Move() { }
+        Move()
+        {
+        }
 
         /// <summary>
         /// Does parsing stuff in the derived class.

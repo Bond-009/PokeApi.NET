@@ -36,7 +36,7 @@ namespace PokeAPI
         readonly static Evolution[] EmptyEvoArr = { };
         readonly static Tuple<double, double> NanPair = Tuple.Create(Double.NaN, Double.NaN);
 
-        static Cache<int, Pokemon> cache = new Cache<int, Pokemon>(async i => Maybe.Just(Create(await DataFetcher.GetPokemon(i), new Pokemon())));
+        static readonly Cache<int, Pokemon> cache = new Cache<int, Pokemon>(async i => Maybe.Just(Create(await DataFetcher.GetPokemon(i), new Pokemon())));
 
         /// <summary>
         /// Gets the <see cref="Pokemon" /> instance cache.
@@ -203,7 +203,9 @@ namespace PokeAPI
             private set;
         }
 
-        private Pokemon() { }
+        Pokemon()
+        {
+        }
 
         /// <summary>
         /// Does parsing stuff in the derived class.

@@ -26,7 +26,9 @@ namespace PokeAPI
             private set;
         }
 
-        private Ability() { }
+        Ability()
+        {
+        }
 
         /// <summary>
         /// Does parsing stuff in the derived class.

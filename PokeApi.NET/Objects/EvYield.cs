@@ -32,7 +32,7 @@ namespace PokeAPI
 
             if (v.GetJsonType() == JsonType.String)
             {
-                string val = (string)v;
+                var val = (string)v;
 
                 string[] split = val.Split(' ');
                 int amt;

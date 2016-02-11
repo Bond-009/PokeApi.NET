@@ -27,7 +27,7 @@ namespace PokeAPI
     /// </summary>
     /// <remarks>Marked with the <see cref="FlagsAttribute" /> attribute.</remarks>
     [Flags]
-    public enum TypeFlags : int
+    public enum TypeFlags
     {
         /// <summary>
         /// The ??? type

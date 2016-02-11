@@ -13,7 +13,7 @@ namespace PokeAPI
     {
         static string PKMN = "pokemon";
 
-        static Cache<Pokedex> cache = new Cache<Pokedex>(async () => Maybe.Just(Create(await DataFetcher.GetPokedex(), new Pokedex())));
+        static readonly Cache<Pokedex> cache = new Cache<Pokedex>(async () => Maybe.Just(Create(await DataFetcher.GetPokedex(), new Pokedex())));
 
         /// <summary>
         /// Gets or sets whether the <see cref="Pokedex" /> object should be cached or not.
@@ -31,6 +31,9 @@ namespace PokeAPI
             }
             set
             {
+                if (value != null)
+                    throw new ArgumentException("Can only set the cached pokédex value to null to remove the cached object.", nameof(value));
+
                 cache.Clear();
             }
         }
@@ -44,7 +47,9 @@ namespace PokeAPI
             private set;
         }
 
-        private Pokedex() { }
+        Pokedex()
+        {
+        }
 
         /// <summary>
         /// Does parsing stuff in the derived class.

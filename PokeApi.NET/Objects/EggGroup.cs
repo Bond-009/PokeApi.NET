@@ -26,7 +26,9 @@ namespace PokeAPI
             private set;
         }
 
-        private EggGroup() { }
+        EggGroup()
+        {
+        }
 
         /// <summary>
         /// Does parsing stuff in the derived class.

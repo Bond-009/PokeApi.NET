@@ -5,11 +5,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+#pragma warning disable RECS0083
+
 namespace PokeAPI
 {
     public class Cache<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        Dictionary<TKey, TValue> dict;
+        readonly Dictionary<TKey, TValue> dict;
         Func<TKey, Task<Maybe<TValue>>> get;
 
         public bool IsActive

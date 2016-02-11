@@ -26,7 +26,7 @@ namespace PokeAPI
             async i => Maybe.Just(Create(await DataFetcher.GetType(i), new PokemonType())),
             defValues: new Dictionary<int, PokemonType>
             {
-                [0] = new PokemonType()
+                [0] = new PokemonType
                 {
                     Created      = DateTime.Now.Date,
                     LastModified = DateTime.Now.Date,
@@ -91,7 +91,9 @@ namespace PokeAPI
             private set;
         }
 
-        private PokemonType() { }
+        PokemonType()
+        {
+        }
 
         /// <summary>
         /// Does parsing stuff in the derived class.

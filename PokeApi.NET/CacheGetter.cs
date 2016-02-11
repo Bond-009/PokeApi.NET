@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LitJson;
 
+#pragma warning disable RECS0083
+
 namespace PokeAPI
 {
     public struct CacheGetter<TKey, TValue> : IDictionary<TKey, TValue>

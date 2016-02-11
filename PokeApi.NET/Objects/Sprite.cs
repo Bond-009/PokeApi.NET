@@ -16,7 +16,7 @@ namespace PokeAPI
             PKMN = "pokemon",
             IMG  = "image";
 
-        static Cache<int, Sprite> cache = new Cache<int, Sprite>(async i => Maybe.Just(Create(await DataFetcher.GetSprite(i), new Sprite())));
+        static readonly Cache<int, Sprite> cache = new Cache<int, Sprite>(async i => Maybe.Just(Create(await DataFetcher.GetSprite(i), new Sprite())));
 
         /// <summary>
         /// Gets the <see cref="Sprite" /> instance cache.
@@ -50,7 +50,9 @@ namespace PokeAPI
             private set;
         }
 
-        private Sprite() { }
+        Sprite()
+        {
+        }
 
         /// <summary>
         /// Loads the image and puts its content in <see cref="ImageData" /> asynchronously.

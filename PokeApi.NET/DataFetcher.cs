@@ -24,7 +24,6 @@ namespace PokeAPI
 
         readonly static string
             BASE_URL = "http://pokeapi.co/api/v1/",
-            F_SLASH  = "/",
 
             POKEDEX  = "pokedex/1"   ,
             POKEMON  = "pokemon/"    ,
@@ -48,7 +47,8 @@ namespace PokeAPI
             ability = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(ABILITY  + i))),
             eggG    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(EGGGROUP + i))),
             desc    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(DESCR    + i))),
-            sprite  = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(SPRITE   + i))),
+            sprite  = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(SPRITE   + i)));
+        static readonly Cache<int, JsonData>
             game    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(GAME     + i)));
 
         /// <summary>

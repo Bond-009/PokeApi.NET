@@ -36,7 +36,9 @@ namespace PokeAPI
             private set;
         }
 
-        private Game() { }
+        Game()
+        {
+        }
 
         /// <summary>
         /// Does parsing stuff in the derived class.

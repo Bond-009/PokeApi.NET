@@ -12,10 +12,8 @@
  */
 #endregion
 
-
 using System;
 using System.Collections;
-
 
 namespace LitJson
 {
@@ -36,43 +34,83 @@ namespace LitJson
         public long GetLong() => 0L;
         public string GetString() => "";
 
-        public void SetBoolean  (bool val)      {}
-        public void SetDouble   (double val)    {}
-        public void SetInt      (int val)       {}
-        public void SetJsonType (JsonType type) {}
-        public void SetLong     (long val)      {}
-        public void SetString   (string val)    {}
+        public void SetBoolean(bool val)
+        {
+
+        }
+        public void SetDouble(double val)
+        {
+
+        }
+        public void SetInt(int val)
+        {
+
+        }
+        public void SetJsonType(JsonType type)
+        {
+
+        }
+        public void SetLong(long val)
+        {
+
+        }
+        public void SetString(string val)
+        {
+
+        }
 
         public string ToJson() => "";
-        public void   ToJson (JsonWriter writer) {}
+        public void ToJson(JsonWriter writer)
+        {
 
+        }
 
         bool IList.IsFixedSize => true;
         bool IList.IsReadOnly => true;
 
-        object IList.this[int index] {
-            get { return null; }
-            set {}
+        object IList.this[int index]
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+                var t = value;
+                value = t;
+            }
         }
 
         int IList.Add(object value) => 0;
-        void IList.Clear ()                 {}
+        void IList.Clear()
+        {
+
+        }
         bool IList.Contains(object value) => false;
         int IList.IndexOf(object value) => -1;
-        void IList.Insert (int i, object v) {}
-        void IList.Remove (object value)    {}
-        void IList.RemoveAt (int index)     {}
+        void IList.Insert(int i, object v)
+        {
 
+        }
+        void IList.Remove(object value)
+        {
+
+        }
+        void IList.RemoveAt(int index)
+        {
+
+        }
 
         int ICollection.Count => 0;
         bool ICollection.IsSynchronized => false;
         object ICollection.SyncRoot => null;
 
-        void ICollection.CopyTo (Array array, int index) {}
+        void ICollection.CopyTo(Array array, int index)
+        {
 
+        }
 
         IEnumerator IEnumerable.GetEnumerator() => null;
-
 
         bool IDictionary.IsFixedSize => true;
         bool IDictionary.IsReadOnly => true;
@@ -80,15 +118,32 @@ namespace LitJson
         ICollection IDictionary.Keys => null;
         ICollection IDictionary.Values => null;
 
-        object IDictionary.this[object key] {
-            get { return null; }
-            set {}
+        object IDictionary.this[object key]
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+                var t = value;
+                value = t;
+            }
         }
 
-        void IDictionary.Add (object k, object v) {}
-        void IDictionary.Clear ()                 {}
+        void IDictionary.Add(object k, object v)
+        {
+
+        }
+        void IDictionary.Clear()
+        {
+
+        }
         bool IDictionary.Contains(object key) => false;
-        void IDictionary.Remove (object key)      {}
+        void IDictionary.Remove(object key)
+        {
+
+        }
 
         IDictionaryEnumerator IDictionary.GetEnumerator() => null;
     }

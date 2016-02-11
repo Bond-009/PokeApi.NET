@@ -9,7 +9,7 @@ namespace PokeAPI
     partial class PokemonType
     {
         #region public readonly static Dictionary<PTIDT, double> DamageMultipliers = new Dictionary<PTIDT, double>() { [...] };
-        public readonly static Dictionary<PTIDT, double> DamageMultipliers = new Dictionary<PTIDT, double>()
+        public readonly static Dictionary<PTIDT, double> DamageMultipliers = new Dictionary<PTIDT, double>
         {
             // http://bulbapedia.bulbagarden.net/wiki/Type_chart
 
