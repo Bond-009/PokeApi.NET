@@ -21,7 +21,7 @@ using PokeAPI;
 ```
 [...]
 ``` cs
-Pokemon p = await Pokemon.GetInstance(395); -OR- p = await Pokemon.GetInstance("Lucario");
+Pokemon p = await Pokemon.GetInstanceAsync(395); -OR- p = await Pokemon.GetInstanceAsync("Lucario");
 
 int baseHp = p.HP;
 // etc

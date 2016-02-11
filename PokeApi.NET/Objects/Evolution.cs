@@ -40,6 +40,6 @@ namespace PokeAPI
             EvolveTo = data[TO].ToString();
         }
 
-        public async Task<Pokemon> ToPokemon() => await Pokemon.GetInstance(EvolveTo);
+        public async Task<Pokemon> ToPokemon() => await Pokemon.GetInstanceAsync(EvolveTo);
     }
 }

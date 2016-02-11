@@ -113,45 +113,45 @@ namespace PokeAPI
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>A task containing the <see cref="PokemonType" />.</returns>
-        public async Task<PokemonType> RefIneffective   (int index) => await GetInstance(Ineffective   [index].Name);
+        public async Task<PokemonType> RefIneffective   (int index) => await GetInstanceAsync(Ineffective   [index].Name);
         /// <summary>
         /// Gets the <see cref="PokemonType" /> instance represented by an element in the <see cref="NoEffect" /> array.
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>A task containing the <see cref="PokemonType" />.</returns>
-        public async Task<PokemonType> RefNoEffect      (int index) => await GetInstance(NoEffect      [index].Name);
+        public async Task<PokemonType> RefNoEffect      (int index) => await GetInstanceAsync(NoEffect      [index].Name);
         /// <summary>
         /// Gets the <see cref="PokemonType" /> instance represented by an element in the <see cref="Resistance" /> array.
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>A task containing the <see cref="PokemonType" />.</returns>
-        public async Task<PokemonType> RefResistance    (int index) => await GetInstance(Resistance    [index].Name);
+        public async Task<PokemonType> RefResistance    (int index) => await GetInstanceAsync(Resistance    [index].Name);
         /// <summary>
         /// Gets the <see cref="PokemonType" /> instance represented by an element in the <see cref="SuperEffective" /> array.
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>A task containing the <see cref="PokemonType" />.</returns>
-        public async Task<PokemonType> RefSuperEffective(int index) => await GetInstance(SuperEffective[index].Name);
+        public async Task<PokemonType> RefSuperEffective(int index) => await GetInstanceAsync(SuperEffective[index].Name);
         /// <summary>
         /// Gets the <see cref="PokemonType" /> instance represented by an element in the <see cref="Weakness" /> array.
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>A task containing the <see cref="PokemonType" />.</returns>
-        public async Task<PokemonType> RefWeakness      (int index) => await GetInstance(Weakness      [index].Name);
+        public async Task<PokemonType> RefWeakness      (int index) => await GetInstanceAsync(Weakness      [index].Name);
 
         /// <summary>
         /// Gets a <see cref="PokemonType" /> instance from its name asynchronously.
         /// </summary>
         /// <param name="name">The name of the <see cref="PokemonType" /> to get.</param>
         /// <returns>A task containing the <see cref="PokemonType" />.</returns>
-        public static async Task<PokemonType> GetInstance(string name)
+        public static async Task<PokemonType> GetInstanceAsync(string name)
         {
             if (name.Trim() == QMARKS)
                 name = UNKNOWN;
 
             TypeId id;
             if (Enum.TryParse(name.Trim(), true, out id))
-                return await GetInstance((int)id);
+                return await GetInstanceAsync((int)id);
 
             return null;
         }
@@ -160,19 +160,19 @@ namespace PokeAPI
         /// </summary>
         /// <param name="flags">The <see cref="TypeFlags" /> representing the <see cref="PokemonType" /> to get.</param>
         /// <returns>A task containing the <see cref="PokemonType" />.</returns>
-        public static async Task<PokemonType> GetInstance(TypeFlags flags) => await GetInstance(flags.Id());
+        public static async Task<PokemonType> GetInstanceAsync(TypeFlags flags) => await GetInstanceAsync(flags.Id());
         /// <summary>
         /// Gets a <see cref="PokemonType" /> instance from its id asynchronously.
         /// </summary>
         /// <param name="id">The <see cref="TypeId" /> representing the <see cref="PokemonType" /> to get.</param>
         /// <returns>A task containing the <see cref="PokemonType" />.</returns>
-        public static async Task<PokemonType> GetInstance(TypeId    type ) => await GetInstance((int)type );
+        public static async Task<PokemonType> GetInstanceAsync(TypeId    type ) => await GetInstanceAsync((int)type );
         /// <summary>
         /// Gets a <see cref="PokemonType" /> instance from its id asynchronously.
         /// </summary>
         /// <param name="id">The id of the <see cref="PokemonType" /> to get.</param>
         /// <returns>A task containing the <see cref="PokemonType" />.</returns>
-        public static async Task<PokemonType> GetInstance(int       id   ) => await cache.Get  (id        );
+        public static async Task<PokemonType> GetInstanceAsync(int       id   ) => await cache.Get  (id        );
 
         /// <summary>
         /// Calculates the damage multiplier of an attacking and defending type.

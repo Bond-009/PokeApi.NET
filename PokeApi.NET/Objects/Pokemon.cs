@@ -15,7 +15,7 @@ namespace PokeAPI
             EGS = "egg_groups",
             DSS = "descriptions",
             MVS = "moves",
-            EVS = "evolutins",
+            EVS = "evolutions",
             TPS = "types",
             CRT = "catch_rate",
             SCS = "species",
@@ -223,9 +223,9 @@ namespace PokeAPI
 
             Evolutions = source.Keys.Contains(EVS)
                 ? source[EVS].Map<JsonData, Evolution>(data => new Evolution(data)).ToArray() : EmptyEvoArr;
-
-            Type = source[TPS].Map<JsonData, ApiResource>(ParseResource).Select(r => (TypeFlags)r.Id).Aggregate((a, b) => a | b);
-
+            
+            Type = source[TPS].Map<JsonData, ApiResource>(ParseResource).Select(r => (TypeFlags)(1 << r.Id - 1)).Aggregate((a, b) => a | b);
+            
             Species = source[SCS].ToString();
 
             CatchRate      = source.AsInt(CRT);
@@ -258,25 +258,25 @@ namespace PokeAPI
         /// </summary>
         /// <param name="index">The array element index.</param>
         /// <returns>A task containing the <see cref="Ability" />.</returns>
-        public async Task<Ability> RefAbility(int index) => await Ability.GetInstance(Abilities[index].Name);
+        public async Task<Ability> RefAbility(int index) => await Ability.GetInstanceAsync(Abilities[index].Name);
         /// <summary>
         /// Gets the <see cref="EggGroup" /> instance represented by <see cref="EggGroups" /> asynchronously.
         /// </summary>
         /// <param name="index">The array element index.</param>
         /// <returns>A task containing the <see cref="EggGroup" />.</returns>
-        public async Task<EggGroup> RefEggGroup(int index) => await EggGroup.GetInstance(EggGroups[index].Name);
+        public async Task<EggGroup> RefEggGroup(int index) => await EggGroup.GetInstanceAsync(EggGroups[index].Name);
         /// <summary>
         /// Gets the <see cref="Move" /> instance represented by <see cref="Moves" /> asynchronously.
         /// </summary>
         /// <param name="index">The array element index.</param>
         /// <returns>A task containing the <see cref="Move" />.</returns>
-        public async Task<Move> RefMove(int index) => await Move.GetInstance(Moves[index].Id);
+        public async Task<Move> RefMove(int index) => await Move.GetInstanceAsync(Moves[index].Id);
         /// <summary>
         /// Gets the <see cref="Description" /> instance represented by <see cref="Descriptions" /> asynchronously.
         /// </summary>
         /// <param name="index">The array element index.</param>
         /// <returns>A task containing the <see cref="Description" />.</returns>
-        public async Task<Description> RefDescription(int index) => await Description.GetInstance(Descriptions[index].Id);
+        public async Task<Description> RefDescription(int index) => await Description.GetInstanceAsync(Descriptions[index].Id);
 
         /// <summary>
         /// Returns an instance of the Pokemon by name.
@@ -284,23 +284,23 @@ namespace PokeAPI
         /// <example>
         /// You can get a pokemon using it the following way:
         /// <code>
-        /// var bulbasaur = Pokemon.GetInstance("bulbasaur");
+        /// var bulbasaur = Pokemon.GetInstanceAsync("bulbasaur");
         /// </code>
         /// </example>
         /// <param name="name">The name of the Pokemon to get. The search is case insensitive.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<Pokemon> GetInstance(string name) => await GetInstance(Ids[name.ToLowerInvariant()]);
+        public static async Task<Pokemon> GetInstanceAsync(string name) => await GetInstanceAsync(Ids[name.ToLowerInvariant()]);
         /// <summary>
         /// Returns an instance of the Pokemon by id.
         /// </summary>
         /// <example>
         /// You can get a pokemon using it the following way:
         /// <code>
-        /// var bulbasaur = Pokemon.GetInstance(1);
+        /// var bulbasaur = Pokemon.GetInstanceAsync(1);
         /// </code>
         /// </example>
         /// <param name="id">The id of the Pokemon to get.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<Pokemon> GetInstance(int    id  ) => await cache.Get(id);
+        public static async Task<Pokemon> GetInstanceAsync(int    id  ) => await cache.Get(id);
     }
 }

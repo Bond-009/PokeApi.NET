@@ -37,7 +37,7 @@ namespace PokeAPI
 
         static bool shouldCache = true;
 
-        internal static HttpClient client = new HttpClient();
+        internal static IHttpClientAdapter client = new HttpClientDefaultAdapter();
 
         static Cache<JsonData> dex = new Cache<JsonData>(async () => Maybe.Just(await GetJsonAsync(POKEDEX)));
         static Cache<int, JsonData>
@@ -50,6 +50,18 @@ namespace PokeAPI
             sprite  = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(SPRITE   + i)));
         static readonly Cache<int, JsonData>
             game    = new Cache<int, JsonData>(async i => Maybe.Just(await GetJsonAsync(GAME     + i)));
+
+        /// <summary>
+        /// Sets the <see cref="IHttpClientAdapter" /> the data fetcher uses.
+        /// </summary>
+        /// <param name="client">The <see cref="IHttpClientAdapter" /> to use.</param>
+        public static void SetHttpClient(IHttpClientAdapter client)
+        {
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
+
+            DataFetcher.client = client;
+        }
 
         /// <summary>
         /// Gets the cached Pokedex, as JSON data.

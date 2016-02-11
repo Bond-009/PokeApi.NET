@@ -66,14 +66,14 @@ namespace PokeAPI
         /// </summary>
         /// <param name="index">The index of the <see cref="Game" /> to return.</param>
         /// <returns>A task containing the <see cref="Game" />.</returns>
-        public async Task<Game> RefGame(int index) => await Game.GetInstance(Games[index].Name);
+        public async Task<Game> RefGame(int index) => await Game.GetInstanceAsync(Games[index].Name);
 
         /// <summary>
         /// Gets a <see cref="Description" /> instance from its id asynchronously.
         /// </summary>
         /// <param name="id">The id of the <see cref="Description" />.</param>
         /// <returns>A task containing the <see cref="Description" /> instance.</returns>
-        public static async Task<Description> GetInstance(int id) => await cache.Get(id);
+        public static async Task<Description> GetInstanceAsync(int id) => await cache.Get(id);
 
         /// <summary>
         /// Implicitely casts a <see cref="Description" /> to its text <see cref="string" />.

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 #pragma warning disable RECS0083
@@ -11,6 +10,8 @@ namespace PokeAPI
 {
     public class Cache<TKey, TValue> : IDictionary<TKey, TValue>
     {
+        static readonly object _lock = new object();
+
         readonly Dictionary<TKey, TValue> dict;
         Func<TKey, Task<Maybe<TValue>>> get;
 
@@ -34,24 +35,31 @@ namespace PokeAPI
 
         public async Task<TValue> Get(TKey key)
         {
-            TValue v;
-            if (dict.TryGetValue(key, out v))
-                return v;
-
-            return await get(key).ContinueWith(t =>
+            //http://stackoverflow.com/a/7612704/1322417
+            TValue cacheItem;
+            lock (_lock)
             {
-                var m = t.Result;
+                if (dict.TryGetValue(key, out cacheItem))
+                    return cacheItem;
+            }
 
-                if (m.HasValue)
+            var item = await get(key);
+
+            lock (_lock)
+            {
+                if (dict.TryGetValue(key, out cacheItem))
+                    return cacheItem;
+
+                if (item.HasValue)
                 {
                     if (IsActive)
-                        dict.Add(key, m.Value);
+                        dict.Add(key, item.Value);
 
-                    return m.Value;
+                    return item.Value;
                 }
 
                 throw new KeyNotFoundException();
-            });
+            }
         }
         public Maybe<TValue> TryGet(TKey key)
         {

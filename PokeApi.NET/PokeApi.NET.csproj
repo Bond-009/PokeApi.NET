@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FPTypes.cs" />
+    <Compile Include="HttpClientDefaultAdapter.cs" />
+    <Compile Include="IHttpClientAdapter.cs" />
     <Compile Include="Objects\Ability.cs" />
     <Compile Include="Objects\Description.cs" />
     <Compile Include="Objects\Dictionaries\Ability_IDs.cs" />

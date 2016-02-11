@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PokeAPI.Tests
@@ -11,18 +10,16 @@ namespace PokeAPI.Tests
         [Fact]
         public void GetPokedex()
         {
-            var pokedex = AsyncHelpers.RunSync(() => Pokedex.GetInstance());
+            var pokedex = AsyncHelpers.RunSync(() => Pokedex.GetInstanceAsync());
 
-            Assert.NotNull(pokedex);
-            Assert.False(pokedex.AnyStringPropertyEmpty());
+            pokedex.AssertResourceWellConfigured();
         }
         [Fact]
         public void GetPokemonById()
         {
-            var pokemon = AsyncHelpers.RunSync(() => Pokemon.GetInstance(1));
+            var pokemon = AsyncHelpers.RunSync(() => Pokemon.GetInstanceAsync(1));
 
-            Assert.NotNull(pokemon);
-            Assert.False(pokemon.AnyStringPropertyEmpty());
+            pokemon.AssertResourceWellConfigured();
         }
     }
 }

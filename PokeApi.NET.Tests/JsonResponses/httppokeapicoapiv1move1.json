@@ -1,0 +1,12 @@
+﻿{
+  "accuracy": 100,
+  "category": "physical",
+  "created": "2013-11-02T12:37:05.266762",
+  "description": "A physical attack in which the user charges and slams into the target with its whole body.",
+  "id": 1,
+  "modified": "2013-11-03T11:51:57.009696",
+  "name": "Tackle",
+  "power": 50,
+  "pp": 35,
+  "resource_uri": "/api/v1/move/1/"
+}

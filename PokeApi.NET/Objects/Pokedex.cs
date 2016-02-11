@@ -65,12 +65,12 @@ namespace PokeAPI
         /// </summary>
         /// <param name="index">The national id of the <see cref="PokeAPI.Pokemon" />.</param>
         /// <returns>A task containing the <see cref="PokeAPI.Pokemon" />.</returns>
-        public async Task<Pokemon> RefPokemon(int index) => await PokeAPI.Pokemon.GetInstance(Pokemon[index].Id);
+        public async Task<Pokemon> RefPokemon(int index) => await PokeAPI.Pokemon.GetInstanceAsync(Pokemon[index].Id);
 
         /// <summary>
         /// Gets the <see cref="Pokedex" /> instance asynchronously.
         /// </summary>
         /// <returns>A task containing the <see cref="Pokedex" />.</returns>
-        public static async Task<Pokedex> GetInstance() => await cache.Get();
+        public static async Task<Pokedex> GetInstanceAsync() => await cache.Get();
     }
 }
