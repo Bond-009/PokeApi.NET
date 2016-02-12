@@ -27,10 +27,7 @@ namespace PokeAPI
 
             IsActive = active;
 
-            if (defValues != null)
-                dict = new Dictionary<TKey, TValue>(defValues);
-            else
-                dict = new Dictionary<TKey, TValue>();
+            dict = defValues != null ? new Dictionary<TKey, TValue>(defValues) : dict;
         }
 
         public async Task<TValue> Get(TKey key)

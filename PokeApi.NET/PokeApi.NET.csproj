@@ -42,29 +42,9 @@
     <Compile Include="FPTypes.cs" />
     <Compile Include="HttpClientDefaultAdapter.cs" />
     <Compile Include="IHttpClientAdapter.cs" />
-    <Compile Include="Objects\Ability.cs" />
-    <Compile Include="Objects\Description.cs" />
-    <Compile Include="Objects\Dictionaries\Ability_IDs.cs" />
-    <Compile Include="Objects\Dictionaries\EggGroup_IDs.cs" />
-    <Compile Include="Objects\Dictionaries\Game_IDs.cs" />
-    <Compile Include="Objects\Dictionaries\Move_IDs.cs" />
-    <Compile Include="Objects\Dictionaries\Pokemon_IDs.cs" />
-    <Compile Include="Objects\EggGroup.cs" />
-    <Compile Include="Objects\Evolution.cs" />
-    <Compile Include="Objects\EvYield.cs" />
-    <Compile Include="Objects\Game.cs" />
-    <Compile Include="Objects\LearnableMove.cs" />
-    <Compile Include="Objects\Move.cs" />
-    <Compile Include="Objects\Pokedex.cs" />
-    <Compile Include="Objects\Pokemon.cs" />
-    <Compile Include="Objects\PokemonType.cs" />
-    <Compile Include="Objects\Dictionaries\PokemonType_DamageMultipliers.cs" />
-    <Compile Include="Objects\Sprite.cs" />
-    <Compile Include="ApiObject.cs" />
     <Compile Include="Cache.cs" />
     <Compile Include="CacheGetter.cs" />
     <Compile Include="DataFetcher.cs" />
-    <Compile Include="Enums.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="LitJson\IJsonWrapper.cs" />
     <Compile Include="LitJson\JsonData.cs" />
@@ -75,7 +55,6 @@
     <Compile Include="LitJson\JsonWriter.cs" />
     <Compile Include="LitJson\Lexer.cs" />
     <Compile Include="LitJson\ParserToken.cs" />
-    <Compile Include="ApiResource.cs" />
     <Compile Include="PokemonParseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
