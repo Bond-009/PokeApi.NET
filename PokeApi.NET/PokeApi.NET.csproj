@@ -39,6 +39,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiObject.cs" />
+    <Compile Include="ApiResource.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="FPTypes.cs" />
     <Compile Include="HttpClientDefaultAdapter.cs" />
     <Compile Include="IHttpClientAdapter.cs" />
@@ -46,6 +49,7 @@
     <Compile Include="CacheGetter.cs" />
     <Compile Include="DataFetcher.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="LitJson\IJsonWrapper.cs" />
     <Compile Include="LitJson\JsonData.cs" />
     <Compile Include="LitJson\JsonException.cs" />
@@ -55,6 +59,15 @@
     <Compile Include="LitJson\JsonWriter.cs" />
     <Compile Include="LitJson\Lexer.cs" />
     <Compile Include="LitJson\ParserToken.cs" />
+    <Compile Include="Objects\Berry.cs" />
+    <Compile Include="Objects\Contest.cs" />
+    <Compile Include="Objects\Encounter.cs" />
+    <Compile Include="Objects\Evolution.cs" />
+    <Compile Include="Objects\Game.cs" />
+    <Compile Include="Objects\Item.cs" />
+    <Compile Include="Objects\Location.cs" />
+    <Compile Include="Objects\Move.cs" />
+    <Compile Include="Objects\Pokemon.cs" />
     <Compile Include="PokemonParseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
