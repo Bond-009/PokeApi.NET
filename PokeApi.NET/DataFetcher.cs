@@ -84,8 +84,10 @@ namespace PokeAPI
         };
         #endregion
 
-        readonly static Dictionary<Type, Cache<int   , JsonData>>    caches = UrlOfType        .ToDictionary(kvp => kvp.Key, kvp => new Cache<int   , JsonData>(async i => Maybe.Just(await GetJsonAsync(kvp.Value + i))));
-        readonly static Dictionary<Type, Cache<string, JsonData>> strCaches = UrlOfType.Skip(3).ToDictionary(kvp => kvp.Key, kvp => new Cache<string, JsonData>(async s => Maybe.Just(await GetJsonAsync(kvp.Value + s))));
+        readonly static Dictionary<Type, Cache<int   , JsonData>>    caches = UrlOfType        .ToDictionary(kvp => kvp.Key, kvp => new Cache<int   , JsonData>(async i => Maybe.Just(await GetJsonAsync(kvp.Value + SLASH + i))));
+        readonly static Dictionary<Type, Cache<string, JsonData>> strCaches = UrlOfType.Skip(3).ToDictionary(kvp => kvp.Key, kvp => new Cache<string, JsonData>(async s => Maybe.Just(await GetJsonAsync(kvp.Value + SLASH + s))));
+
+        readonly static Dictionary<Type, Cache<ValueTuple<int, int>, JsonData>> listCaches = UrlOfType.ToDictionary(kvp => kvp.Key, kvp => new Cache<ValueTuple<int, int>, JsonData>(async t => Maybe.Just(await GetJsonAsync(kvp.Value + SLASH + "?offset=" + t.Item1 + "&limit=" + t.Item2))));
 
         /// <summary>
         /// Sets the <see cref="IHttpClientAdapter" /> the data fetcher uses.
@@ -102,6 +104,8 @@ namespace PokeAPI
         public static CacheGetter<int   , JsonData> ChacheOf     <T>() where T :      ApiObject => new CacheGetter<int   , JsonData>(   caches[typeof(T)]);
         public static CacheGetter<string, JsonData> CacheOfByName<T>() where T : NamedApiObject => new CacheGetter<string, JsonData>(strCaches[typeof(T)]);
 
+        public static CacheGetter<ValueTuple<int, int>, JsonData> ListCacheOf<T>() where T : ApiObject => new CacheGetter<ValueTuple<int, int>, JsonData>(listCaches[typeof(T)]);
+
         /// <summary>
         /// Gets or sets whether fetched data should be cached or not. Default is true.
         /// </summary>
@@ -117,8 +121,9 @@ namespace PokeAPI
                 if (value == shouldCache)
                     return;
 
-                foreach (var c in    caches.Values) c.IsActive = value;
-                foreach (var c in strCaches.Values) c.IsActive = value;
+                foreach (var c in     caches.Values) c.IsActive = value;
+                foreach (var c in  strCaches.Values) c.IsActive = value;
+                foreach (var c in listCaches.Values) c.IsActive = value;
 
                 shouldCache = value;
             }
@@ -126,5 +131,7 @@ namespace PokeAPI
 
         public static Task<JsonData> GetJsonOf<T>(int    id  ) where T :      ApiObject =>    caches[typeof(T)].Get(id  );
         public static Task<JsonData> GetJsonOf<T>(string name) where T : NamedApiObject => strCaches[typeof(T)].Get(name);
+
+        public static Task<JsonData> GetListJsonOf<T>(int offset, int limit) where T : ApiObject => listCaches[typeof(T)].Get(ValueTuple.Create(offset, limit));
     }
 }

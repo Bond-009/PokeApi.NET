@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ApiObject.cs" />
     <Compile Include="ApiResource.cs" />
+    <Compile Include="ApiResourceList.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="FPTypes.cs" />
     <Compile Include="HttpClientDefaultAdapter.cs" />
