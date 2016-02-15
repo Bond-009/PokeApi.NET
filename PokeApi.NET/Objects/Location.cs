@@ -51,6 +51,7 @@ namespace PokeAPI
         {
             get;
         }
+
         public NamedApiResource<PokemonSpecies> Species
         {
             get;

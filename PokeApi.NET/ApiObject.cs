@@ -23,8 +23,5 @@ namespace PokeAPI
         {
             get;
         }
-
-        //TODO: do all NAOs have a ResourceName[] Names/Description[] Descriptions prop?
-        //TODO: -> create NAO subclasses
     }
 }

@@ -208,50 +208,27 @@ namespace PokeAPI
         }
     }
 
-    //TODO: make generic?
-    public struct MoveStatAffect
+    public struct StatAffect<T>
+        where T : NamedApiObject
     {
         public int MaxChange
         {
             get;
         }
 
-        public NamedApiResource<Move> Move
+        public NamedApiResource<T> Resource
         {
             get;
         }
     }
-    //TODO: make generic
-    public struct MoveStatAffectSets
+    public struct StatAffectSets<T>
+        where T : NamedApiObject
     {
-        public MoveStatAffect[] Increase
+        public StatAffect<T>[] Increase
         {
             get;
         }
-        public MoveStatAffect[] Decrease
-        {
-            get;
-        }
-    }
-    public struct NatureStatAffect
-    {
-        public int MaxChange
-        {
-            get;
-        }
-
-        public NamedApiResource<Nature> Nature
-        {
-            get;
-        }
-    }
-    public struct NatureStatAffectSets
-    {
-        public NatureStatAffect[] Increase
-        {
-            get;
-        }
-        public NatureStatAffect[] Decrease
+        public StatAffect<T>[] Decrease
         {
             get;
         }
@@ -772,11 +749,11 @@ namespace PokeAPI
             get;
         }
 
-        public MoveStatAffectSets AffectingMoves
+        public StatAffectSets<Move  > AffectingMoves
         {
             get;
         }
-        public NatureStatAffectSets AffectingNatures
+        public StatAffectSets<Nature> AffectingNatures
         {
             get;
         }
