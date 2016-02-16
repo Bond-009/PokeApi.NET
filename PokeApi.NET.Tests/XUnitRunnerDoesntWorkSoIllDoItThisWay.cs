@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using LitJson;
 using Xunit;
 
 namespace PokeAPI.Tests

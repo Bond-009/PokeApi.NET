@@ -11,12 +11,10 @@
  */
 #endregion
 
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
 
 namespace LitJson
 {
@@ -28,10 +26,8 @@ namespace LitJson
         public int StateStack;
     }
 
-
     class Lexer
     {
-        #region Fields
         delegate bool StateHandler(FsmContext ctx);
 
         static int[] fsm_return_table;
@@ -49,10 +45,7 @@ namespace LitJson
         string string_value;
         int token;
         int unichar;
-        #endregion
 
-
-        #region Properties
         public bool AllowComments
         {
             get
@@ -64,7 +57,6 @@ namespace LitJson
                 allow_comments = value;
             }
         }
-
         public bool AllowSingleQuotedStrings
         {
             get
@@ -78,14 +70,10 @@ namespace LitJson
         }
 
         public bool EndOfInput => end_of_input;
-
         public int Token => token;
 
         public string StringValue => string_value;
-        #endregion
 
-
-        #region Constructors
         static Lexer()
         {
             PopulateFsmTables();
@@ -105,8 +93,6 @@ namespace LitJson
             fsm_context = new FsmContext();
             fsm_context.L = this;
         }
-        #endregion
-
 
         #region Static Methods
         static int HexValue(int digit)
@@ -912,7 +898,6 @@ namespace LitJson
             return true;
         }
         #endregion
-
 
         bool GetChar()
         {

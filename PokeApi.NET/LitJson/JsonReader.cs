@@ -11,12 +11,11 @@
  */
 #endregion
 
-
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
-
 
 namespace LitJson
 {
@@ -43,7 +42,6 @@ namespace LitJson
 
     public class JsonReader
     {
-        #region Fields
         static IDictionary<int, IDictionary<int, int[]>> parse_table;
 
         readonly Stack<int> automaton_stack;
@@ -60,9 +58,7 @@ namespace LitJson
         bool skip_non_members;
         object token_value;
         JsonToken token;
-        #endregion
 
-        #region Public Properties
         public bool AllowComments
         {
             get
@@ -74,7 +70,6 @@ namespace LitJson
                 lexer.AllowComments = value;
             }
         }
-
         public bool AllowSingleQuotedStrings
         {
             get
@@ -86,7 +81,6 @@ namespace LitJson
                 lexer.AllowSingleQuotedStrings = value;
             }
         }
-
         public bool SkipNonMembers
         {
             get
@@ -100,24 +94,18 @@ namespace LitJson
         }
 
         public bool EndOfInput => end_of_input;
-
-        public bool EndOfJson => end_of_json;
+        public bool EndOfJson  => end_of_json;
 
         public JsonToken Token => token;
+        public object    Value => token_value;
 
-        public object Value => token_value;
-        #endregion
-
-        #region Constructors
         static JsonReader()
         {
             PopulateParseTable();
         }
 
         public JsonReader(string json_text) :
-            this(new StringReader(json_text), true)
-        {
-        }
+            this(new StringReader(json_text), true) { }
 
         public JsonReader(TextReader reader) :
             this(reader, false)
@@ -147,9 +135,7 @@ namespace LitJson
             this.reader = reader;
             reader_is_owned = owned;
         }
-        #endregion
 
-        #region Static Methods
         static void PopulateParseTable()
         {
             // See section A.2. of the manual for details
@@ -257,8 +243,7 @@ namespace LitJson
                          (int)ParserToken.Epsilon);
         }
 
-        static void TableAddCol(ParserToken row, int col,
-                                         params int[] symbols)
+        static void TableAddCol(ParserToken row, int col, params int[] symbols)
         {
             parse_table[(int)row].Add(col, symbols);
         }
@@ -267,18 +252,13 @@ namespace LitJson
         {
             parse_table.Add((int)rule, new Dictionary<int, int[]>());
         }
-        #endregion
 
-        #region Private Methods
         void ProcessNumber(string number)
         {
-            if (number.IndexOf('.') != -1 ||
-                number.IndexOf('e') != -1 ||
-                number.IndexOf('E') != -1)
+            if (number.IndexOf('.') != -1 || number.IndexOf('e') != -1 || number.IndexOf('E') != -1)
             {
-
                 double n_double;
-                if (Double.TryParse(number, out n_double))
+                if (Double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out n_double))
                 {
                     token = JsonToken.Double;
                     token_value = n_double;
@@ -288,7 +268,7 @@ namespace LitJson
             }
 
             int n_int32;
-            if (Int32.TryParse(number, out n_int32))
+            if (Int32.TryParse(number, NumberStyles.Integer, CultureInfo.InvariantCulture, out n_int32))
             {
                 token = JsonToken.Int;
                 token_value = n_int32;
@@ -297,7 +277,7 @@ namespace LitJson
             }
 
             long n_int64;
-            if (Int64.TryParse(number, out n_int64))
+            if (Int64.TryParse(number, NumberStyles.Integer, CultureInfo.InvariantCulture, out n_int64))
             {
                 token = JsonToken.Long;
                 token_value = n_int64;
@@ -393,7 +373,6 @@ namespace LitJson
 
             return true;
         }
-        #endregion
 
         public void Close()
         {
