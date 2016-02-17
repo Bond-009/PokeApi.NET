@@ -11,11 +11,13 @@ namespace PokeAPI
         public NamedApiResource<BerryFlavor> BerryFlavor
         {
             get;
+            internal set;
         }
 
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
     }
     public class ContestEffect : ApiObject
@@ -23,22 +25,26 @@ namespace PokeAPI
         public int Appeal
         {
             get;
+            internal set;
         }
 
         public int Jam
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("effect_entries")]
         public Effect[] Effects
         {
             get;
+            internal set;
         }
         [JsonPropertyName("flavor_text_entries")]
         public FlavorText[] FlavorTexts
         {
             get;
+            internal set;
         }
     }
     public class SuperContestEffect : ApiObject
@@ -46,17 +52,20 @@ namespace PokeAPI
         public int Appeal
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("flavor_text_entries")]
         public FlavorText[] FlavorTexts
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<Move>[] Moves
         {
             get;
+            internal set;
         }
     }
 }

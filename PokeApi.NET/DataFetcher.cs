@@ -7,6 +7,12 @@ using LitJson;
 
 namespace PokeAPI
 {
+    // TODO:
+    //   * function to actually get the api objs
+    //   * cache ^
+    //   * docs
+    //   * utility stuff from v1?
+
     /// <summary>
     /// Retrieves JSON data from the http://pokeapi.co/ site.
     /// </summary>

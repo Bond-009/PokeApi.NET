@@ -10,62 +10,73 @@ namespace PokeAPI
         public int Cost
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("fling_power")]
         public int FlingPower
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("fling_effect")]
         public NamedApiResource<ItemFlingEffect> FlingEffect
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<ItemAttribute> Attributes
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<ItemCategory> Category
         {
             get;
+            internal set;
         }
 
         public VerboseEffect[] Effects
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("flavor_text_entries")]
         public VersionGroupFlavorText[] FlavorTexts
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("game_indices")]
         public GenerationGameIndex[] GameIndices
         {
             get;
+            internal set;
         }
 
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("held_by_pokemon")]
         public NamedApiResource<Pokemon>[] HeldBy
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("baby_trigger_for")]
         public ApiResource<EvolutionChain>[] BabyTriggerFor
         {
             get;
+            internal set;
         }
     }
 
@@ -74,16 +85,19 @@ namespace PokeAPI
         public NamedApiResource<Item>[] Items
         {
             get;
+            internal set;
         }
 
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
 
         public Description[] Descriptions
         {
             get;
+            internal set;
         }
     }
 
@@ -92,16 +106,19 @@ namespace PokeAPI
         public NamedApiResource<Item>[] Items
         {
             get;
+            internal set;
         }
 
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<ItemPocket> Pocket
         {
             get;
+            internal set;
         }
     }
 
@@ -111,11 +128,13 @@ namespace PokeAPI
         public Effect[] Effects
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<Item>[] Items
         {
             get;
+            internal set;
         }
     }
 
@@ -124,11 +143,13 @@ namespace PokeAPI
         public NamedApiResource<ItemCategory>[] Categories
         {
             get;
+            internal set;
         }
 
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
     }
 }

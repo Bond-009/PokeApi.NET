@@ -19,6 +19,7 @@ namespace PokeAPI
         public string Text
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -27,6 +28,7 @@ namespace PokeAPI
         public NamedApiResource<Language> Language
         {
             get;
+            internal set;
         }
     }
 
@@ -38,6 +40,7 @@ namespace PokeAPI
         public string Text
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -46,6 +49,7 @@ namespace PokeAPI
         public NamedApiResource<Language> Language
         {
             get;
+            internal set;
         }
     }
 
@@ -58,6 +62,7 @@ namespace PokeAPI
         public int MinLevel
         {
             get;
+            internal set;
         }
         /// <summary>
         /// The highest level the pokémon could be encountered at.
@@ -66,6 +71,7 @@ namespace PokeAPI
         public int MaxLevel
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -75,6 +81,7 @@ namespace PokeAPI
         public NamedApiResource<EncounterConditionValue>[] ConditionValues
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -83,6 +90,7 @@ namespace PokeAPI
         public float Chance
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -91,6 +99,7 @@ namespace PokeAPI
         public NamedApiResource<EncounterMethod> Method
         {
             get;
+            internal set;
         }
     }
 
@@ -103,6 +112,7 @@ namespace PokeAPI
         public string Text
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -111,6 +121,7 @@ namespace PokeAPI
         public NamedApiResource<Language> Language
         {
             get;
+            internal set;
         }
     }
 
@@ -123,6 +134,7 @@ namespace PokeAPI
         public int GameIndex
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -131,6 +143,7 @@ namespace PokeAPI
         public NamedApiResource<Generation> Generation
         {
             get;
+            internal set;
         }
     }
 
@@ -142,6 +155,7 @@ namespace PokeAPI
         public string Name
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -150,6 +164,7 @@ namespace PokeAPI
         public NamedApiResource<Language> Language
         {
             get;
+            internal set;
         }
     }
 
@@ -161,6 +176,7 @@ namespace PokeAPI
         public string Effect
         {
             get;
+            internal set;
         }
         /// <summary>
         /// The localized effect text in brief.
@@ -169,6 +185,7 @@ namespace PokeAPI
         public string ShortEffect
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -177,6 +194,7 @@ namespace PokeAPI
         public NamedApiResource<Language> Language
         {
             get;
+            internal set;
         }
     }
 
@@ -188,6 +206,7 @@ namespace PokeAPI
         public NamedApiResource<GameVersion> Version
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -197,6 +216,7 @@ namespace PokeAPI
         public float MaxChance
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -206,6 +226,7 @@ namespace PokeAPI
         public Encounter[] EncounterDetails
         {
             get;
+            internal set;
         }
     }
 
@@ -218,6 +239,7 @@ namespace PokeAPI
         public int GameIndex
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -226,6 +248,7 @@ namespace PokeAPI
         public NamedApiResource<GameVersion> Version
         {
             get;
+            internal set;
         }
     }
 
@@ -237,6 +260,7 @@ namespace PokeAPI
         public string Text
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -245,6 +269,7 @@ namespace PokeAPI
         public NamedApiResource<Language> Language
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -254,6 +279,7 @@ namespace PokeAPI
         public NamedApiResource<VersionGroup> VersionGroup
         {
             get;
+            internal set;
         }
     }
 }

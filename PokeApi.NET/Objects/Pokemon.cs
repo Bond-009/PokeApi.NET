@@ -11,74 +11,88 @@ namespace PokeAPI
         public int BaseExperience
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("is_default")]
         public bool IsDefault
         {
             get;
+            internal set;
         }
 
         public int Height
         {
             get;
+            internal set;
         }
         public int Mass
         {
             get;
+            internal set;
         }
 
         public int Order
         {
             get;
+            internal set;
         }
 
         public PokemonAbility[] Abilities
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<PokemonForm>[] Forms
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("game_indices")]
         public VersionGameIndex[] GameIndices
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("held_items")]
         public NamedApiResource<Item>[] HeldItems
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("location_area_encounters")]
         public LocationAreaEncounter[] LocationAreaEncounters
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<Move>[] Moves
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<PokemonSpecies> Species
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<Stat> Stats
         {
             get;
+            internal set;
         }
 
         public PokemonTypeMap[] Types
         {
             get;
+            internal set;
         }
     }
 
@@ -87,12 +101,14 @@ namespace PokeAPI
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("pokemon_species")]
         public NamedApiResource<PokemonSpecies>[] Species
         {
             get;
+            internal set;
         }
     }
 
@@ -101,44 +117,52 @@ namespace PokeAPI
         public int Order
         {
             get;
+            internal set;
         }
         [JsonPropertyName("form_order")]
         public int FormOrder
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("is_default")]
         public bool IsDefault
         {
             get;
+            internal set;
         }
         [JsonPropertyName("is_battle_only")]
         public bool IsBattleOnly
         {
             get;
+            internal set;
         }
         [JsonPropertyName("is_mega")]
         public bool IsMegaEvolution
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("form_name")]
         public string FormName
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<Pokemon> Pokemon
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("version_group")]
         public NamedApiResource<VersionGroup> VersionGroup
         {
             get;
+            internal set;
         }
     }
 
@@ -147,12 +171,14 @@ namespace PokeAPI
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("pokemon_species")]
         public NamedApiResource<PokemonSpecies>[] Species
         {
             get;
+            internal set;
         }
     }
 
@@ -162,17 +188,20 @@ namespace PokeAPI
         public AwesomeName[] AwesomeNames
         {
             get;
+            internal set;
         }
 
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("pokemon_species")]
         public NamedApiResource<PokemonSpecies>[] Species
         {
             get;
+            internal set;
         }
     }
 
@@ -181,119 +210,141 @@ namespace PokeAPI
         public int Order
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("gender_rate"), JsonConverter(typeof(PokemonSpeciesGender.GenderConverter))]
         public float? FemaleToMaleRate
         {
             get;
+            internal set;
         }
         [JsonPropertyName("capture_rate")]
         public float CaptureRate
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("base_happiness")]
         public int BaseHappiness
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("is_baby")]
         public bool IsBaby
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("hatch_counter")]
         public int HatchCounter
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("has_gender_differences")]
         public bool HasGenderDifferences
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("forms_switchable")]
         public bool FormsAreSwitchable
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("growth_rate")]
         public NamedApiResource<GrowhtRate> GrowthRate
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("pokedex_numbers")]
         public PokemonSpeciesDexEntry[] PokedexNumbers
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("egg_groups")]
         public NamedApiResource<EggGroup>[] EggGroups
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<PokemonColour> Colours
         {
             get;
+            internal set;
         }
         public NamedApiResource<PokemonShape> Shape
         {
             get;
+            internal set;
         }
         [JsonPropertyName("evolve_from_species")]
         public NamedApiResource<PokemonSpecies> EvolveFromSpecies
         {
             get;
+            internal set;
         }
         [JsonPropertyName("evolution_chain")]
         public ApiResource<EvolutionChain> EvolutionChain
         {
             get;
+            internal set;
         }
         public NamedApiResource<PokemonHabitat> Habitat
         {
             get;
+            internal set;
         }
         public NamedApiResource<Generation> Generation
         {
             get;
+            internal set;
         }
 
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("pal_park_encounters")]
         public PalParkEncounterArea[] PalParkEncounters
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("form_descriptions")]
         public Description[] Descriptions
         {
             get;
+            internal set;
         }
 
         public Genus[] Genera
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<Pokemon> Varieties
         {
             get;
+            internal set;
         }
     }
 
@@ -303,38 +354,45 @@ namespace PokeAPI
         public TypeRelations DamageRelations
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("game_indices")]
         public GenerationGameIndex[] GameIndices
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<Generation> Generation
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("move_damage_class")]
         public NamedApiResource<MoveDamageClass> MoveDamageClass
         {
             get;
+            internal set;
         }
 
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
 
         public TypePokemon[] Pokemon
         {
             get;
+            internal set;
         }
 
         public NamedApiResource<Move>[] Moves
         {
             get;
+            internal set;
         }
     }
 
@@ -344,39 +402,46 @@ namespace PokeAPI
         public int GameIndex
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("is_battle_only")]
         public bool IsBattleOnly
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("affecting_moves")]
         public StatAffectSets<Move  > AffectingMoves
         {
             get;
+            internal set;
         }
         [JsonPropertyName("affecting_natures")]
         public StatAffectSets<Nature> AffectingNatures
         {
             get;
+            internal set;
         }
 
         public ApiResource<Characteristic>[] Characteristics
         {
             get;
+            internal set;
         }
 
         [JsonPropertyName("move_damage_class")]
         public NamedApiResource<MoveDamageClass> MoveDamageClass
         {
             get;
+            internal set;
         }
 
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
     }
 }
