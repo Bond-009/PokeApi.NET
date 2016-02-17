@@ -39,6 +39,7 @@ namespace PokeAPI
             { typeof(EncounterCondition     ), "encounter-condition"       },
             { typeof(EncounterConditionValue), "encounter-condition-value" },
 
+            { typeof(EvolutionChain  ), "evolution-chain"   },
             { typeof(EvolutionTrigger), "evolution-trigger" },
 
             { typeof(Generation  ), "generation"    },
@@ -87,6 +88,8 @@ namespace PokeAPI
         readonly static Dictionary<Type, Cache<int   , JsonData>>    caches = UrlOfType        .ToDictionary(kvp => kvp.Key, kvp => new Cache<int   , JsonData>(async i => Maybe.Just(await GetJsonAsync(kvp.Value + SLASH + i))));
         readonly static Dictionary<Type, Cache<string, JsonData>> strCaches = UrlOfType.Skip(3).ToDictionary(kvp => kvp.Key, kvp => new Cache<string, JsonData>(async s => Maybe.Just(await GetJsonAsync(kvp.Value + SLASH + s))));
 
+        readonly static Dictionary<Type, Cache<Uri   , JsonData>> urlCaches = UrlOfType        .ToDictionary(kvp => kvp.Key, kvp => new Cache<Uri   , JsonData>(async u => Maybe.Just(JsonMapper.ToObject(await client.GetStringAsync(u.AbsoluteUri)))));
+
         readonly static Dictionary<Type, Cache<ValueTuple<int, int>, JsonData>> listCaches = UrlOfType.ToDictionary(kvp => kvp.Key, kvp => new Cache<ValueTuple<int, int>, JsonData>(async t => Maybe.Just(await GetJsonAsync(kvp.Value + SLASH + "?offset=" + t.Item1 + "&limit=" + t.Item2))));
 
         /// <summary>
@@ -103,6 +106,7 @@ namespace PokeAPI
 
         public static CacheGetter<int   , JsonData> ChacheOf     <T>() where T :      ApiObject => new CacheGetter<int   , JsonData>(   caches[typeof(T)]);
         public static CacheGetter<string, JsonData> CacheOfByName<T>() where T : NamedApiObject => new CacheGetter<string, JsonData>(strCaches[typeof(T)]);
+        public static CacheGetter<Uri   , JsonData> CacheOfByUrl <T>() where T :      ApiObject => new CacheGetter<Uri   , JsonData>(urlCaches[typeof(T)]);
 
         public static CacheGetter<ValueTuple<int, int>, JsonData> ListCacheOf<T>() where T : ApiObject => new CacheGetter<ValueTuple<int, int>, JsonData>(listCaches[typeof(T)]);
 
@@ -131,7 +135,16 @@ namespace PokeAPI
 
         public static Task<JsonData> GetJsonOf<T>(int    id  ) where T :      ApiObject =>    caches[typeof(T)].Get(id  );
         public static Task<JsonData> GetJsonOf<T>(string name) where T : NamedApiObject => strCaches[typeof(T)].Get(name);
+        public static Task<JsonData> GetJsonOf<T>(Uri    url ) where T :      ApiObject => urlCaches[typeof(T)].Get(url );
 
         public static Task<JsonData> GetListJsonOf<T>(int offset, int limit) where T : ApiObject => listCaches[typeof(T)].Get(ValueTuple.Create(offset, limit));
+
+        public static void ClearAll()
+        {
+                caches.Clear();
+             strCaches.Clear();
+             urlCaches.Clear();
+            listCaches.Clear();
+        }
     }
 }

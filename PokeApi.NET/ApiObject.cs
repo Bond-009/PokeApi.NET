@@ -12,16 +12,18 @@ namespace PokeAPI
         public int ID
         {
             get;
+            internal set;
         }
     }
     public abstract class NamedApiObject : ApiObject
     {
         /// <summary>
-        /// The name for this <see cref="ApiObject" />.
+        /// The name for this <see cref="NamedApiObject" />.
         /// </summary>
         public string Name
         {
             get;
+            internal set;
         }
     }
 }

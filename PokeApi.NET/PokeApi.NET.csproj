@@ -51,6 +51,7 @@
     <Compile Include="DataFetcher.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Language.cs" />
+    <Compile Include="LitJson\Attributes.cs" />
     <Compile Include="LitJson\IJsonWrapper.cs" />
     <Compile Include="LitJson\JsonData.cs" />
     <Compile Include="LitJson\JsonException.cs" />

@@ -14,6 +14,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -132,7 +133,7 @@ namespace LitJson
 
     public static class JsonMapper
     {
-        const BindingFlags BFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.NonPublic;
+        const BindingFlags BFlags = BindingFlags.IgnoreCase | BindingFlags.Instance /*| BindingFlags.FlattenHierarchy*/ | BindingFlags.Public | BindingFlags.NonPublic;
 
         static int max_nesting_depth;
 
@@ -183,8 +184,7 @@ namespace LitJson
             RegisterBaseImporters();
         }
 
-        #region Private Methods
-        static void AddArrayMetadata(Type type)
+        static void AddArrayMetadata (Type type)
         {
             if (array_metadata.ContainsKey(type))
                 return;
@@ -235,7 +235,7 @@ namespace LitJson
 
             foreach (var p_info in type.GetProperties(BFlags))
             {
-                if (p_info.Name == "Item")
+                if (p_info.Name == "Item" && (p_info.Attributes & PropertyAttributes.SpecialName) != 0)
                 {
                     var parameters = p_info.GetIndexParameters();
 
@@ -252,7 +252,15 @@ namespace LitJson
                 p_data.Info = p_info;
                 p_data.Type = p_info.PropertyType;
 
-                data.Properties.Add(p_info.Name.ToUpperInvariant(), p_data);
+                data.Properties.Add(p_info.Name, p_data);
+
+                foreach (var o in p_info.GetCustomAttributes(typeof(JsonPropertyNameAttribute), true))
+                {
+                    var jpn = (JsonPropertyNameAttribute)o;
+
+                    if (!data.Properties.ContainsKey(jpn.Name))
+                        data.Properties.Add(jpn.Name, p_data);
+                }
             }
 
             foreach (var f_info in type.GetFields(BFlags))
@@ -262,7 +270,15 @@ namespace LitJson
                 p_data.IsField = true;
                 p_data.Type = f_info.FieldType;
 
-                data.Properties.Add(f_info.Name.ToUpperInvariant(), p_data);
+                data.Properties.Add(f_info.Name, p_data);
+
+                foreach (var o in f_info.GetCustomAttributes(typeof(JsonPropertyNameAttribute), true))
+                {
+                    var jpn = (JsonPropertyNameAttribute)o;
+
+                    if (!data.Properties.ContainsKey(jpn.Name))
+                        data.Properties.Add(jpn.Name, p_data);
+                }
             }
 
             lock (object_metadata_lock)
@@ -345,53 +361,83 @@ namespace LitJson
             return op;
         }
 
-        static object ReadValue(Type inst_type, JsonReader reader)
+        static bool TryGetValueIgnCase<T>(IDictionary<string, T> dict, string key, out T value)
         {
-            reader.Read();
+            foreach (var kvp in dict)
+                if (kvp.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    value = kvp.Value;
+                    return true;
+                }
+
+            value = default(T);
+            return false;
+        }
+
+        static object ConvertTo(Type to, object o, Type from = null)
+        {
+            if (o != null)
+                from = from ?? o.GetType();
+
+            if (o == null || (o is string && String.IsNullOrEmpty((string)o) && !(to == typeof(string))))
+            {
+                if (to.IsGenericType && to.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    return Activator.CreateInstance(to); // empty nullable
+                if (!to.IsClass && !to.IsArray)
+                    throw new JsonException(String.Format("Can't assign null to an instance of type {0}", to));
+
+                return null;
+            }
+
+            if (to.IsAssignableFrom(from))
+                return o;
+
+            // If there's a custom importer that fits, use it
+            if (custom_importers_table.ContainsKey(from) && custom_importers_table[from].ContainsKey(to))
+                return custom_importers_table[from][to](o);
+
+            // Maybe there's a base importer that works
+            if (base_importers_table.ContainsKey(from) && base_importers_table[from].ContainsKey(to))
+                return base_importers_table[from][to](o);
+
+            // Maybe it's an enum
+            if (to.IsEnum)
+                return Enum.ToObject(to, o);
+
+            // Try using an implicit conversion operator
+            MethodInfo conv_op = GetConvOp(to, from);
+
+            if (conv_op != null)
+                return conv_op.Invoke(null, new[] { o });
+
+            throw new JsonException(String.Format("Can't assign value '{0}' (type {1}) to type {2}", o, from, to));
+        }
+
+        static object ReadValue(Type inst_type, JsonReader reader, bool readBegin = true)
+        {
+            if (readBegin)
+                reader.Read();
 
             if (reader.Token == JsonToken.ArrayEnd)
                 return null;
 
-            if (reader.Token == JsonToken.Null)
+            if (reader.Token == JsonToken.Null || (reader.Token == JsonToken.String && String.IsNullOrEmpty((string)reader.Value) && !(inst_type == typeof(string))))
             {
-                if (!inst_type.IsClass)
+                if (!inst_type.IsClass && !inst_type.IsArray)
                     throw new JsonException(String.Format("Can't assign null to an instance of type {0}", inst_type));
 
                 return null;
             }
 
+            if (inst_type.IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>)) // isn't null -> has a value
+                return Activator.CreateInstance(inst_type, ReadValue(inst_type.GetGenericArguments()[0], reader, false));
+
             if (reader.Token == JsonToken.Double ||
-                reader.Token == JsonToken.Int    ||
-                reader.Token == JsonToken.Long   ||
-                reader.Token == JsonToken.String ||
-                reader.Token == JsonToken.Boolean)
-            {
-                Type json_type = reader.Value.GetType();
-
-                if (inst_type.IsAssignableFrom(json_type))
-                    return reader.Value;
-
-                // If there's a custom importer that fits, use it
-                if (custom_importers_table.ContainsKey(json_type) && custom_importers_table[json_type].ContainsKey(inst_type))
-                    return custom_importers_table[json_type][inst_type](reader.Value);
-
-                // Maybe there's a base importer that works
-                if (base_importers_table.ContainsKey(json_type) && base_importers_table[json_type].ContainsKey(inst_type))
-                    return base_importers_table[json_type][inst_type](reader.Value);
-
-                // Maybe it's an enum
-                if (inst_type.IsEnum)
-                    return Enum.ToObject(inst_type, reader.Value);
-
-                // Try using an implicit conversion operator
-                MethodInfo conv_op = GetConvOp(inst_type, json_type);
-
-                if (conv_op != null)
-                    return conv_op.Invoke(null, new[] { reader.Value });
-
-                // No luck
-                throw new JsonException(String.Format("Can't assign value '{0}' (type {1}) to type {2}", reader.Value, json_type, inst_type));
-            }
+                    reader.Token == JsonToken.Int    ||
+                    reader.Token == JsonToken.Long   ||
+                    reader.Token == JsonToken.String ||
+                    reader.Token == JsonToken.Boolean)
+                return ConvertTo(inst_type, reader.Value, reader.Value.GetType());
 
             object instance = null;
 
@@ -454,7 +500,7 @@ namespace LitJson
                     var property = (string)reader.Value;
 
                     PropertyMetadata prop_data;
-                    if (t_data.Properties.TryGetValue(property.ToUpperInvariant(), out prop_data))
+                    if (TryGetValueIgnCase(t_data.Properties, property, out prop_data))
                     {
                         if (prop_data.IsField)
                             ((FieldInfo)prop_data.Info).SetValue(instance, ReadValue(prop_data.Type, reader));
@@ -465,9 +511,8 @@ namespace LitJson
                             var v = ReadValue(prop_data.Type, reader);
 
                             if (p_info.CanWrite)
-                                p_info.SetValue(instance, v, null);
+                                p_info.SetValue(instance, ConvertTo(p_info.PropertyType, v), null);
                         }
-
                     }
                     else
                     {
@@ -487,13 +532,125 @@ namespace LitJson
 
             return instance;
         }
+        static object ReadValue(Type inst_type, JsonData   json  )
+        {
+            if (json == null || json.JsonType == JsonType.None || (json.JsonType == JsonType.String && String.IsNullOrEmpty((string)json.Value) && !(inst_type == typeof(string))))
+            {
+                if (inst_type.IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    return Activator.CreateInstance(inst_type); // empty nullable
+                if (!inst_type.IsClass && !inst_type.IsArray)
+                    throw new JsonException(String.Format("Can't assign null to an instance of type {0}", inst_type));
+
+                return null;
+            }
+
+            if (inst_type.IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>)) // 'json' isn't null -> has a value
+                return Activator.CreateInstance(inst_type, ReadValue(inst_type.GetGenericArguments()[0], json));
+
+            var v = json.Value;
+
+            switch (json.JsonType)
+            {
+                case JsonType.Double:
+                case JsonType.Int:
+                case JsonType.Long:
+                case JsonType.String:
+                case JsonType.Boolean:
+                    return ConvertTo(inst_type, json.Value, json.NetType(inst_type));
+                case JsonType.Array:
+                    {
+                        AddArrayMetadata(inst_type);
+                        ArrayMetadata t_data = array_metadata[inst_type];
+
+                        if (!t_data.IsArray && !t_data.IsList)
+                            throw new JsonException(String.Format("Type {0} can't act as an array", inst_type));
+
+                        var inList = (IList<JsonData>)v;
+
+                        IList list;
+                        Type elem_type;
+
+                        if (!t_data.IsArray)
+                        {
+                            list = (IList)Activator.CreateInstance(inst_type);
+                            elem_type = t_data.ElementType;
+                        }
+                        else
+                        {
+                            list = new List<object>();
+                            elem_type = inst_type.GetElementType();
+                        }
+
+                        for (int i = 0; i < inList.Count; i++)
+                            list.Add(ReadValue(elem_type, inList[i]));
+
+                        object inst;
+                        if (t_data.IsArray)
+                        {
+                            int n = list.Count;
+                            inst = Array.CreateInstance(elem_type, n);
+
+                            for (int i = 0; i < n; i++)
+                                ((Array)inst).SetValue(list[i], i);
+                        }
+                        else
+                            inst = list;
+
+                        return inst;
+                    }
+                case JsonType.Object:
+                    {
+                        AddObjectMetadata(inst_type);
+                        ObjectMetadata t_data = object_metadata[inst_type];
+
+                        var inst = Activator.CreateInstance(inst_type);
+
+                        var dict = (IDictionary<string, JsonData>)v;
+
+                        foreach (var kvp in dict)
+                        {
+                            var prop  = kvp.Key  ;
+                            var value = kvp.Value;
+
+                            PropertyMetadata prop_data;
+                            if (TryGetValueIgnCase(t_data.Properties, prop, out prop_data))
+                            {
+                                if (prop_data.IsField)
+                                    ((FieldInfo)prop_data.Info).SetValue(inst, ReadValue(prop_data.Type, value));
+                                else
+                                {
+                                    var p_info = (PropertyInfo)prop_data.Info;
+
+                                    var v_ = ReadValue(prop_data.Type, value);
+
+                                    if (p_info.CanWrite)
+                                        p_info.SetValue(inst, ConvertTo(p_info.PropertyType, v_), null);
+                                    else
+                                        Debug.WriteLine("warning: cannot set property " + p_info + " to " + v_);
+                                }
+
+                            }
+                            else
+                            {
+                                if (!t_data.IsDictionary)
+                                    throw new JsonException(String.Format("The type {0} doesn't have the property '{1}'", inst_type, prop));
+
+                                ((IDictionary)inst).Add(prop, ReadValue(t_data.ElementType, value));
+                            }
+                        }
+
+                        return inst;
+                    }
+                default:
+                    return null;
+            }
+        }
 
         static IJsonWrapper ReadValue(WrapperFactory factory, JsonReader reader)
         {
             reader.Read();
 
-            if (reader.Token == JsonToken.ArrayEnd ||
-                reader.Token == JsonToken.Null)
+            if (reader.Token == JsonToken.ArrayEnd || reader.Token == JsonToken.Null)
                 return null;
 
             IJsonWrapper instance = factory();
@@ -766,7 +923,6 @@ namespace LitJson
 
             writer.WriteObjectEnd();
         }
-        #endregion
 
         public static string ToJson(object obj)
         {
@@ -791,7 +947,8 @@ namespace LitJson
 
         public static T ToObject<T>(JsonReader reader) => (T)ReadValue(typeof(T), reader);
         public static T ToObject<T>(TextReader reader) => (T)ReadValue(typeof(T), new JsonReader(reader));
-        public static T ToObject<T>(string json) => (T)ReadValue(typeof(T), new JsonReader(json));
+        public static T ToObject<T>(string     json  ) => (T)ReadValue(typeof(T), new JsonReader(json  ));
+        public static T ToObject<T>(JsonData   json  ) => (T)ReadValue(typeof(T), json  );
 
         public static IJsonWrapper ToWrapper(WrapperFactory factory, JsonReader reader) => ReadValue(factory, reader);
         public static IJsonWrapper ToWrapper(WrapperFactory factory, string json) => ReadValue(factory, new JsonReader(json));

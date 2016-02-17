@@ -10,8 +10,14 @@ namespace PokeAPI.Tests
 {
     static class XUnitRunnerDoesntWorkSoIllDoItThisWay
     {
+        readonly static string v = "{ \"url\": \"http://pokeapi.co/api/v2/evolution-chain/1/\" }";
+
         static void Main(string[] args)
         {
+            //var ecr = JsonMapper.ToObject<ApiResource<EvolutionChain>>(v);
+            //var ect = ecr.GetObject();
+            //var ec = ect.Result;
+
             bool hasErrors = false;
 
             foreach (Type t in Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract && !t.ContainsGenericParameters && (t.IsClass || t.IsValueType)))

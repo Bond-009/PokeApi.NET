@@ -54,6 +54,34 @@ namespace LitJson
 
         public bool IsString => type == JsonType.String;
 
+        public JsonType JsonType => type;
+
+        public object Value
+        {
+            get
+            {
+                switch (type)
+                {
+                    case JsonType.Object:
+                        return inst_object;
+                    case JsonType.Array:
+                        return inst_array;
+                    case JsonType.Boolean:
+                        return inst_boolean;
+                    case JsonType.Double:
+                        return inst_double;
+                    case JsonType.Int:
+                        return inst_int;
+                    case JsonType.Long:
+                        return inst_long;
+                    case JsonType.String:
+                        return inst_string;
+                    default:
+                        return null;
+                }
+            }
+        }
+
         public ICollection<string> Keys
         {
             get
@@ -856,12 +884,65 @@ namespace LitJson
 
             return "Uninitialized JsonData";
         }
+
+        public Type NetType()
+        {
+            switch (type)
+            {
+                case JsonType.None:
+                case JsonType.Object:
+                    return typeof(object);
+                case JsonType.Array:
+                    return typeof(JsonData[]);
+                case JsonType.Boolean:
+                    return typeof(bool);
+                case JsonType.Double:
+                    return typeof(double);
+                case JsonType.Int:
+                    return typeof(int);
+                case JsonType.Long:
+                    return typeof(long);
+                case JsonType.String:
+                    return typeof(string);
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+        public Type NetType(Type to)
+        {
+            switch (type)
+            {
+                case JsonType.None:
+                    if (!to.IsClass && !to.IsArray)
+                        throw new ArgumentException();
+
+                    return to;
+                case JsonType.Object:
+                    return to;
+                case JsonType.Array:
+                    if (!to.IsArray && Array.IndexOf(to.GetInterfaces(), typeof(IList)) == -1)
+                        throw new ArgumentException();
+
+                    return to;
+                //case JsonType.Boolean:
+                //    return typeof(bool);
+                //case JsonType.Double:
+                //    return typeof(double);
+                //case JsonType.Int:
+                //    return typeof(int);
+                //case JsonType.Long:
+                //    return typeof(long);
+                //case JsonType.String:
+                //    return typeof(string);
+                default:
+                    return to;
+            }
+        }
     }
 
     class OrderedDictionaryEnumerator : IDictionaryEnumerator
     {
         readonly IEnumerator<KeyValuePair<string, JsonData>> list_enumerator;
-
 
         public object Current => Entry;
 
@@ -878,13 +959,11 @@ namespace LitJson
 
         public object Value => list_enumerator.Current.Value;
 
-
         public OrderedDictionaryEnumerator(
             IEnumerator<KeyValuePair<string, JsonData>> enumerator)
         {
             list_enumerator = enumerator;
         }
-
 
         public bool MoveNext() => list_enumerator.MoveNext();
 

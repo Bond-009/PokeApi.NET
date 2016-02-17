@@ -27,12 +27,12 @@ namespace PokeAPI
 
             IsActive = active;
 
-            dict = defValues != null ? new Dictionary<TKey, TValue>(defValues) : dict;
+            dict = defValues != null ? new Dictionary<TKey, TValue>(defValues) : new Dictionary<TKey, TValue>();
         }
 
         public async Task<TValue> Get(TKey key)
         {
-            //http://stackoverflow.com/a/7612704/1322417
+            // http://stackoverflow.com/a/7612704/1322417
             TValue cacheItem;
             lock (_lock)
             {

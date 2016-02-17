@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PokeAPI
 {
@@ -89,8 +90,7 @@ namespace PokeAPI
 
                 index = 0;
 
-                var qd = PokeExtensions.ParseQuery(current.Next.Query);
-                var t = DataFetcher.GetListJsonOf<TInner>(Int32.Parse(qd[OFFSET]), Int32.Parse(qd[LIMIT]));
+                var t = DataFetcher.GetJsonOf<TInner>(current.Next);
                 t.RunSynchronously();
                 if (t.IsFaulted)
                     throw t.Exception;
