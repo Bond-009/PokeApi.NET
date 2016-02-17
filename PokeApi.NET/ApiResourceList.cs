@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LitJson;
 
 namespace PokeAPI
 {
@@ -63,10 +64,7 @@ namespace PokeAPI
                 throw t.Exception;
 
             var j = t.Result;
-
-            throw new NotImplementedException();
-            //TODO: deserialize JSON
-            // start = current = <?>;
+            start = current = JsonMapper.ToObject<ResourceListFragment<T, TInner>>(j);
         }
 
         public void Dispose()
@@ -96,10 +94,7 @@ namespace PokeAPI
                     throw t.Exception;
 
                 var j = t.Result;
-
-                throw new NotImplementedException();
-                //TODO: deserialize JSON
-                // current = <?>;
+                current = JsonMapper.ToObject<ResourceListFragment<T, TInner>>(j);
             }
 
             return true;
