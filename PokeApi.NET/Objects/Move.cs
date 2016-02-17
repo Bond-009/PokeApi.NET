@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 
 namespace PokeAPI
 {
     public struct ContestComboDetail
     {
+        [JsonPropertyName("use_before")]
         public NamedApiResource<Move> UseBefore
         {
             get;
         }
+        [JsonPropertyName("use_after")]
         public NamedApiResource<Move> UseAfter
         {
             get;
@@ -38,23 +41,28 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("min_hits")]
         public int? MinHits
         {
             get;
         }
+        [JsonPropertyName("max_hits")]
         public int? MaxHits
         {
             get;
         }
+        [JsonPropertyName("min_turns")]
         public int? MinTurns
         {
             get;
         }
+        [JsonPropertyName("max_turns")]
         public int? MaxTurns
         {
             get;
         }
 
+        [JsonPropertyName("drain")]
         public int DrainRecoil
         {
             get;
@@ -64,18 +72,22 @@ namespace PokeAPI
             get;
         }
 
-        public int CritRage
+        [JsonPropertyName("crit_rate")]
+        public int CritRate
         {
             get;
         }
+        [JsonPropertyName("ailment_chance")]
         public float AilmentChance
         {
             get;
         }
+        [JsonPropertyName("flinch_chance")]
         public float FlinchChance
         {
             get;
         }
+        [JsonPropertyName("stat_chance")]
         public int StatChance
         {
             get;
@@ -100,6 +112,7 @@ namespace PokeAPI
         {
             get;
         }
+        [JsonPropertyName("effect_chance")]
         public float EffectChance
         {
             get;
@@ -114,6 +127,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("effect_entries")]
         public VerboseEffect[] Effects
         {
             get;
@@ -124,6 +138,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("version_group")]
         public NamedApiResource<VersionGroup> VersionGroup
         {
             get;
@@ -136,6 +151,7 @@ namespace PokeAPI
         {
             get;
         }
+        [JsonPropertyName("effect_chance")]
         public float EffectChance
         {
             get;
@@ -154,37 +170,43 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("contest_combos")]
         public ContestComboSet[] ComboSets
         {
             get;
         }
 
+        [JsonPropertyName("contest_type")]
         public NamedApiResource<ContestType> ContestType
         {
             get;
         }
 
+        [JsonPropertyName("contest_effect")]
         public ApiResource<ContestEffect> ContestEffect
         {
             get;
         }
 
+        [JsonPropertyName("damage_class")]
         public NamedApiResource<MoveDamageClass> DamageClass
         {
             get;
         }
 
+        [JsonPropertyName("effect_entries")]
         public VerboseEffect[] Effects
         {
             get;
         }
 
+        [JsonPropertyName("effect_changes")]
         public AbilityEffectChange[] EffectChanges
         {
             get;
         }
 
-        public NamedApiResource<Generation> generation
+        public NamedApiResource<Generation> Generation
         {
             get;
         }
@@ -199,11 +221,13 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("past_values")]
         public PastMoveStatValue[] PastValues
         {
             get;
         }
 
+        [JsonPropertyName("stat_changed")]
         public MoveStatChange[] StatChanges
         {
             get;
@@ -284,6 +308,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("version_groups")]
         public NamedApiResource<VersionGroup>[] VersionGroups
         {
             get;

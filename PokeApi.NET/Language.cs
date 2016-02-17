@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 
 namespace PokeAPI
 {
@@ -9,6 +10,7 @@ namespace PokeAPI
         /// <summary>
         /// Whether or not hte games are published in this language.
         /// </summary>
+        [JsonPropertyName("official")]
         public bool IsOfficial
         {
             get;

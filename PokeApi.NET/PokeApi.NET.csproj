@@ -69,6 +69,8 @@
     <Compile Include="Objects\Item.cs" />
     <Compile Include="Objects\Location.cs" />
     <Compile Include="Objects\Move.cs" />
+    <Compile Include="Objects\Other.cs" />
+    <Compile Include="Objects\PokemonStructs.cs" />
     <Compile Include="Objects\Pokemon.cs" />
     <Compile Include="PokemonParseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

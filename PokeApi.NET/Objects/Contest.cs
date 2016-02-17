@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 
 namespace PokeAPI
 {
     public class ContestType : NamedApiObject
     {
+        [JsonPropertyName("berry_flavor")]
         public NamedApiResource<BerryFlavor> BerryFlavor
         {
             get;
@@ -28,10 +30,12 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("effect_entries")]
         public Effect[] Effects
         {
             get;
         }
+        [JsonPropertyName("flavor_text_entries")]
         public FlavorText[] FlavorTexts
         {
             get;
@@ -44,6 +48,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("flavor_text_entries")]
         public FlavorText[] FlavorTexts
         {
             get;

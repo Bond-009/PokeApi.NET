@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 
 namespace PokeAPI
 {
@@ -11,11 +12,13 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("fling_power")]
         public int FlingPower
         {
             get;
         }
 
+        [JsonPropertyName("fling_effect")]
         public NamedApiResource<ItemFlingEffect> FlingEffect
         {
             get;
@@ -36,11 +39,13 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("flavor_text_entries")]
         public VersionGroupFlavorText[] FlavorTexts
         {
             get;
         }
 
+        [JsonPropertyName("game_indices")]
         public GenerationGameIndex[] GameIndices
         {
             get;
@@ -51,11 +56,13 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("held_by_pokemon")]
         public NamedApiResource<Pokemon>[] HeldBy
         {
             get;
         }
 
+        [JsonPropertyName("baby_trigger_for")]
         public ApiResource<EvolutionChain>[] BabyTriggerFor
         {
             get;
@@ -100,6 +107,7 @@ namespace PokeAPI
 
     public class ItemFlingEffect : NamedApiObject
     {
+        [JsonPropertyName("effect_entries")]
         public Effect[] Effects
         {
             get;

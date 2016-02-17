@@ -544,6 +544,18 @@ namespace LitJson
                 return null;
             }
 
+            object[] attrs;
+            if ((attrs = inst_type.GetCustomAttributes(typeof(JsonConverterAttribute), false)) != null && attrs.Length == 1)
+            {
+                var jca = (JsonConverterAttribute)attrs[0];
+
+                var jc = (IJsonConverter)Activator.CreateInstance(jca.Converter);
+
+                object v_;
+                if (jc.Deserialize(json, out v_))
+                    return v_;
+            }
+
             if (inst_type.IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>)) // 'json' isn't null -> has a value
                 return Activator.CreateInstance(inst_type, ReadValue(inst_type.GetGenericArguments()[0], json));
 
@@ -622,13 +634,22 @@ namespace LitJson
                                     var p_info = (PropertyInfo)prop_data.Info;
 
                                     var v_ = ReadValue(prop_data.Type, value);
+                                    object converted = null;
+
+                                    if ((attrs = p_info.GetCustomAttributes(typeof(JsonConverterAttribute), false)) != null && attrs.Length == 1)
+                                    {
+                                        var jca = (JsonConverterAttribute)attrs[0];
+
+                                        var jc = (IJsonConverter)Activator.CreateInstance(jca.Converter);
+
+                                        jc.Deserialize(value, out converted);
+                                    }
 
                                     if (p_info.CanWrite)
-                                        p_info.SetValue(inst, ConvertTo(p_info.PropertyType, v_), null);
+                                        p_info.SetValue(inst, converted ?? ConvertTo(p_info.PropertyType, v_), null);
                                     else
-                                        Debug.WriteLine("warning: cannot set property " + p_info + " to " + v_);
+                                        throw new MemberAccessException("Cannot set property '" + p_info + "' to '" + v_ + "'.");
                                 }
-
                             }
                             else
                             {

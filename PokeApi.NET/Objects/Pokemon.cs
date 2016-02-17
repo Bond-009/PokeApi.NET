@@ -1,448 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 
 namespace PokeAPI
 {
-    public struct AbilityEffectChange
-    {
-        public Effect[] Effects
-        {
-            get;
-        }
-
-        public NamedApiResource<VersionGroup> VersionGroup
-        {
-            get;
-        }
-    }
-    public struct AbilityPokemon
-    {
-        public bool IsHidden
-        {
-            get;
-        }
-        public int Slot
-        {
-            get;
-        }
-
-        public NamedApiResource<Pokemon> Pokemon
-        {
-            get;
-        }
-    }
-
-    public struct PokemonSpeciesGender
-    {
-        /// <summary>
-        /// null -> genderless
-        /// </summary>
-        public float? FamaleToMaleRate
-        {
-            get;
-        }
-
-        public NamedApiResource<PokemonSpecies> Species
-        {
-            get;
-        }
-    }
-
-    public struct GrowthRateExperienceLevel
-    {
-        public int Level
-        {
-            get;
-        }
-        public int Experience
-        {
-            get;
-        }
-    }
-
-    public struct NatureStatChange
-    {
-        public int Change
-        {
-            get;
-        }
-
-        public NamedApiResource<PokeathlonStat> Stat
-        {
-            get;
-        }
-    }
-    public struct MoveBattleStylePreference
-    {
-        public float LowHPPreference
-        {
-            get;
-        }
-        public float HighHPPrefernece
-        {
-            get;
-        }
-
-        public NamedApiResource<MoveBattleStyle> BattleStyle
-        {
-            get;
-        }
-    }
-
-    public struct NaturePokeathlonStatAffect
-    {
-        public int MaxChange
-        {
-            get;
-        }
-
-        public NamedApiResource<Nature> Nature
-        {
-            get;
-        }
-    }
-    public struct NaturePokeathlonStatAffectSets
-    {
-        public NaturePokeathlonStatAffect[] Increase
-        {
-            get;
-        }
-        public NaturePokeathlonStatAffect[] Decrease
-        {
-            get;
-        }
-    }
-
-    public struct PokemonAbility
-    {
-        public bool IsHidden
-        {
-            get;
-        }
-        public int Slot
-        {
-            get;
-        }
-
-        public NamedApiResource<Ability> Ability
-        {
-            get;
-        }
-    }
-
-    public struct PokemonTypeMap
-    {
-        public int Slot
-        {
-            get;
-        }
-
-        public NamedApiResource<PokemonType> Type
-        {
-            get;
-        }
-    }
-
-    public struct LocationAreaEncounter
-    {
-        public ApiResource<LocationArea> LocationArea
-        {
-            get;
-        }
-
-        public VersionEncounterDetail[] VersionDetails
-        {
-            get;
-        }
-    }
-
-    public struct AwesomeName
-    {
-        public string Text
-        {
-            get;
-        }
-
-        public NamedApiResource<Language>[] Language
-        {
-            get;
-        }
-    }
-
-    public struct Genus
-    {
-        public string Name;
-
-        public NamedApiResource<Language> Language
-        {
-            get;
-        }
-    }
-    public struct PokemonSpeciesDexEntry
-    {
-        public int EntryNumber
-        {
-            get;
-        }
-
-        public NamedApiResource<Pokedex> Pokedex
-        {
-            get;
-        }
-    }
-    public class PalParkEncounterArea
-    {
-        public int BaseScore
-        {
-            get;
-        }
-        public int Rate
-        {
-            get;
-        }
-
-        public NamedApiResource<PalParkArea> Area
-        {
-            get;
-        }
-    }
-
-    public struct StatAffect<T>
-        where T : NamedApiObject
-    {
-        public int MaxChange
-        {
-            get;
-        }
-
-        public NamedApiResource<T> Resource
-        {
-            get;
-        }
-    }
-    public struct StatAffectSets<T>
-        where T : NamedApiObject
-    {
-        public StatAffect<T>[] Increase
-        {
-            get;
-        }
-        public StatAffect<T>[] Decrease
-        {
-            get;
-        }
-    }
-
-    public struct TypePokemon
-    {
-        public int Slot
-        {
-            get;
-        }
-
-        public NamedApiResource<Pokemon> Pokemon
-        {
-            get;
-        }
-    }
-    public struct TypeRelations
-    {
-        public NamedApiResource<PokemonType> NoDamageTo
-        {
-            get;
-        }
-        public NamedApiResource<PokemonType> HalfDamageTo
-        {
-            get;
-        }
-        public NamedApiResource<PokemonType> DoubleDamageTo
-        {
-            get;
-        }
-
-        public NamedApiResource<PokemonType> NoDamageFrom
-        {
-            get;
-        }
-        public NamedApiResource<PokemonType> HalfDamageFrom
-        {
-            get;
-        }
-        public NamedApiResource<PokemonType> DoubleDamageFrom
-        {
-            get;
-        }
-    }
-
-    // ---
-
-    public class Ability : NamedApiObject
-    {
-        public bool IsMainSeries
-        {
-            get;
-        }
-
-        public NamedApiResource<Generation> Generation
-        {
-            get;
-        }
-
-        public ResourceName[] Names
-        {
-            get;
-        }
-
-        public VerboseEffect[] Effects
-        {
-            get;
-        }
-
-        public AbilityEffectChange[] EffectChanges
-        {
-            get;
-        }
-
-        public VersionGroupFlavorText[] FlavorTexts
-        {
-            get;
-        }
-
-        public AbilityPokemon[] Pokemon
-        {
-            get;
-        }
-    }
-
-    public class Characteristic : ApiObject
-    {
-        public int GeneModulo
-        {
-            get;
-        }
-
-        public int[] PossibleValues
-        {
-            get;
-        }
-
-        public Description[] Descriptions
-        {
-            get;
-        }
-    }
-
-    public class EggGroup : NamedApiObject
-    {
-        public ResourceName[] Names
-        {
-            get;
-        }
-
-        public NamedApiResource<PokemonSpecies> Species
-        {
-            get;
-        }
-    }
-
-    public class Gender : NamedApiObject
-    {
-        public PokemonSpeciesGender[] SpeciesDetails
-        {
-            get;
-        }
-
-        public NamedApiResource<PokemonSpecies> RequiredForEvolution
-        {
-            get;
-        }
-    }
-
-    public class GrowhtRate : NamedApiObject
-    {
-        /// <summary>
-        /// LaTeX-style (maths mode)
-        /// </summary>
-        public string Formula
-        {
-            get;
-        }
-
-        public Description[] Descriptions
-        {
-            get;
-        }
-
-        public GrowthRateExperienceLevel[] Levels
-        {
-            get;
-        }
-
-        public NamedApiResource<PokemonSpecies>[] Species
-        {
-            get;
-        }
-    }
-
-    public class Nature : NamedApiObject
-    {
-        public NamedApiResource<Stat> DecreasedStat
-        {
-            get;
-        }
-
-        public NamedApiResource<Stat> IncreasedStat
-        {
-            get;
-        }
-
-        public NamedApiResource<BerryFlavor> HatesFlavor
-        {
-            get;
-        }
-
-        public NamedApiResource<BerryFlavor> LikesFlavor
-        {
-            get;
-        }
-
-        public NatureStatChange[] PokeathlonStatChanges
-        {
-            get;
-        }
-
-        public MoveBattleStylePreference[] BattleStylePreferences
-        {
-            get;
-        }
-
-        public ResourceName[] Names
-        {
-            get;
-        }
-    }
-
-    public class PokeathlonStat : NamedApiObject
-    {
-        public ResourceName[] Names
-        {
-            get;
-        }
-
-        public NaturePokeathlonStatAffectSets AffectingNatures
-        {
-            get;
-        }
-    }
-
     public class Pokemon : NamedApiObject
     {
+        [JsonPropertyName("base_experience")]
         public int BaseExperience
         {
             get;
         }
 
+        [JsonPropertyName("is_default")]
         public bool IsDefault
         {
             get;
@@ -472,16 +43,19 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("game_indices")]
         public VersionGameIndex[] GameIndices
         {
             get;
         }
 
+        [JsonPropertyName("held_items")]
         public NamedApiResource<Item>[] HeldItems
         {
             get;
         }
 
+        [JsonPropertyName("location_area_encounters")]
         public LocationAreaEncounter[] LocationAreaEncounters
         {
             get;
@@ -515,6 +89,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("pokemon_species")]
         public NamedApiResource<PokemonSpecies>[] Species
         {
             get;
@@ -527,24 +102,29 @@ namespace PokeAPI
         {
             get;
         }
+        [JsonPropertyName("form_order")]
         public int FormOrder
         {
             get;
         }
 
+        [JsonPropertyName("is_default")]
         public bool IsDefault
         {
             get;
         }
+        [JsonPropertyName("is_battle_only")]
         public bool IsBattleOnly
         {
             get;
         }
+        [JsonPropertyName("is_mega")]
         public bool IsMegaEvolution
         {
             get;
         }
 
+        [JsonPropertyName("form_name")]
         public string FormName
         {
             get;
@@ -555,6 +135,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("version_group")]
         public NamedApiResource<VersionGroup> VersionGroup
         {
             get;
@@ -568,6 +149,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("pokemon_species")]
         public NamedApiResource<PokemonSpecies>[] Species
         {
             get;
@@ -576,6 +158,7 @@ namespace PokeAPI
 
     public class PokemonShape : NamedApiObject
     {
+        [JsonPropertyName("awesome_names")]
         public AwesomeName[] AwesomeNames
         {
             get;
@@ -586,6 +169,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("pokemon_species")]
         public NamedApiResource<PokemonSpecies>[] Species
         {
             get;
@@ -599,50 +183,60 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("gender_rate"), JsonConverter(typeof(PokemonSpeciesGender.GenderConverter))]
         public float? FemaleToMaleRate
         {
             get;
         }
+        [JsonPropertyName("capture_rate")]
         public float CaptureRate
         {
             get;
         }
 
+        [JsonPropertyName("base_happiness")]
         public int BaseHappiness
         {
             get;
         }
 
+        [JsonPropertyName("is_baby")]
         public bool IsBaby
         {
             get;
         }
 
+        [JsonPropertyName("hatch_counter")]
         public int HatchCounter
         {
             get;
         }
 
+        [JsonPropertyName("has_gender_differences")]
         public bool HasGenderDifferences
         {
             get;
         }
 
+        [JsonPropertyName("forms_switchable")]
         public bool FormsAreSwitchable
         {
             get;
         }
 
+        [JsonPropertyName("growth_rate")]
         public NamedApiResource<GrowhtRate> GrowthRate
         {
             get;
         }
 
+        [JsonPropertyName("pokedex_numbers")]
         public PokemonSpeciesDexEntry[] PokedexNumbers
         {
             get;
         }
 
+        [JsonPropertyName("egg_groups")]
         public NamedApiResource<EggGroup>[] EggGroups
         {
             get;
@@ -656,10 +250,12 @@ namespace PokeAPI
         {
             get;
         }
+        [JsonPropertyName("evolve_from_species")]
         public NamedApiResource<PokemonSpecies> EvolveFromSpecies
         {
             get;
         }
+        [JsonPropertyName("evolution_chain")]
         public ApiResource<EvolutionChain> EvolutionChain
         {
             get;
@@ -678,11 +274,13 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("pal_park_encounters")]
         public PalParkEncounterArea[] PalParkEncounters
         {
             get;
         }
 
+        [JsonPropertyName("form_descriptions")]
         public Description[] Descriptions
         {
             get;
@@ -701,11 +299,13 @@ namespace PokeAPI
 
     public class PokemonType : NamedApiObject
     {
+        [JsonPropertyName("damage_relations")]
         public TypeRelations DamageRelations
         {
             get;
         }
 
+        [JsonPropertyName("game_indices")]
         public GenerationGameIndex[] GameIndices
         {
             get;
@@ -716,6 +316,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("move_damage_class")]
         public NamedApiResource<MoveDamageClass> MoveDamageClass
         {
             get;
@@ -739,20 +340,24 @@ namespace PokeAPI
 
     public class Stat : NamedApiObject
     {
+        [JsonPropertyName("game_index")]
         public int GameIndex
         {
             get;
         }
 
+        [JsonPropertyName("is_battle_only")]
         public bool IsBattleOnly
         {
             get;
         }
 
+        [JsonPropertyName("affecting_moves")]
         public StatAffectSets<Move  > AffectingMoves
         {
             get;
         }
+        [JsonPropertyName("affecting_natures")]
         public StatAffectSets<Nature> AffectingNatures
         {
             get;
@@ -763,6 +368,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("move_damage_class")]
         public NamedApiResource<MoveDamageClass> MoveDamageClass
         {
             get;

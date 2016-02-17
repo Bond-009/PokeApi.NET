@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 
 namespace PokeAPI
 {
@@ -53,6 +54,7 @@ namespace PokeAPI
         /// <summary>
         /// The lowest level the pokémon could be encountered at.
         /// </summary>
+        [JsonPropertyName("min_level")]
         public int MinLevel
         {
             get;
@@ -60,6 +62,7 @@ namespace PokeAPI
         /// <summary>
         /// The highest level the pokémon could be encountered at.
         /// </summary>
+        [JsonPropertyName("max_level")]
         public int MaxLevel
         {
             get;
@@ -68,6 +71,7 @@ namespace PokeAPI
         /// <summary>
         /// A list os condition values that muse be in effect for this encounter to occur.
         /// </summary>
+        [JsonPropertyName("condition_values")]
         public NamedApiResource<EncounterConditionValue>[] ConditionValues
         {
             get;
@@ -95,6 +99,7 @@ namespace PokeAPI
         /// <summary>
         /// The localized name for an <see cref="ApiResource{T}" /> in a specific langauge.
         /// </summary>
+        [JsonPropertyName("flavor_text")]
         public string Text
         {
             get;
@@ -114,6 +119,7 @@ namespace PokeAPI
         /// <summary>
         /// The internal ID of an <see cref="ApiResource{T}" /> within game data.
         /// </summary>
+        [JsonPropertyName("game_index")]
         public int GameIndex
         {
             get;
@@ -159,6 +165,7 @@ namespace PokeAPI
         /// <summary>
         /// The localized effect text in brief.
         /// </summary>
+        [JsonPropertyName("short_effect")]
         public string ShortEffect
         {
             get;
@@ -186,6 +193,7 @@ namespace PokeAPI
         /// <summary>
         /// the total chance, ranging from 0 to 1, of all encounter potential.
         /// </summary>
+        [JsonPropertyName("max_chance")]
         public float MaxChance
         {
             get;
@@ -194,6 +202,7 @@ namespace PokeAPI
         /// <summary>
         /// A list of special encounters and their specifics.
         /// </summary>
+        [JsonPropertyName("encounter_details")]
         public Encounter[] EncounterDetails
         {
             get;
@@ -205,6 +214,7 @@ namespace PokeAPI
         /// <summary>
         /// The internal ID of an <see cref="ApiResource{T}" /> within game data.
         /// </summary>
+        [JsonPropertyName("game_index")]
         public int GameIndex
         {
             get;
@@ -240,6 +250,7 @@ namespace PokeAPI
         /// <summary>
         /// The version group which uses this flavor text.
         /// </summary>
+        [JsonPropertyName("version_group")]
         public NamedApiResource<VersionGroup> VersionGroup
         {
             get;

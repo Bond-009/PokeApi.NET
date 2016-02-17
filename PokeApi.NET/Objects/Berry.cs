@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 
 namespace PokeAPI
 {
@@ -12,6 +13,7 @@ namespace PokeAPI
         public int Potency
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -20,6 +22,7 @@ namespace PokeAPI
         public NamedApiResource<BerryFlavor> Flavor
         {
             get;
+            internal set;
         }
     }
     public struct FlavorBerryMap
@@ -30,6 +33,7 @@ namespace PokeAPI
         public int Potency
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -38,57 +42,78 @@ namespace PokeAPI
         public NamedApiResource<Berry> Berry
         {
             get;
+            internal set;
         }
     }
 
     public class Berry : NamedApiObject
     {
+        class BerryGrowthTimeConverter : IJsonConverter
+        {
+            public bool Deserialize(JsonData j, out object value)
+            {
+                value = null;
+
+                if (j.JsonType != JsonType.Int)
+                    return false;
+
+                value = new TimeSpan((int)j, 0, 0);
+                return true;
+            }
+        }
+
         /// <summary>
         /// Time it takes the tree to grow one stage. Berry trees go through four of these growth stages before they can be picked.
         /// </summary>
+        [JsonPropertyName("growth_time"), JsonConverter(typeof(BerryGrowthTimeConverter))]
         public TimeSpan GrowthTime
         {
             get;
+            internal set;
         }
 
         /// <summary>
         /// The maximum number of these berries that can grow on one tree in Generation IV.
         /// </summary>
+        [JsonPropertyName("max_harvest")]
         public int MaxHarvest
         {
             get;
+            internal set;
         }
-
         /// <summary>
         /// The power of the move "Natural Gift" when used with this Berry.
         /// </summary>
+        [JsonPropertyName("natural_gift_power")]
         public int NaturalGiftPower
         {
             get;
+            internal set;
         }
-
         /// <summary>
         /// The size of this Berry, in millimeters.
         /// </summary>
         public int Size
         {
             get;
+            internal set;
         }
-
         /// <summary>
         /// The smoothness of this Berry, used in making Pokéblocks or Poffins.
         /// </summary>
         public int Smoothness
         {
             get;
+            internal set;
         }
-
         /// <summary>
         /// The speed at which this Berry dries out the soil as it grows. A higher rate means the soil dries more quickly.
         /// </summary>
+        [JsonPropertyName("soil_dryness")]
         public int SoilDryness
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -97,6 +122,7 @@ namespace PokeAPI
         public NamedApiResource<BerryFirmness> Firmness
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -105,6 +131,7 @@ namespace PokeAPI
         public BerryFlavorMap[] Flavors
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -113,14 +140,17 @@ namespace PokeAPI
         public NamedApiResource<Item> Item
         {
             get;
+            internal set;
         }
 
         /// <summary>
         /// The Type the move "Natural Gift" has when used with this Berry.
         /// </summary>
+        [JsonPropertyName("natural_gift_type")]
         public NamedApiResource<PokemonType> NaturalGiftType
         {
             get;
+            internal set;
         }
     }
 
@@ -132,6 +162,7 @@ namespace PokeAPI
         public NamedApiResource<Berry> Berries
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -140,6 +171,7 @@ namespace PokeAPI
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
     }
 
@@ -151,14 +183,17 @@ namespace PokeAPI
         public FlavorBerryMap[] Berries
         {
             get;
+            internal set;
         }
 
         /// <summary>
         /// The contest type that correlates with this berry flavor.
         /// </summary>
+        [JsonPropertyName("contest_type")]
         public NamedApiResource<ContestType> ContestType
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -167,6 +202,7 @@ namespace PokeAPI
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
     }
 }

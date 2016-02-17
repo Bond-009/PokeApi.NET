@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 
 namespace PokeAPI
 {
@@ -35,6 +36,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("version_details")]
         public VersionEncounterDetail[] VersionDetails
         {
             get;
@@ -43,6 +45,7 @@ namespace PokeAPI
 
     public struct PalParkEncounterSpecies
     {
+        [JsonPropertyName("base_score")]
         public int BaseScore
         {
             get;
@@ -52,6 +55,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("pokemon_species")]
         public NamedApiResource<PokemonSpecies> Species
         {
             get;
@@ -70,6 +74,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("game_indices")]
         public GenerationGameIndex[] GameIndices
         {
             get;
@@ -83,11 +88,13 @@ namespace PokeAPI
 
     public class LocationArea : NamedApiObject
     {
+        [JsonPropertyName("game_indices")]
         public int GameIndex
         {
             get;
         }
 
+        [JsonPropertyName("encounter_method_rates")]
         public EncounterMethodRate[] EncounterMethodRates
         {
             get;
@@ -98,7 +105,8 @@ namespace PokeAPI
             get;
         }
 
-        public PokemonEncounter[] PokemonEncounters
+        [JsonPropertyName("pokemon_encounters")]
+        public PokemonEncounter[] Encounters
         {
             get;
         }
@@ -111,6 +119,7 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("pokemon_encounters")]
         public PalParkEncounterSpecies[] Encounters
         {
             get;
@@ -123,6 +132,7 @@ namespace PokeAPI
         {
             get;
         }
+        [JsonPropertyName("main_generation")]
         public NamedApiResource<Generation> MainGeneration
         {
             get;
@@ -133,11 +143,13 @@ namespace PokeAPI
             get;
         }
 
+        [JsonPropertyName("pokedexes")]
         public NamedApiResource<Pokedex>[] Pokedices
         {
             get;
         }
 
+        [JsonPropertyName("version_groups")]
         public NamedApiResource<VersionGroup>[] VersionGroups
         {
             get;

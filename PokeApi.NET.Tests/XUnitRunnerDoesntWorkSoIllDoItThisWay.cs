@@ -10,11 +10,9 @@ namespace PokeAPI.Tests
 {
     static class XUnitRunnerDoesntWorkSoIllDoItThisWay
     {
-        readonly static string v = "{ \"url\": \"http://pokeapi.co/api/v2/evolution-chain/1/\" }";
-
         static void Main(string[] args)
         {
-            //var ecr = JsonMapper.ToObject<ApiResource<EvolutionChain>>(v);
+            //var ecr = JsonMapper.ToObject<ApiResource<Berry>>("{ \"url\": \"http://pokeapi.co/api/v2/berry/1/\" }");
             //var ect = ecr.GetObject();
             //var ec = ect.Result;
 
