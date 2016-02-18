@@ -8,8 +8,6 @@ using LitJson;
 namespace PokeAPI
 {
     // TODO:
-    //   * function to actually get the api objs
-    //   * cache ^
     //   * docs
     //   * utility stuff from v1?
 
@@ -151,6 +149,18 @@ namespace PokeAPI
              strCaches.Clear();
              urlCaches.Clear();
             listCaches.Clear();
+        }
+
+        public static async Task<T> GetApiObject     <T>(int    id  ) where T :      ApiObject => JsonMapper.ToObject<T>(await GetJsonOf<T>(id  ));
+        public static async Task<T> GetNamedApiObject<T>(string name) where T : NamedApiObject => JsonMapper.ToObject<T>(await GetJsonOf<T>(name));
+
+        public static async Task<ResourceList<T, TInner>> GetResourceList<T, TInner>(int limit = 20)
+            where TInner : ApiObject
+            where T : ApiResource<TInner>
+        {
+            var f = JsonMapper.ToObject<ResourceListFragment<T, TInner>>(await GetListJsonOf<TInner>(0, limit));
+
+            return new ResourceList<T, TInner>(f.Count, limit, f);
         }
     }
 }

@@ -14,20 +14,24 @@ namespace PokeAPI
         public int Count
         {
             get;
+            internal set;
         }
 
         public Uri Next
         {
             get;
+            internal set;
         }
         public Uri Previous
         {
             get;
+            internal set;
         }
 
         public T[] Results
         {
             get;
+            internal set;
         }
     }
 
@@ -53,18 +57,22 @@ namespace PokeAPI
 
         object IEnumerator.Current => Current;
 
-        internal ResourceListEnumerator(int limit = 20)
+        internal ResourceListEnumerator(int limit = 20, ResourceListFragment<T, TInner>? start = null)
         {
             index = 0;
             this.limit = limit;
 
-            var t = DataFetcher.GetListJsonOf<TInner>(0, limit);
-            t.RunSynchronously();
-            if (t.IsFaulted)
-                throw t.Exception;
+            this.start = current = default(ResourceListFragment<T, TInner>);
 
-            var j = t.Result;
-            start = current = JsonMapper.ToObject<ResourceListFragment<T, TInner>>(j);
+            if (start.HasValue)
+                this.start = current = start.Value;
+            else
+            {
+                var t = DataFetcher.GetListJsonOf<TInner>(0, limit);
+
+                var j = t.Result;
+                start = current = JsonMapper.ToObject<ResourceListFragment<T, TInner>>(j);
+            }
         }
 
         public void Dispose()
@@ -107,10 +115,12 @@ namespace PokeAPI
         }
     }
 
-    public abstract class ResourceList<T, TInner> : IEnumerable<T>
+    public class ResourceList<T, TInner> : IEnumerable<T>
         where TInner : ApiObject
         where T : ApiResource<TInner>
     {
+        ResourceListFragment<T, TInner> start;
+
         public int Count
         {
             get;
@@ -122,11 +132,16 @@ namespace PokeAPI
             set;
         }
 
-        public IEnumerator<T> GetEnumerator() => new ResourceListEnumerator<T, TInner>(Limit);
+        internal ResourceList(int count, int limit, ResourceListFragment<T, TInner> st)
+        {
+            Count = count;
+            Limit = limit;
+
+            start = st;
+        }
+
+        public IEnumerator<T> GetEnumerator() => new ResourceListEnumerator<T, TInner>(Limit, start);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
-
-    public class      ApiResourceList<T> : ResourceList<     ApiResource<T>, T> where T :      ApiObject { }
-    public class NamedApiResourceList<T> : ResourceList<NamedApiResource<T>, T> where T : NamedApiObject { }
 }
