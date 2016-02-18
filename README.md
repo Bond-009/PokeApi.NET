@@ -1,30 +1,21 @@
 PokeApi.NET
 ===========
 
-A .NET Wrapper for http://www.pokeapi.co/
+A .NET Wrapper for http://www.pokeapi.co/. See the `master` branch for the v1 version.
 
-How to build:
-------------
-
-1. Open the solution in Visual Studio
-2. Build it (Press F6/F7/CTRL+SHIFT+B/Hit the 'Build PokeApi.NET'/'Build Solution' button)
-3. ?????
-4. Profit
-
-
-To get data from [something]:
+Usage:
 -----------------------------
 
 ``` cs
 using System;
 using PokeAPI;
-```
-[...]
-``` cs
-Pokemon p = await Pokemon.GetInstanceAsync(395); -OR- p = await Pokemon.GetInstanceAsync("Lucario");
 
-int baseHp = p.HP;
+// [...]
+
+Pokemon p = await DataFetcher.GetApiObject<PokemonSpecies>(395); -OR- p = await DataFetcher.GetNamedApiObject<PokemonSpecies>("lucario");
+
+float cRate = p.CaptureRate;
 // etc
 ```
 
-It works for all types (Pokedex, Pokemon, PokemonType, Move, Ability, Description, Sprite and Game)
+Everything is made to look like the [pokeapi.co docs](http://pokeapi.co/docsv2/), but using more C#-like names. I might add separate methods for every api object type later.
