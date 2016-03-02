@@ -41,13 +41,9 @@ namespace PokeAPI
             }
 
             var item = await get(key);
-
-            lock (_lock)
+            if (item.HasValue)
             {
-                if (dict.TryGetValue(key, out cacheItem))
-                    return cacheItem;
-
-                if (item.HasValue)
+                lock (_lock)
                 {
                     if (IsActive)
                         dict.Add(key, item.Value);
@@ -55,8 +51,7 @@ namespace PokeAPI
                     return item.Value;
                 }
 
-                throw new KeyNotFoundException();
-            }
+            throw new KeyNotFoundException();
         }
         public Maybe<TValue> TryGet(TKey key)
         {
