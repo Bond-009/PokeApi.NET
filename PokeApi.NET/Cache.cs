@@ -51,6 +51,7 @@ namespace PokeAPI
                     return item.Value;
                 }
 
+            }
             throw new KeyNotFoundException();
         }
         public Maybe<TValue> TryGet(TKey key)

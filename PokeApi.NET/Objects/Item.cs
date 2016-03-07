@@ -14,7 +14,7 @@ namespace PokeAPI
         }
 
         [JsonPropertyName("fling_power")]
-        public int FlingPower
+        public int? FlingPower
         {
             get;
             internal set;
@@ -27,7 +27,7 @@ namespace PokeAPI
             internal set;
         }
 
-        public NamedApiResource<ItemAttribute> Attributes
+        public NamedApiResource<ItemAttribute>[] Attributes
         {
             get;
             internal set;
@@ -39,6 +39,7 @@ namespace PokeAPI
             internal set;
         }
 
+        [JsonPropertyName("effect_entries")]
         public VerboseEffect[] Effects
         {
             get;
@@ -66,14 +67,14 @@ namespace PokeAPI
         }
 
         [JsonPropertyName("held_by_pokemon")]
-        public NamedApiResource<Pokemon>[] HeldBy
+        public ItemHeldBy[] HeldBy
         {
             get;
             internal set;
         }
 
         [JsonPropertyName("baby_trigger_for")]
-        public ApiResource<EvolutionChain>[] BabyTriggerFor
+        public ApiResource<EvolutionChain> BabyTriggerFor
         {
             get;
             internal set;
@@ -147,6 +148,37 @@ namespace PokeAPI
         }
 
         public ResourceName[] Names
+        {
+            get;
+            internal set;
+        }
+    }
+
+    public class ItemHeldBy
+    {
+        public NamedApiResource<Pokemon> Pokemon
+        {
+            get;
+            internal set;
+        }
+
+        [JsonPropertyName("version_details")]
+        public VersionDetails[] VersionDetails
+        {
+            get;
+            internal set;
+        }
+    }
+
+    public class VersionDetails
+    {
+        public int Rarity
+        {
+            get;
+            internal set;
+        }
+
+        public NamedApiResource<GameVersion> Version
         {
             get;
             internal set;
