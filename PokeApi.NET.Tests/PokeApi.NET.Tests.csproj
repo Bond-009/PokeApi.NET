@@ -60,6 +60,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="FakeHttpClientAdapter.cs" />
     <Compile Include="IntegrationTests\ItemTests.cs" />
+    <Compile Include="IntegrationTests\MoveTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XUnitRunnerDoesntWorkSoIllDoItThisWay.cs" />
   </ItemGroup>
