@@ -79,6 +79,12 @@ namespace PokeAPI
             get;
             internal set;
         }
+
+        public ItemSprites Sprites
+        {
+            get;
+            internal set;
+        }
     }
 
     public class ItemAttribute : NamedApiObject
@@ -183,5 +189,10 @@ namespace PokeAPI
             get;
             internal set;
         }
+    }
+
+    public class ItemSprites
+    {
+        public string Default { get; set; }
     }
 }
