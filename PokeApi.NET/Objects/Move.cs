@@ -8,13 +8,13 @@ namespace PokeAPI
     public struct ContestComboDetail
     {
         [JsonPropertyName("use_before")]
-        public NamedApiResource<Move> UseBefore
+        public NamedApiResource<Move>[] UseBefore
         {
             get;
             internal set;
         }
         [JsonPropertyName("use_after")]
-        public NamedApiResource<Move> UseAfter
+        public NamedApiResource<Move>[] UseAfter
         {
             get;
             internal set;
@@ -22,12 +22,12 @@ namespace PokeAPI
     }
     public struct ContestComboSet
     {
-        public ContestComboDetail[] Normal
+        public ContestComboDetail Normal
         {
             get;
             internal set;
         }
-        public ContestComboDetail[] Super
+        public ContestComboDetail Super
         {
             get;
             internal set;
@@ -126,24 +126,24 @@ namespace PokeAPI
 
     public struct PastMoveStatValue
     {
-        public float Accuracy
+        public float? Accuracy
         {
             get;
             internal set;
         }
         [JsonPropertyName("effect_chance")]
-        public float EffectChance
+        public float? EffectChance
         {
             get;
             internal set;
         }
 
-        public int Power
+        public int? Power
         {
             get;
             internal set;
         }
-        public int PP
+        public int? PP
         {
             get;
             internal set;
@@ -156,7 +156,7 @@ namespace PokeAPI
             internal set;
         }
 
-        public PokemonType Type
+        public NamedApiResource<PokemonType> Type
         {
             get;
             internal set;
@@ -172,19 +172,19 @@ namespace PokeAPI
 
     public class Move : NamedApiObject
     {
-        public float Accuracy
+        public float? Accuracy
         {
             get;
             internal set;
         }
         [JsonPropertyName("effect_chance")]
-        public float EffectChance
+        public float? EffectChance
         {
             get;
             internal set;
         }
 
-        public int PP
+        public int? PP
         {
             get;
             internal set;
@@ -194,14 +194,14 @@ namespace PokeAPI
             get;
             internal set;
         }
-        public int Power
+        public int? Power
         {
             get;
             internal set;
         }
 
         [JsonPropertyName("contest_combos")]
-        public ContestComboSet[] ComboSets
+        public ContestComboSet? ComboSets
         {
             get;
             internal set;
@@ -248,7 +248,7 @@ namespace PokeAPI
             internal set;
         }
 
-        public MoveMetadata Meta
+        public MoveMetadata? Meta
         {
             get;
             internal set;
@@ -267,20 +267,27 @@ namespace PokeAPI
             internal set;
         }
 
-        [JsonPropertyName("stat_changed")]
+        [JsonPropertyName("stat_changes")]
         public MoveStatChange[] StatChanges
         {
             get;
             internal set;
         }
 
-        public MoveTarget Target
+        public NamedApiResource<MoveTarget> Target
         {
             get;
             internal set;
         }
 
-        public PokemonType Type
+        public NamedApiResource<PokemonType> Type
+        {
+            get;
+            internal set;
+        }
+
+        [JsonPropertyName("super_contest_effect")]
+        public ApiResource<SuperContestEffect> SuperContestEffect
         {
             get;
             internal set;

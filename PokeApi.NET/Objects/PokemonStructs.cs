@@ -8,7 +8,7 @@ namespace PokeAPI
     public struct AbilityEffectChange
     {
         [JsonPropertyName("effect_entries")]
-        public Effect[] Effects
+        public VerboseEffect[] Effects
         {
             get;
             internal set;
