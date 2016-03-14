@@ -12,7 +12,7 @@ using PokeAPI;
 
 // [...]
 
-Pokemon p = await DataFetcher.GetApiObject<PokemonSpecies>(395); -OR- p = await DataFetcher.GetNamedApiObject<PokemonSpecies>("lucario");
+PokemonSpecies p = await DataFetcher.GetApiObject<PokemonSpecies>(395); -OR- p = await DataFetcher.GetNamedApiObject<PokemonSpecies>("lucario");
 
 float cRate = p.CaptureRate;
 // etc

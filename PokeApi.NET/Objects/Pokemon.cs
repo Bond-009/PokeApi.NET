@@ -26,6 +26,7 @@ namespace PokeAPI
             get;
             internal set;
         }
+        [JsonPropertyName("weight")]
         public int Mass
         {
             get;
@@ -282,6 +283,7 @@ namespace PokeAPI
             internal set;
         }
 
+        [JsonPropertyName("color")]
         public NamedApiResource<PokemonColour> Colours
         {
             get;
@@ -292,8 +294,8 @@ namespace PokeAPI
             get;
             internal set;
         }
-        [JsonPropertyName("evolve_from_species")]
-        public NamedApiResource<PokemonSpecies> EvolveFromSpecies
+        [JsonPropertyName("evolves_from_species")]
+        public NamedApiResource<PokemonSpecies> EvolvesFromSpecies
         {
             get;
             internal set;
@@ -341,7 +343,14 @@ namespace PokeAPI
             internal set;
         }
 
-        public NamedApiResource<Pokemon> Varieties
+        public PokemonSpeciesVariety[] Varieties
+        {
+            get;
+            internal set;
+        }
+
+        [JsonPropertyName("flavor_text_entries")]
+        public PokemonSpeciesFlavorText[] FlavorTexts
         {
             get;
             internal set;

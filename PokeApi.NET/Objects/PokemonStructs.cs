@@ -42,6 +42,22 @@ namespace PokeAPI
         }
     }
 
+    public struct PokemonSpeciesVariety
+    {
+        [JsonPropertyName("is_default")]
+        public bool IsDefault
+        {
+            get;
+            internal set;
+        }
+
+        public NamedApiResource<Pokemon> Pokemon
+        {
+            get;
+            internal set;
+        }
+    }
+
     public struct PokemonSpeciesGender
     {
         internal class GenderConverter : IJsonConverter
@@ -74,6 +90,26 @@ namespace PokeAPI
 
         [JsonPropertyName("pokemon_species")]
         public NamedApiResource<PokemonSpecies> Species
+        {
+            get;
+            internal set;
+        }
+    }
+    public struct PokemonSpeciesFlavorText
+    {
+        [JsonPropertyName("flavor_text")]
+        public string FlavorText
+        {
+            get;
+            internal set;
+        }
+
+        public NamedApiResource<Language> Language
+        {
+            get;
+            internal set;
+        }
+        public NamedApiResource<GameVersion> Version
         {
             get;
             internal set;

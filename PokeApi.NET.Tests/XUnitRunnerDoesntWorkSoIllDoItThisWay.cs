@@ -12,9 +12,8 @@ namespace PokeAPI.Tests
     {
         static void Main(string[] args)
         {
-            //var ecr = JsonMapper.ToObject<ApiResource<Berry>>("{ \"url\": \"http://pokeapi.co/api/v2/berry/1/\" }");
-            //var ect = ecr.GetObject();
-            //var ec = ect.Result;
+            //var pt = DataFetcher.GetApiObject<PokemonSpecies>(1);
+            //var p = pt.Result;
 
             bool hasErrors = false;
 
