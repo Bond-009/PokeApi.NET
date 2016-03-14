@@ -72,7 +72,7 @@ namespace PokeAPI
             internal set;
         }
 
-        public NamedApiResource<Move>[] Moves
+        public PokemonMove[] Moves
         {
             get;
             internal set;
@@ -84,13 +84,22 @@ namespace PokeAPI
             internal set;
         }
 
-        public NamedApiResource<Stat> Stats
+        public PokemonStats[] Stats
         {
             get;
             internal set;
         }
 
         public PokemonTypeMap[] Types
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
+        /// NOTE: some props can be null, fall back on male, non-shiny (if all shinies are null) values!
+        /// </summary>
+        public PokemonSprites Sprites
         {
             get;
             internal set;

@@ -42,6 +42,121 @@ namespace PokeAPI
         }
     }
 
+    public struct MoveVersionGroupDetails
+    {
+        [JsonPropertyName("level_learned_at")]
+        public int LearnedAt
+        {
+            get;
+            internal set;
+        }
+
+        [JsonPropertyName("version_group")]
+        public NamedApiResource<VersionGroup> VersionGroup
+        {
+            get;
+            internal set;
+        }
+
+        [JsonPropertyName("move_learn_method")]
+        public NamedApiResource<MoveLearnMethod> LearnMethod
+        {
+            get;
+            internal set;
+        }
+    }
+    public struct PokemonMove
+    {
+        public NamedApiResource<Move> Move
+        {
+            get;
+            internal set;
+        }
+
+        [JsonPropertyName("version_group_details")]
+        public MoveVersionGroupDetails[] VersionGroupDetails
+        {
+            get;
+            internal set;
+        }
+    }
+    public struct PokemonStats
+    {
+        [JsonPropertyName("base_stat")]
+        public int BaseValue
+        {
+            get;
+            internal set;
+        }
+        public int Effort
+        {
+            get;
+            internal set;
+        }
+
+        public NamedApiResource<Stat> Stat
+        {
+            get;
+            internal set;
+        }
+    }
+    /// <summary>
+    /// NOTE: some props can be null, fall back on male, non-shiny (if all shinies are null) values!
+    /// </summary>
+    public struct PokemonSprites
+    {
+        //! NOTE: some props can be null, fall back on male, non-shiny (if all shinies are null) values!
+
+        [JsonPropertyName("back_female")]
+        public string BackFemale
+        {
+            get;
+            internal set;
+        }
+        [JsonPropertyName("back_shiny_female")]
+        public string BackShinyFemale
+        {
+            get;
+            internal set;
+        }
+        [JsonPropertyName("back_default")]
+        public string BackMale
+        {
+            get;
+            internal set;
+        }
+        [JsonPropertyName("front_female")]
+        public string FrontFemale
+        {
+            get;
+            internal set;
+        }
+        [JsonPropertyName("front_shiny_female")]
+        public string FrontShinyFemale
+        {
+            get;
+            internal set;
+        }
+        [JsonPropertyName("back_shiny")]
+        public string BackShinyMale
+        {
+            get;
+            internal set;
+        }
+        [JsonPropertyName("front_default")]
+        public string FrontMale
+        {
+            get;
+            internal set;
+        }
+        [JsonPropertyName("front_shiny")]
+        public string FrontShinyMale
+        {
+            get;
+            internal set;
+        }
+    }
+
     public struct PokemonSpeciesVariety
     {
         [JsonPropertyName("is_default")]
@@ -57,7 +172,6 @@ namespace PokeAPI
             internal set;
         }
     }
-
     public struct PokemonSpeciesGender
     {
         internal class GenderConverter : IJsonConverter

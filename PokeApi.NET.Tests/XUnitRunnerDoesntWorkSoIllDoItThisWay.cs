@@ -12,7 +12,7 @@ namespace PokeAPI.Tests
     {
         static void Main(string[] args)
         {
-            //var pt = DataFetcher.GetApiObject<PokemonSpecies>(1);
+            //var pt = DataFetcher.GetApiObject<Pokemon>(1);
             //var p = pt.Result;
 
             bool hasErrors = false;
