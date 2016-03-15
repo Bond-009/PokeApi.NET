@@ -59,7 +59,7 @@ namespace PokeAPI
         }
 
         [JsonPropertyName("held_items")]
-        public NamedApiResource<Item>[] HeldItems
+        public PokemonHeldItem[] HeldItems
         {
             get;
             internal set;

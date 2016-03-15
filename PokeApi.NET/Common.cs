@@ -16,6 +16,7 @@ namespace PokeAPI
         /// <summary>
         /// The localized description for an <see cref="ApiResource{T}" /> in a specific langauge.
         /// </summary>
+        [JsonPropertyName("description")]
         public string Text
         {
             get;

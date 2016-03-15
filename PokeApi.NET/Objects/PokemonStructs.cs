@@ -156,6 +156,20 @@ namespace PokeAPI
             internal set;
         }
     }
+    public struct PokemonHeldItem
+    {
+        public NamedApiResource<Item> Item
+        {
+            get;
+            internal set;
+        }
+        [JsonPropertyName("version_details")]
+        public VersionDetails[] VersionDetails
+        {
+            get;
+            internal set;
+        }
+    }
 
     public struct PokemonSpeciesVariety
     {
@@ -349,7 +363,7 @@ namespace PokeAPI
     public struct LocationAreaEncounter
     {
         [JsonPropertyName("location_area")]
-        public ApiResource<LocationArea> LocationArea
+        public NamedApiResource<LocationArea> LocationArea
         {
             get;
             internal set;
