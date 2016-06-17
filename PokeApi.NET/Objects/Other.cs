@@ -110,7 +110,7 @@ namespace PokeAPI
         }
     }
 
-    public class GrowhtRate : NamedApiObject
+    public class GrowthRate : NamedApiObject
     {
         /// <summary>
         /// LaTeX-style (maths mode)

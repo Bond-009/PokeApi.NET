@@ -75,7 +75,7 @@ namespace PokeAPI
             { typeof(Ability       ), "ability"         },
             { typeof(EggGroup      ), "egg-group"       },
             { typeof(Gender        ), "gender"          },
-            { typeof(GrowhtRate    ), "growth-rate"     },
+            { typeof(GrowthRate    ), "growth-rate"     },
             { typeof(Nature        ), "nature"          },
             { typeof(PokeathlonStat), "pokeathlon-stat" },
             { typeof(Pokemon       ), "pokemon"         },

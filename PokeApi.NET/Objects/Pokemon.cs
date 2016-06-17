@@ -272,7 +272,7 @@ namespace PokeAPI
         }
 
         [JsonPropertyName("growth_rate")]
-        public NamedApiResource<GrowhtRate> GrowthRate
+        public NamedApiResource<GrowthRate> GrowthRate
         {
             get;
             internal set;
