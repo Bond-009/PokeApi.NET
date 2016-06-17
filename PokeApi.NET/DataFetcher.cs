@@ -16,15 +16,17 @@ namespace PokeAPI
     /// </summary>
     public static class DataFetcher
     {
-        readonly static string
-            BASE_URL = "http://pokeapi.co/api/v2/",
+        internal readonly static string
+            SITE_URL = "http://pokeapi.co",
+            BASE_URL = SITE_URL + "/api/v2/",
             SLASH    = "/";
 
         static bool shouldCache = true;
 
         internal static IHttpClientAdapter client = new HttpClientDefaultAdapter();
 
-        static async Task<JsonData> GetJsonAsync(string obj) => JsonMapper.ToObject(await client.GetStringAsync(BASE_URL + obj));
+        static async Task<JsonData> GetJsonAsync(Uri    url) => JsonMapper.ToObject(await client.GetStringAsync(url.AbsoluteUri));
+        static async Task<JsonData> GetJsonAsync(string obj) => JsonMapper.ToObject(await client.GetStringAsync(BASE_URL + obj ));
 
         #region static Dictionary<Type, string> UrlOfType = new Dictionary<Type, string> { [...] };
         static Dictionary<Type, string> UrlOfType = new Dictionary<Type, string>
@@ -96,6 +98,8 @@ namespace PokeAPI
 
         readonly static Dictionary<Type, Cache<ValueTuple<int, int>, JsonData>> listCaches = UrlOfType.ToDictionary(kvp => kvp.Key, kvp => new Cache<ValueTuple<int, int>, JsonData>(async t => Maybe.Just(await GetJsonAsync(kvp.Value + SLASH + "?offset=" + t.Item1 + "&limit=" + t.Item2))));
 
+        readonly static Cache<Uri, JsonData> miscCache = new Cache<Uri, JsonData>(async u => Maybe.Just(await GetJsonAsync(u)));
+
         /// <summary>
         /// Sets the <see cref="IHttpClientAdapter" /> the data fetcher uses.
         /// </summary>
@@ -132,6 +136,7 @@ namespace PokeAPI
                 foreach (var c in     caches.Values) c.IsActive = value;
                 foreach (var c in  strCaches.Values) c.IsActive = value;
                 foreach (var c in listCaches.Values) c.IsActive = value;
+                miscCache.IsActive = value;
 
                 shouldCache = value;
             }
@@ -140,6 +145,7 @@ namespace PokeAPI
         public static Task<JsonData> GetJsonOf<T>(int    id  ) where T :      ApiObject =>    caches[typeof(T)].Get(id  );
         public static Task<JsonData> GetJsonOf<T>(string name) where T : NamedApiObject => strCaches[typeof(T)].Get(name);
         public static Task<JsonData> GetJsonOf<T>(Uri    url ) where T :      ApiObject => urlCaches[typeof(T)].Get(url );
+        public static Task<JsonData> GetJsonOfAny(Uri    url )                          => miscCache           .Get(url );
 
         public static Task<JsonData> GetListJsonOf<T>(int offset, int limit) where T : ApiObject => listCaches[typeof(T)].Get(ValueTuple.Create(offset, limit));
 
@@ -149,10 +155,19 @@ namespace PokeAPI
              strCaches.Clear();
              urlCaches.Clear();
             listCaches.Clear();
+            miscCache .Clear();
         }
 
         public static async Task<T> GetApiObject     <T>(int    id  ) where T :      ApiObject => JsonMapper.ToObject<T>(await GetJsonOf<T>(id  ));
+        public static async Task<T> GetApiObject     <T>(Uri    url ) where T :      ApiObject => JsonMapper.ToObject<T>(await GetJsonOf<T>(url ));
         public static async Task<T> GetNamedApiObject<T>(string name) where T : NamedApiObject => JsonMapper.ToObject<T>(await GetJsonOf<T>(name));
+        public static async Task<T> GetNamedApiObject<T>(Uri    url ) where T : NamedApiObject => JsonMapper.ToObject<T>(await GetJsonOf<T>(url ));
+
+        public static async Task<T> GetAny<T>(Uri url)
+        {
+            JsonData j = await GetJsonOfAny(url);
+            return JsonMapper.ToObject<T>(j);
+        }
 
         public static async Task<ResourceList<T, TInner>> GetResourceList<T, TInner>(int limit = 20)
             where TInner : ApiObject

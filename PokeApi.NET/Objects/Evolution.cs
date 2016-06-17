@@ -142,7 +142,7 @@ namespace PokeAPI
         }
 
         [JsonPropertyName("evolution_details")]
-        public EvolutionDetail? Details
+        public EvolutionDetail[] Details
         {
             get;
             internal set;

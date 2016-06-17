@@ -552,7 +552,7 @@ namespace LitJson
                 var jc = (IJsonConverter)Activator.CreateInstance(jca.Converter);
 
                 object v_;
-                if (jc.Deserialize(json, out v_))
+                if (jc.Deserialize(json, inst_type, out v_))
                     return v_;
             }
 
@@ -642,7 +642,7 @@ namespace LitJson
 
                                         var jc = (IJsonConverter)Activator.CreateInstance(jca.Converter);
 
-                                        jc.Deserialize(value, out converted);
+                                        jc.Deserialize(value, p_info.PropertyType, out converted);
                                     }
 
                                     if (p_info.CanWrite)

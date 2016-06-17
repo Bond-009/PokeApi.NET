@@ -50,7 +50,7 @@ namespace PokeAPI
     {
         class BerryGrowthTimeConverter : IJsonConverter
         {
-            public bool Deserialize(JsonData j, out object value)
+            public bool Deserialize(JsonData j, Type t /* TimeSpan */, out object value)
             {
                 value = null;
 

@@ -190,7 +190,7 @@ namespace PokeAPI
     {
         internal class GenderConverter : IJsonConverter
         {
-            public bool Deserialize(JsonData j, out object value)
+            public bool Deserialize(JsonData j, Type t /* float? */, out object value)
             {
                 if (j.JsonType != JsonType.Int)
                 {
@@ -200,7 +200,7 @@ namespace PokeAPI
 
                 var i = (int)j;
 
-                value = i == -1 ? null : (float?)i / 0.128f;
+                value = i == -1 ? null : (float?)i * 0.128f;
 
                 return true;
             }

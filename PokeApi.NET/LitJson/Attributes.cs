@@ -33,6 +33,6 @@ namespace LitJson
 
     public interface IJsonConverter
     {
-        bool Deserialize(JsonData j, out object value);
+        bool Deserialize(JsonData j, Type t, out object value);
     }
 }

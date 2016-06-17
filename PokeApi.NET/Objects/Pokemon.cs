@@ -65,8 +65,8 @@ namespace PokeAPI
             internal set;
         }
 
-        [JsonPropertyName("location_area_encounters")]
-        public LocationAreaEncounter[] LocationAreaEncounters
+        [JsonPropertyName("location_area_encounters"), JsonConverter(typeof(StructResourceFromStringConverter<LocationAreaEncounter[]>))]
+        public StructResource<LocationAreaEncounter[]> LocationAreaEncounters
         {
             get;
             internal set;
