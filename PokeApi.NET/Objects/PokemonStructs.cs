@@ -493,38 +493,38 @@ namespace PokeAPI
     public struct TypeRelations
     {
         [JsonPropertyName("no_damage_to")]
-        public NamedApiResource<PokemonType> NoDamageTo
+        public NamedApiResource<PokemonType>[] NoDamageTo
         {
             get;
             internal set;
         }
         [JsonPropertyName("half_damage_to")]
-        public NamedApiResource<PokemonType> HalfDamageTo
+        public NamedApiResource<PokemonType>[] HalfDamageTo
         {
             get;
             internal set;
         }
         [JsonPropertyName("double_damage_to")]
-        public NamedApiResource<PokemonType> DoubleDamageTo
+        public NamedApiResource<PokemonType>[] DoubleDamageTo
         {
             get;
             internal set;
         }
 
         [JsonPropertyName("no_damage_from")]
-        public NamedApiResource<PokemonType> NoDamageFrom
+        public NamedApiResource<PokemonType>[] NoDamageFrom
         {
             get;
             internal set;
         }
         [JsonPropertyName("half_damage_from")]
-        public NamedApiResource<PokemonType> HalfDamageFrom
+        public NamedApiResource<PokemonType>[] HalfDamageFrom
         {
             get;
             internal set;
         }
         [JsonPropertyName("double_damage_from")]
-        public NamedApiResource<PokemonType> DoubleDamageFrom
+        public NamedApiResource<PokemonType>[] DoubleDamageFrom
         {
             get;
             internal set;
