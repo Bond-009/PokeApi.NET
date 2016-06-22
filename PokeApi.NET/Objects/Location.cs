@@ -12,7 +12,7 @@ namespace PokeAPI
             get;
             internal set;
         }
-        public NamedApiResource<GameVersion>[] Versions
+        public NamedApiResource<GameVersion> Version
         {
             get;
             internal set;
@@ -20,12 +20,14 @@ namespace PokeAPI
     }
     public struct EncounterMethodRate
     {
-        public NamedApiResource<EncounterMethod>[] EncounterMethod
+        [JsonPropertyName("encounter_method")]
+        public NamedApiResource<EncounterMethod> EncounterMethod
         {
             get;
             internal set;
         }
 
+        [JsonPropertyName("version_details")]
         public EncounterVersionDetails[] VersionDetails
         {
             get;
@@ -101,7 +103,7 @@ namespace PokeAPI
 
     public class LocationArea : NamedApiObject
     {
-        [JsonPropertyName("game_indices")]
+        [JsonPropertyName("game_index")]
         public int GameIndex
         {
             get;
@@ -115,6 +117,7 @@ namespace PokeAPI
             internal set;
         }
 
+        [JsonPropertyName("location")]
         public NamedApiResource<Region> Region
         {
             get;
@@ -123,6 +126,12 @@ namespace PokeAPI
 
         [JsonPropertyName("pokemon_encounters")]
         public PokemonEncounter[] Encounters
+        {
+            get;
+            internal set;
+        }
+
+        public ResourceName[] Names
         {
             get;
             internal set;
