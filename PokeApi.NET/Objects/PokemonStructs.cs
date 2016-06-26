@@ -386,7 +386,7 @@ namespace PokeAPI
             internal set;
         }
 
-        public NamedApiResource<Language>[] Language
+        public NamedApiResource<Language> Language
         {
             get;
             internal set;
