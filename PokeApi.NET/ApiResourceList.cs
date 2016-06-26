@@ -39,8 +39,6 @@ namespace PokeAPI
         where TInner : ApiObject
         where T : ApiResource<TInner>
     {
-        readonly static string LIMIT = "limit", OFFSET = "offset";
-
         ResourceListFragment<T, TInner> current, start;
         int index, limit;
 
@@ -73,6 +71,8 @@ namespace PokeAPI
                 var j = t.Result;
                 start = current = JsonMapper.ToObject<ResourceListFragment<T, TInner>>(j);
             }
+
+            this.limit = current.Results.Length;
         }
 
         public void Dispose()
@@ -85,7 +85,7 @@ namespace PokeAPI
         {
             if (index == -1)
                 return false;
-
+            
             if (++index >= limit)
             {
                 if (current.Next == null)
@@ -97,12 +97,13 @@ namespace PokeAPI
                 index = 0;
 
                 var t = DataFetcher.GetJsonOf<TInner>(current.Next);
-                t.RunSynchronously();
+                Task.WaitAll(t);
                 if (t.IsFaulted)
                     throw t.Exception;
 
                 var j = t.Result;
                 current = JsonMapper.ToObject<ResourceListFragment<T, TInner>>(j);
+                limit = current.Results.Length;
             }
 
             return true;

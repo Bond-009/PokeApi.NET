@@ -35,31 +35,33 @@ namespace PokeAPI
             get;
             internal set;
         }
+        
+        public NamedApiResource<Ability>[] Abilities
+        {
+            get;
+            internal set;
+        }
 
-        [JsonPropertyName("new_abilities")]
-        public NamedApiResource<Ability>[] NewAbilities
+        public NamedApiResource<Move>[] Moves
         {
             get;
             internal set;
         }
-        [JsonPropertyName("new_moves")]
-        public NamedApiResource<Move>[] NewMoves
+
+        [JsonPropertyName("pokemon_species")]
+        public NamedApiResource<PokemonSpecies>[] Species
         {
             get;
             internal set;
         }
-        [JsonPropertyName("new_species")]
-        public NamedApiResource<PokemonSpecies>[] NewSpeices
+
+
+        public NamedApiResource<PokemonType>[] Types
         {
             get;
             internal set;
         }
-        [JsonPropertyName("new_types")]
-        public NamedApiResource<PokemonType>[] NewTypes
-        {
-            get;
-            internal set;
-        }
+
         [JsonPropertyName("version_groups")]
         public NamedApiResource<VersionGroup>[] VersionGroups
         {
@@ -102,6 +104,7 @@ namespace PokeAPI
             internal set;
         }
 
+        [JsonPropertyName("version_groups")]
         public NamedApiResource<VersionGroup>[] VersionGroups
         {
             get;

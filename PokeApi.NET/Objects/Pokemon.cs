@@ -129,8 +129,18 @@ namespace PokeAPI
             get;
             internal set;
         }
+
         [JsonPropertyName("form_order")]
         public int FormOrder
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
+        /// NOTE: some props can be null, fall back on male, non-shiny (if all shinies are null) values!
+        /// </summary>
+        public PokemonSprites Sprites
         {
             get;
             internal set;
@@ -194,6 +204,13 @@ namespace PokeAPI
 
     public class PokemonShape : NamedApiObject
     {
+        public PokemonShape()
+        {
+            AwesomeNames = null;
+            Names = null;
+            Species = null;
+        }
+
         [JsonPropertyName("awesome_names")]
         public AwesomeName[] AwesomeNames
         {
@@ -431,13 +448,13 @@ namespace PokeAPI
         }
 
         [JsonPropertyName("affecting_moves")]
-        public StatAffectSets<Move  > AffectingMoves
+        public StatAffectSets<Move> AffectingMoves
         {
             get;
             internal set;
         }
         [JsonPropertyName("affecting_natures")]
-        public StatAffectSets<Nature> AffectingNatures
+        public StatAffectNature AffectingNatures
         {
             get;
             internal set;

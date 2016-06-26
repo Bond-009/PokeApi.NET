@@ -36,7 +36,7 @@ namespace PokeAPI
 
     public class EncounterConditionValue : NamedApiObject
     {
-        public NamedApiResource<EncounterCondition>[] Conditions
+        public NamedApiResource<EncounterCondition> Condition
         {
             get;
             internal set;

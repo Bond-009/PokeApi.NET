@@ -260,12 +260,14 @@ namespace PokeAPI
 
     public struct NatureStatChange
     {
+        [JsonPropertyName("max_change")]
         public int Change
         {
             get;
             internal set;
         }
 
+        [JsonPropertyName("pokeathlon_stat")]
         public NamedApiResource<PokeathlonStat> Stat
         {
             get;
@@ -380,7 +382,7 @@ namespace PokeAPI
     public struct AwesomeName
     {
         [JsonPropertyName("awesome_name")]
-        public string Text
+        public string Name
         {
             get;
             internal set;
@@ -447,14 +449,13 @@ namespace PokeAPI
     public struct StatAffect<T>
         where T : NamedApiObject
     {
-        [JsonPropertyName("max_change")]
-        public int MaxChange
+        public int Change
         {
             get;
             internal set;
         }
 
-        [JsonPropertyName("move"), JsonPropertyName("nature")]
+        [JsonPropertyName("move")]
         public NamedApiResource<T> Resource
         {
             get;
@@ -470,6 +471,20 @@ namespace PokeAPI
             internal set;
         }
         public StatAffect<T>[] Decrease
+        {
+            get;
+            internal set;
+        }
+    }
+
+    public struct StatAffectNature
+    {
+        public NamedApiResource<Nature>[] Increase
+        {
+            get;
+            internal set;
+        }
+        public NamedApiResource<Nature>[] Decrease
         {
             get;
             internal set;

@@ -19,7 +19,7 @@ namespace PokeAPI
             internal set;
         }
 
-        public NamedApiResource<Gender> Gender
+        public int? Gender
         {
             get;
             internal set;
@@ -105,7 +105,7 @@ namespace PokeAPI
         }
 
         [JsonPropertyName("time_of_day")]
-        public TimeOfDay? TimeOfDay
+        public string TimeOfDay
         {
             get;
             internal set;
@@ -180,6 +180,7 @@ namespace PokeAPI
             internal set;
         }
 
+        [JsonPropertyName("pokemon_species")]
         public NamedApiResource<PokemonSpecies>[] Species
         {
             get;
