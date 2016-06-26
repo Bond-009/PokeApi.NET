@@ -159,7 +159,7 @@ namespace PokeAPI
         /// <summary>
         /// A list of the berries with this firmness.
         /// </summary>
-        public NamedApiResource<Berry> Berries
+        public NamedApiResource<Berry>[] Berries
         {
             get;
             internal set;

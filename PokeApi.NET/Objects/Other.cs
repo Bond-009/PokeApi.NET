@@ -56,6 +56,14 @@ namespace PokeAPI
 
     public class Characteristic : ApiObject
     {
+
+        [JsonPropertyName("highest_stat")]
+        public NamedApiResource<Stat> HighestStat
+        {
+            get;
+            internal set;
+        }
+
         [JsonPropertyName("gene_modulo")]
         public int GeneModulo
         {
@@ -86,7 +94,7 @@ namespace PokeAPI
         }
 
         [JsonPropertyName("pokemon_species")]
-        public NamedApiResource<PokemonSpecies> Species
+        public NamedApiResource<PokemonSpecies>[] Species
         {
             get;
             internal set;
@@ -103,7 +111,7 @@ namespace PokeAPI
         }
 
         [JsonPropertyName("required_for_evolution")]
-        public NamedApiResource<PokemonSpecies> RequiredForEvolution
+        public NamedApiResource<PokemonSpecies>[] RequiredForEvolution
         {
             get;
             internal set;

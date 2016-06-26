@@ -38,6 +38,7 @@ namespace PokeAPI
         /// <summary>
         /// The localized text for an <see cref="ApiResource{T}" /> in a specific language.
         /// </summary>
+        [JsonPropertyName("effect")]
         public string Text
         {
             get;
@@ -167,6 +168,12 @@ namespace PokeAPI
             get;
             internal set;
         }
+
+        public string Color
+        {
+            get;
+            internal set;
+        }
     }
 
     public struct VerboseEffect
@@ -278,6 +285,13 @@ namespace PokeAPI
         /// </summary>
         [JsonPropertyName("version_group")]
         public NamedApiResource<VersionGroup> VersionGroup
+        {
+            get;
+            internal set;
+        }
+
+        [JsonPropertyName("flavor_text")]
+        public string FlavorText
         {
             get;
             internal set;
