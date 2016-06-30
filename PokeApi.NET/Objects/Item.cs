@@ -193,6 +193,6 @@ namespace PokeAPI
 
     public class ItemSprites
     {
-        public string Default { get; set; }
+        public string Default { get; internal set; }
     }
 }

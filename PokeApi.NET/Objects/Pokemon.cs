@@ -429,6 +429,25 @@ namespace PokeAPI
             get;
             internal set;
         }
+
+        public static double CalculateDamageMultiplier(PokemonType attackingType, PokemonType defendingType)
+        {
+            var ad = attackingType.DamageRelations;
+
+            if (ad.NoDamageTo    .Any(t => t.Name == defendingType.Name))
+                return 0d;
+            if (ad.HalfDamageTo  .Any(t => t.Name == defendingType.Name))
+                return 0.5d;
+            if (ad.DoubleDamageTo.Any(t => t.Name == defendingType.Name))
+                return 2.0d;
+
+            return 1d;
+        }
+        public static double CalculateDamageMultiplier(PokemonType attackingType, PokemonType defendingA, PokemonType defendingB)
+        {
+            return CalculateDamageMultiplier(attackingType, defendingA)
+                 * CalculateDamageMultiplier(attackingType, defendingB);
+        }
     }
 
     public class Stat : NamedApiObject

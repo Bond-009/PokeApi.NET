@@ -14,6 +14,7 @@ namespace PokeAPI
         public bool IsOfficial
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -22,6 +23,7 @@ namespace PokeAPI
         public string Iso639
         {
             get;
+            internal set;
         }
         /// <summary>
         /// the two-letter code of the language. Note that this is not unique.
@@ -29,6 +31,7 @@ namespace PokeAPI
         public string Iso3166
         {
             get;
+            internal set;
         }
 
         /// <summary>
@@ -37,6 +40,7 @@ namespace PokeAPI
         public ResourceName[] Names
         {
             get;
+            internal set;
         }
     }
 }

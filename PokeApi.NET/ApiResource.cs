@@ -67,14 +67,10 @@ namespace PokeAPI
             internal set;
         }
 
-        public ApiResource()
-        {
-            Url = null;
-        }
-
         public virtual async Task<T> GetObject() => await DataFetcher.GetApiObject<T>(Url);
     }
-    public class NamedApiResource<T> : ApiResource<T> where T : NamedApiObject
+    public class NamedApiResource<T> : ApiResource<T>
+        where T : NamedApiObject
     {
         /// <summary>
         /// The name of the referenced resource.
@@ -83,11 +79,6 @@ namespace PokeAPI
         {
             get;
             internal set;
-        }
-
-        public NamedApiResource()
-        {
-            Name = String.Empty;
         }
     }
     internal class ApiResourceFromStringConverter<T> : IJsonConverter

@@ -614,6 +614,7 @@ namespace LitJson
                         AddObjectMetadata(inst_type);
                         ObjectMetadata t_data = object_metadata[inst_type];
 
+                        //throw new Exception("type is " + inst_type);
                         var inst = Activator.CreateInstance(inst_type);
 
                         var dict = (IDictionary<string, JsonData>)v;
