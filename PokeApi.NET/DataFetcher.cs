@@ -145,12 +145,12 @@ namespace PokeAPI
             }
         }
 
-        public static Task<JsonData> GetJsonOf<T>(int    id  ) where T :      ApiObject =>    caches[typeof(T)].Get(id  );
-        public static Task<JsonData> GetJsonOf<T>(string name) where T : NamedApiObject => strCaches[typeof(T)].Get(name);
-        public static Task<JsonData> GetJsonOf<T>(Uri    url ) where T :      ApiObject => urlCaches[typeof(T)].Get(url );
-        public static Task<JsonData> GetJsonOfAny(Uri    url )                          => miscCache           .Get(url );
+        public static Task<JsonData> GetJsonOf<T>(int    id  ) where T :      ApiObject =>    caches[typeof(T)].GetAsync(id  );
+        public static Task<JsonData> GetJsonOf<T>(string name) where T : NamedApiObject => strCaches[typeof(T)].GetAsync(name);
+        public static Task<JsonData> GetJsonOf<T>(Uri    url ) where T :      ApiObject => urlCaches[typeof(T)].GetAsync(url );
+        public static Task<JsonData> GetJsonOfAny(Uri    url )                          => miscCache           .GetAsync(url );
 
-        public static Task<JsonData> GetListJsonOf<T>(int offset, int limit) where T : ApiObject => listCaches[typeof(T)].Get(ValueTuple.Create(offset, limit));
+        public static Task<JsonData> GetListJsonOf<T>(int offset, int limit) where T : ApiObject => listCaches[typeof(T)].GetAsync(ValueTuple.Create(offset, limit));
 
         public static void ClearAll()
         {

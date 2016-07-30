@@ -92,6 +92,12 @@ namespace PokeAPI
 
             return mv.HasValue ? mv.Value : default(TValue);
         }
+        public TValue TryGetDef(TKey key, TValue def)
+        {
+            var mv = TryGet(key);
+
+            return mv.HasValue ? mv.Value : def;
+        }
 
         public int Count => dict.Count;
         public bool IsReadOnly => true;
@@ -158,8 +164,11 @@ namespace PokeAPI
 
         }
 
-        public Task <T> Get      () => Get      (0);
+        public Task <T> GetAsync () => GetAsync (0);
+        public       T  GetSync  () => GetSync  (0);
         public Maybe<T> TryGet   () => TryGet   (0);
         public       T  TryGetDef() => TryGetDef(0);
+
+        public new   T  TryGetDef(T def) => base.TryGetDef(0, def);
     }
 }

@@ -4,7 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+// 'invalid number' (of next warning suppression)
+#pragma warning disable 1692
 #pragma warning disable RECS0083
+// no 'async' -> block will run synchronously
+// not needed, as GetStreamAsync only throws an exn,
+// and GetStringAsync creates a Task which result is
+// already 'calculated'.
+#pragma warning disable 1998
 
 namespace PokeAPI.Tests
 {
@@ -18,6 +25,12 @@ namespace PokeAPI.Tests
         }
 
         public Task<string> GetStringAsync(string requestUri) => Task.FromResult(GetJsonFromFile(requestUri));
+
+        public Stream GetStreamSync(Uri    requestUri)
+        {
+            throw new NotImplementedException();
+        }
+        public string GetStringSync(string requestUri) => GetJsonFromFile(requestUri);
 
         string GetJsonFromFile(string requestUri) => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "JsonResponses", requestUri.GenerateSlug() + ".json"));
     }

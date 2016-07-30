@@ -13,6 +13,6 @@ namespace PokeAPI
         public Task<string> GetStringAsync(string requestUri) => client.GetStringAsync(requestUri);
 
         public Stream GetStreamSync(Uri    requestUri) => client.GetStreamAsync(requestUri).Result;
-        public string GetStreamSync(string requestUri) => client.GetStringAsync(requestUri).Result;
+        public string GetStringSync(string requestUri) => client.GetStringAsync(requestUri).Result;
     }
 }
