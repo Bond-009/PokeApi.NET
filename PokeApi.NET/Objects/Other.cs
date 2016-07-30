@@ -226,6 +226,7 @@ namespace PokeAPI
             get;
             internal set;
         }
+        [JsonPropertyName("version_group")]
         public NamedApiResource<VersionGroup> VersionGroup
         {
             get;

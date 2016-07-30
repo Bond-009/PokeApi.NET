@@ -90,7 +90,8 @@ namespace PokeAPI
             { typeof(Stat          ), "stat"            },
             { typeof(PokemonType   ), "type"            },
 
-            { typeof(Language), "language" }
+            { typeof(Language), "language" },
+            { typeof(Machine ), "machine"  }
         };
         #endregion
 
