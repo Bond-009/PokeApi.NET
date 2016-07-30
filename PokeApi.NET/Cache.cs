@@ -30,7 +30,7 @@ namespace PokeAPI
             dict = defValues != null ? new Dictionary<TKey, TValue>(defValues) : new Dictionary<TKey, TValue>();
         }
 
-        public async Task<TValue> Get(TKey key)
+        public async Task<TValue> GetAsync(TKey key)
         {
             // http://stackoverflow.com/a/7612704/1322417
             TValue cacheItem;
@@ -52,6 +52,30 @@ namespace PokeAPI
                 }
 
             }
+
+            throw new KeyNotFoundException();
+        }
+        public TValue GetSync(TKey key)
+        {
+            TValue cacheItem;
+            lock (_lock)
+            {
+                if (dict.TryGetValue(key, out cacheItem))
+                    return cacheItem;
+            }
+
+            var item = get(key).Result;
+            if (item.HasValue)
+            {
+                lock (_lock)
+                {
+                    if (IsActive)
+                        dict.Add (key, item.Value);
+
+                    return item.Value;
+                }
+            }
+
             throw new KeyNotFoundException();
         }
         public Maybe<TValue> TryGet(TKey key)

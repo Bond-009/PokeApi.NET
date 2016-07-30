@@ -85,6 +85,12 @@ namespace PokeAPI
             get;
             internal set;
         }
+
+        public MachineVersionDetail[] Machines
+        {
+            get;
+            internal set;
+        }
     }
 
     public class ItemAttribute : NamedApiObject
@@ -194,5 +200,21 @@ namespace PokeAPI
     public class ItemSprites
     {
         public string Default { get; internal set; }
+    }
+
+    public class MachineVersionDetail
+    {
+        public ApiResource<Machine> Machine
+        {
+            get;
+            internal set;
+        }
+
+        [JsonPropertyName("version_group")]
+        public NamedApiResource<VersionGroup> VersionGroup
+        {
+            get;
+            internal set;
+        }
     }
 }

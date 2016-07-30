@@ -213,4 +213,23 @@ namespace PokeAPI
             internal set;
         }
     }
+
+    public class Machine : ApiObject
+    {
+        public NamedApiResource<Item> Item
+        {
+            get;
+            internal set;
+        }
+        public NamedApiResource<Move> Move
+        {
+            get;
+            internal set;
+        }
+        public NamedApiResource<VersionGroup>
+        {
+            get;
+            internal set;
+        }
+    }
 }

@@ -28,6 +28,9 @@ namespace PokeAPI
         static async Task<JsonData> GetJsonAsync(Uri    url) => JsonMapper.ToObject(await client.GetStringAsync(url.AbsoluteUri));
         static async Task<JsonData> GetJsonAsync(string obj) => JsonMapper.ToObject(await client.GetStringAsync(BASE_URL + obj ));
 
+        static JsonData GetJsonSync(Uri    url) => JsonMapper.ToObject(client.GetStringSync(url.AbsoluteUri));
+        static JsonData GetJsonSync(string obj) => JsonMapper.ToObject(client.GetStringSync(BASE_URL + obj ));
+
         #region static Dictionary<Type, string> UrlOfType = new Dictionary<Type, string> { [...] };
         static Dictionary<Type, string> UrlOfType = new Dictionary<Type, string>
         {

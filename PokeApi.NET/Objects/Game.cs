@@ -35,7 +35,7 @@ namespace PokeAPI
             get;
             internal set;
         }
-        
+
         public NamedApiResource<Ability>[] Abilities
         {
             get;

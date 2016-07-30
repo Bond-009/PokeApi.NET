@@ -163,3 +163,6 @@ PokeApi.NET.sln.ide/
 .vs/
 _nop/
 _v1/
+
+System.*/
+Newtonsoft.Json.*/
