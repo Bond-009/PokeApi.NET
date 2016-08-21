@@ -292,6 +292,18 @@ namespace PokeAPI
             get;
             internal set;
         }
+
+        public MachineVersionDetail[] Machines
+        {
+            get;
+            internal set;
+        }
+        [JsonPropertyName("flavor_text_entries")]
+        public VersionGroupFlavorText[] FlavorTextEntries
+        {
+            get;
+            internal set;
+        }
     }
 
     public class MoveAilment : NamedApiObject
