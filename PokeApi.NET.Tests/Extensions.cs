@@ -10,8 +10,8 @@ namespace PokeAPI.Tests
     {
         static IEnumerable<PropertyInfo> FilterProps<T>(this object obj) => typeof(T).GetProperties()
             .Where(p => p.PropertyType == typeof(T)
-                || p.PropertyType.IsSubclassOf(typeof(T))
-                || (typeof(T).IsInterface && p.PropertyType.GetInterfaces().Any(t => t == typeof(T))));
+                || p.PropertyType.GetTypeInfo().IsSubclassOf(typeof(T))
+                || (typeof(T).GetTypeInfo().IsInterface && p.PropertyType.GetInterfaces().Any(t => t == typeof(T))));
 
         public static bool AnyClassPropertyEmpty <T>(this object obj,                        Predicate<T> check = null) where T : class =>
             obj.FilterProps<T>().Select(p => (T)p.GetValue(obj)).Any(v => v == null        || check == null || check(v));

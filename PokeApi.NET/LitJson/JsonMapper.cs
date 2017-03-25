@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.IO;
 using System.Reflection;
 
@@ -190,7 +191,7 @@ namespace LitJson
 
             var data = new ArrayMetadata();
 
-            data.IsArray = type.IsArray;
+            data.IsArray = type.GetTypeInfo().IsArray;
 
             data.IsList |= Array.IndexOf(type.GetInterfaces(), typeof(IList)) != -1;
 
@@ -380,9 +381,9 @@ namespace LitJson
 
             if (o == null || (o is string && String.IsNullOrEmpty((string)o) && !(to == typeof(string))))
             {
-                if (to.IsGenericType && to.GetGenericTypeDefinition() == typeof(Nullable<>))
+                if (to.GetTypeInfo().IsGenericType && to.GetGenericTypeDefinition() == typeof(Nullable<>))
                     return Activator.CreateInstance(to); // empty nullable
-                if (!to.IsClass && !to.IsArray)
+                if (!to.GetTypeInfo().IsClass && !to.IsArray)
                     throw new JsonException(String.Format("Can't assign null to an instance of type {0}", to));
 
                 return null;
@@ -400,7 +401,7 @@ namespace LitJson
                 return base_importers_table[from][to](o);
 
             // Maybe it's an enum
-            if (to.IsEnum)
+            if (to.GetTypeInfo().IsEnum)
                 return Enum.ToObject(to, o);
 
             // Try using an implicit conversion operator
@@ -422,13 +423,13 @@ namespace LitJson
 
             if (reader.Token == JsonToken.Null || (reader.Token == JsonToken.String && String.IsNullOrEmpty((string)reader.Value) && !(inst_type == typeof(string))))
             {
-                if (!inst_type.IsClass && !inst_type.IsArray)
+                if (!inst_type.GetTypeInfo().IsClass && !inst_type.IsArray)
                     throw new JsonException(String.Format("Can't assign null to an instance of type {0}", inst_type));
 
                 return null;
             }
 
-            if (inst_type.IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>)) // isn't null -> has a value
+            if (inst_type.GetTypeInfo().IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>)) // isn't null -> has a value
                 return Activator.CreateInstance(inst_type, ReadValue(inst_type.GetGenericArguments()[0], reader, false));
 
             if (reader.Token == JsonToken.Double ||
@@ -535,16 +536,16 @@ namespace LitJson
         {
             if (json == null || json.JsonType == JsonType.None || (json.JsonType == JsonType.String && String.IsNullOrEmpty((string)json.Value) && !(inst_type == typeof(string))))
             {
-                if (inst_type.IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                if (inst_type.GetTypeInfo().IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>))
                     return Activator.CreateInstance(inst_type); // empty nullable
-                if (!inst_type.IsClass && !inst_type.IsArray)
+                if (!inst_type.GetTypeInfo().IsClass && !inst_type.IsArray)
                     throw new JsonException(String.Format("Can't assign null to an instance of type {0}", inst_type));
 
                 return null;
             }
 
             object[] attrs;
-            if ((attrs = inst_type.GetCustomAttributes(typeof(JsonConverterAttribute), false)) != null && attrs.Length == 1)
+            if ((attrs = inst_type.GetTypeInfo().GetCustomAttributes(typeof(JsonConverterAttribute), false).ToArray()) != null && attrs.Length == 1)
             {
                 var jca = (JsonConverterAttribute)attrs[0];
 
@@ -555,7 +556,7 @@ namespace LitJson
                     return v_;
             }
 
-            if (inst_type.IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>)) // 'json' isn't null -> has a value
+            if (inst_type.GetTypeInfo().IsGenericType && inst_type.GetGenericTypeDefinition() == typeof(Nullable<>)) // 'json' isn't null -> has a value
                 return Activator.CreateInstance(inst_type, ReadValue(inst_type.GetGenericArguments()[0], json));
 
             var v = json.Value;
@@ -636,7 +637,7 @@ namespace LitJson
                                     var v_ = ReadValue(prop_data.Type, value);
                                     object converted = null;
 
-                                    if ((attrs = p_info.GetCustomAttributes(typeof(JsonConverterAttribute), false)) != null && attrs.Length == 1)
+                                    if ((attrs = p_info.GetCustomAttributes(typeof(JsonConverterAttribute), false).ToArray()) != null && attrs.Length == 1)
                                     {
                                         var jca = (JsonConverterAttribute)attrs[0];
 

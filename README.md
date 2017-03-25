@@ -1,7 +1,9 @@
 PokeApi.NET
 ===========
 
-A .NET Wrapper for http://www.pokeapi.co/. See the `master` branch for the v1 version.
+A .NET wrapper for the [PokéApi](https://www.pokeapi.co/) ported to .Net Core.
+
+[Original project](https://gitlab.com/PoroCYon/PokeApi.NET)
 
 Usage:
 -----------------------------

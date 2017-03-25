@@ -16,6 +16,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace LitJson
 {
@@ -913,7 +914,7 @@ namespace LitJson
             switch (type)
             {
                 case JsonType.None:
-                    if (!to.IsClass && !to.IsArray)
+                    if (!to.GetTypeInfo().IsClass && !to.IsArray)
                         throw new ArgumentException();
 
                     return to;

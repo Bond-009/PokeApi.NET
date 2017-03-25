@@ -17,7 +17,7 @@ namespace PokeAPI.Tests
 
             bool hasErrors = false;
 
-            foreach (Type t in Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract && !t.ContainsGenericParameters && (t.IsClass || t.IsValueType)))
+            foreach (Type t in Assembly.GetEntryAssembly().GetTypes().Where(t => !t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().ContainsGenericParameters && (t.GetTypeInfo().IsClass || t.GetTypeInfo().IsValueType)))
             {
                 object i = null;
                 try
@@ -50,6 +50,8 @@ namespace PokeAPI.Tests
                 Console.Beep(220, 500);
                 Console.ReadKey(true);
             }
+
+            Console.WriteLine("Test");
         }
     }
 }

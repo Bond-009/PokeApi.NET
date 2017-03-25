@@ -32,6 +32,6 @@ namespace PokeAPI.Tests
         }
         public string GetStringSync(string requestUri) => GetJsonFromFile(requestUri);
 
-        string GetJsonFromFile(string requestUri) => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "JsonResponses", requestUri.GenerateSlug() + ".json"));
+        string GetJsonFromFile(string requestUri) => File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "JsonResponses", requestUri.GenerateSlug() + ".json"));
     }
 }
